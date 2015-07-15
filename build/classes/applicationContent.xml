@@ -20,10 +20,10 @@
 			<value>com.mysql.jdbc.Driver</value>
 		</property>
 		<property name="url">
-			<value>jdbc:mysql://123.60.134.162:3306/a0414094954?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=utf-8</value>
+			<value>jdbc:mysql://localhost:3306/niuxin?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=utf-8</value>
 		</property>
-	 	<property name="username"><value>a0414094954</value></property>
-		<property name="password"><value>8274790</value></property> 
+	 	<property name="username"><value>root</value></property>
+		<property name="password"><value>123456</value></property> 
 		<property name="defaultAutoCommit"><value>false</value></property>
 		<property name="maxActive" value="20" />
 		<property name="maxIdle" value="1" /> 

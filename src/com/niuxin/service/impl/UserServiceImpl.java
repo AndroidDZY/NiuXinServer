@@ -21,8 +21,8 @@ public class UserServiceImpl implements IUserService{
         return this.userDao.countAll();
     }
 	 @Override
-    public int delete(String userName) {
-        return this.userDao.delete(userName);
+    public int delete(int id) {
+        return this.userDao.delete(id);
     }
 	 @Override
     public User findByUserName(String userName) {

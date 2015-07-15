@@ -24,7 +24,7 @@
     </insert>
     
     <update id="update" parameterMap="p">  
-        update user set username=#{userName},password=#{passWord},status=#{status},createtime=#{createTime} ,updatetime=#{updateTime} where username=#{userName}
+        update user set username=#{userName},password=#{passWord},status=#{status},createtime=#{createTime} ,updatetime=#{updateTime} where id=#{id}
     </update>
     
     <delete id="delete" parameterType="int">    
