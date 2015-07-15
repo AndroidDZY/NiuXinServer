@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.niuxin.mapper.UserMapper">
+     <resultMap type="com.niuxin.bean.User"  id="r">
+            <result property="userName" column="username"/>
+        <result property="passWord" column="password"/>
+          <result property="createTime" column="createtime"/>
+             <result property="updateTime" column="updatetime"/>
+    </resultMap>
+    <parameterMap type="com.niuxin.bean.User"  id="p"></parameterMap>
+    
+    
+    
+    <select id="countAll" resultType="int">  
+        select count(*) c from user;
+    </select>
+
+    <select id="selectAll" resultMap="r">    
+        select * from user order by id asc
+    </select>
+    
+    <insert id="insert" parameterMap="p">    
+        insert into user(username,password,status,createtime,updatetime) values(#{userName},#{passWord},#{status},#{createTime},#{updateTime})
+    </insert>
+    
+    <update id="update" parameterMap="p">  
+        update user set username=#{userName},password=#{passWord},status=#{status},createtime=#{createTime} ,updatetime=#{updateTime} where username=#{userName}
+    </update>
+    
+    <delete id="delete" parameterType="int">    
+        delete from user where username=#{id}
+    </delete>
+    
+    <select id="findByUserName" parameterType="String"  resultMap="r"> 
+        select * from user where username=#{username}
+    </select>
+ 
+</mapper>
