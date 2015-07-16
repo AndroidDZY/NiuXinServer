@@ -47,5 +47,9 @@
 	<tx:annotation-driven transaction-manager="txManager" />
 	
 	<bean id="loginFilter" class="com.niuxin.util.LoginFilter" />
+	
+	
+	<bean id="chat" class="com.niuxin.chat.ChatServer" scope="singleton" lazy-init="false" init-method="startService"/>
 
+ 
 </beans>
