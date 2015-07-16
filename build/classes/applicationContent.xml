@@ -29,9 +29,6 @@
 		<property name="maxIdle" value="1" /> 
 	</bean>
 
-    <bean id="SpringContextUtil" class="com.niuxin.util.SpringContextUtil" scope="singleton" lazy-init="false" />
-
-	
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">  
         <property name="dataSource" ref="dataSource" />
     </bean>
@@ -48,5 +45,7 @@
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
 	<tx:annotation-driven transaction-manager="txManager" />
+	
+	<bean id="loginFilter" class="com.niuxin.util.LoginFilter" />
 
 </beans>

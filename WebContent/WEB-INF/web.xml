@@ -7,17 +7,54 @@
             <param-value>classpath:/applicationContent.xml</param-value>
     </context-param>
     
-    <!-- 配置上下文监听 -->
-    <listener>
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>
+     <filter>
+    <filter-name>encodingFilter</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>encodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
   
+ 
+   <filter>
+  	<filter-name>SessionFilter</filter-name>
+	<filter-class>com.niuxin.util.LoginFilter</filter-class>
+  </filter>
+  <filter-mapping>
+	<filter-name>SessionFilter</filter-name>
+	<url-pattern>*.jsp</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+	<filter-name>SessionFilter</filter-name>
+	<url-pattern>*.do</url-pattern>
+  </filter-mapping> 
+
   <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-    <welcome-file>index.htm</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
-    <welcome-file>default.html</welcome-file>
-    <welcome-file>default.htm</welcome-file>
-    <welcome-file>default.jsp</welcome-file>
+    <welcome-file>login.jsp</welcome-file>
   </welcome-file-list>
+  
+   
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  <listener>
+    <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+  </listener>
+  <filter>
+    <filter-name>struts2</filter-name>
+    <filter-class>
+  		org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter
+  	</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>struts2</filter-name>
+    <url-pattern>*.do</url-pattern>
+  </filter-mapping>
+ 
+  
 </web-app>
