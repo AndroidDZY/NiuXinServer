@@ -17,12 +17,10 @@ public class ChatServer implements Runnable{
 
 
 	public void startService() {
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+	
 		ChatServer server = new ChatServer();
 		new Thread(server).start();
-		startService();
-		
-		
+
 	}
 
 	/* 处理单个客户端的线程类 */
