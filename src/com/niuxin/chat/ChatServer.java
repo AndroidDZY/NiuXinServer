@@ -9,12 +9,16 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
+import com.niuxin.action.UserAction;
+
 public class ChatServer implements Runnable{
 	private ServerSocket serverSocket;
 	private boolean isStart;
 	// 所有在线的客户端
 	List<ClientThread> clients = new ArrayList<ClientThread>();
-
+	private static Logger logger = Logger.getLogger(ChatServer.class);
 
 	public void startService() {
 	
@@ -91,6 +95,7 @@ public class ChatServer implements Runnable{
 			serverSocket = new ServerSocket(9999);
 			isStart = true;
 			System.out.println("9999端口 等待客户端连接……");
+			logger.info("9999端口 等待客户端连接……>>>>>>>>>>>>>>>>>>");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
