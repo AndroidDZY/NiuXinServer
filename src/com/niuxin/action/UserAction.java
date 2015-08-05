@@ -1,7 +1,7 @@
 package com.niuxin.action;
 
+
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Date;
 import java.util.List;
 
@@ -13,11 +13,6 @@ import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
 import org.apache.log4j.Logger;
-
-
-
-
-
 import org.apache.struts2.ServletActionContext;
 
 import com.niuxin.bean.User;
@@ -56,7 +51,6 @@ public class UserAction extends ActionSupport {
 			User user = list.get(i);
 			System.out.println(user.toString());
 		}
-		
 		JSONObject jsonObject = new JSONObject();	
 		 try {
 			jsonObject.put("username", "huangwuyi");
