@@ -29,7 +29,29 @@ public class UserAction extends ActionSupport {
 	private IUserService userService;
 
 	public void countAll() {
+		response.setContentType("text/plain");
+		response.setCharacterEncoding("utf-8");
 		System.out.println("数据库中的记录条数:" + userService.countAll());
+		JSONObject jsonObject = new JSONObject();	
+		 try {
+			jsonObject.put("username", "huangwuyi");
+			jsonObject.put("sex", "男");
+		    jsonObject.put("QQ", "413425430");
+		    jsonObject.put("Min.score", new Integer(99));
+		    jsonObject.put("nickname", "梦中心境");
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}  
+		 
+		 String json = jsonObject.toString();
+		 System.out.println("json"+json);
+		 try {
+			response.getWriter().write(json);
+			response.getWriter().flush();  
+			response.getWriter().close();  
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void insert() {
@@ -43,33 +65,12 @@ public class UserAction extends ActionSupport {
 	}
 
 	public void selectAll() {
-		response.setContentType("text/html;charset=UTF-8");
-		response.setCharacterEncoding("utf-8");
 		
 		List<User> list = userService.selectAll();
 		for (int i = 0; i < list.size(); i++) {
 			User user = list.get(i);
 			System.out.println(user.toString());
 		}
-		JSONObject jsonObject = new JSONObject();	
-		 try {
-			jsonObject.put("username", "huangwuyi");
-			jsonObject.put("sex", "男");
-		    jsonObject.put("QQ", "413425430");
-		    jsonObject.put("Min.score", new Integer(99));
-		    jsonObject.put("nickname", "梦中心境");
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}  
-		 
-		 String json = jsonObject.toString();
-		 	
-			try {
-				response.getWriter().print(json);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 	}
 
 	public void update() {
