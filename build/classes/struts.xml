@@ -25,6 +25,10 @@
 			
 		</action>
 		
+         <action name="share_*" class="com.niuxin.action.ShareAction" method="{1}">
+			
+		</action>
+		
         
     </package>
 </struts>       
