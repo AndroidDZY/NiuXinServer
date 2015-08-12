@@ -7,13 +7,9 @@
 	<constant name="struts.objectFactory" value="spring" />
     <constant name="struts.multipart.saveDir" value="/tmp"></constant>
     <constant name="struts.multipart.maxSize" value="4800000000" /> 
-  
- <!--   <include file="struts-user.xml"></include>
- -->  
-    
+
     <package name="user" extends="struts-default">
        
-
         <action name="login_*" class="com.niuxin.action.LoginAction" method="{1}">
 		</action>
 	
@@ -25,10 +21,15 @@
 			
 		</action>
 		
+    </package>
+    
+      <package name="share" extends="struts-default">
+       
          <action name="share_*" class="com.niuxin.action.ShareAction" method="{1}">
 			
 		</action>
 		
         
     </package>
+    
 </struts>       
