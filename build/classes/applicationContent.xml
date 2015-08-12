@@ -20,7 +20,7 @@
 			<value>com.mysql.jdbc.Driver</value>
 		</property>
 		<property name="url">
-			<value>jdbc:mysql://localhost:3306/niuxin?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=utf-8</value>
+			<value>jdbc:mysql://115.28.242.139:3306/niuxin?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=utf-8</value>
 		</property>
 	 	<property name="username"><value>root</value></property>
 		<property name="password"><value>123456</value></property> 

@@ -1,4 +1,11 @@
 eclipse.preferences.version=1
+<<<<<<< HEAD
 encoding//WebContent/index.jsp=UTF-8
+=======
+encoding//config/applicationContent.xml=UTF-8
+>>>>>>> 0bff62e48dd344c34ba939f4db1c93d9bb44e7e2
 encoding//config/com/niuxin/mapper/UserMapper.xml=UTF-8
+encoding//src/com/niuxin/action/LoginAction.java=UTF-8
 encoding//src/com/niuxin/chat/ChatServer.java=UTF-8
+encoding/<project>=UTF-8
+encoding/src=UTF-8

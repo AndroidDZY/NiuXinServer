@@ -29,6 +29,7 @@ public class UserAction extends ActionSupport {
 	private IUserService userService;
 
 	public void countAll() {
+		System.out.println("countAll>>>>>>>>>>>>>>>>");
 		response.setContentType("text/plain");
 		response.setCharacterEncoding("utf-8");
 		System.out.println("数据库中的记录条数:" + userService.countAll());
@@ -55,6 +56,7 @@ public class UserAction extends ActionSupport {
 	}
 
 	public void insert() {
+		System.out.println("开始插入记录？？？？？》》》》》》");
 		User user = new User();
 		user.setCreateTime(new Date());
 		user.setPassWord("111111");
