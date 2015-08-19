@@ -72,8 +72,10 @@ public class InputThread extends Thread {
 	 * @throws ClassNotFoundException
 	 */
 	public void readMessage() throws IOException, ClassNotFoundException {
+
+		/*
 		Object readObject = ois.readObject();// 从流中读取对象
-	/*	
+		
 		UserDao dao = UserDaoFactory.getInstance();// 通过dao模式管理后台
 		if (readObject != null && readObject instanceof TranObject) {
 			TranObject read_tranObject = (TranObject) readObject;// 转换成传输对象

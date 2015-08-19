@@ -17,7 +17,7 @@ import com.niuxin.util.MyDate;
  * @author way
  * 
  */
-public class Server {
+public class Server implements Runnable{
 	private ExecutorService executorService;// 线程池
 	private ServerSocket serverSocket = null;
 	private Socket socket = null;
@@ -91,7 +91,8 @@ public class Server {
 		}
 	}
 
-	public static void main(String[] args) {
-		new Server().start();
+	@Override
+	public void run() {
+		start();
 	}
 }
