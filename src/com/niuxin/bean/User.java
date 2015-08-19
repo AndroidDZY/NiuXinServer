@@ -12,6 +12,55 @@ public class User {
 	private Date createTime;
 	private Date updateTime;
 	
+	private String email;// 邮箱
+	private int isOnline;// 是否在线
+	private int img;// 头像图标
+	private String ip;
+	private int port;
+	
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public int getIsOnline() {
+		return isOnline;
+	}
+
+	public void setIsOnline(int isOnline) {
+		this.isOnline = isOnline;
+	}
+
+	public int getImg() {
+		return img;
+	}
+
+	public void setImg(int img) {
+		this.img = img;
+	}
+
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+
+	public int getPort() {
+		return port;
+	}
+
+	public void setPort(int port) {
+		this.port = port;
+	}
+
+	
+	
+	
 	public Integer getId() {
 		return id;
 	}
