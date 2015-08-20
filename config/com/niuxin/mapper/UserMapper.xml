@@ -20,7 +20,8 @@
     </select>
     
     <insert id="insert" parameterMap="p">    
-        insert into user(username,password,status,createtime,updatetime) values(#{userName},#{passWord},#{status},#{createTime},#{updateTime})
+        insert into user(username,password,status,createtime,updatetime,email,isOnline,img,ip,port) 
+        values(#{userName},#{passWord},#{status},#{createTime},#{updateTime},#{email},#{isOnline},#{img},#{ip},#{port})
     </insert>
     
     <update id="update" parameterMap="p">  

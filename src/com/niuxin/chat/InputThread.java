@@ -5,12 +5,16 @@ package com.niuxin.chat;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
 
 import com.niuxin.bean.User;
+import com.niuxin.service.IUserService;
+import com.niuxin.service.impl.UserServiceImpl;
 import com.niuxin.util.MyDate;
-import com.niuxin.util.TextMessage;
 import com.niuxin.util.TranObject;
 import com.niuxin.util.TranObjectType;
 /*
@@ -23,14 +27,23 @@ import com.way.chat.dao.impl.UserDaoFactory;
  * @author way
  * 
  */
+@Service
 public class InputThread extends Thread {
-	private Socket socket;// socket对象
-	private OutputThread out;// 传递进来的写消息线程，因为我们要给用户回复消息啊
-	private OutputThreadMap map;// 写消息线程缓存器
-	private ObjectInputStream ois;// 对象输入流
+	private Socket socket = null;// socket对象
+	private OutputThread out = null;// 传递进来的写消息线程，因为我们要给用户回复消息啊
+	private OutputThreadMap map = null;// 写消息线程缓存器
+	private ObjectInputStream ois = null;// 对象输入流
 	private boolean isStart = true;// 是否循环读消息
+	@Resource
+	private IUserService userService;
 
-	public InputThread(Socket socket, OutputThread out, OutputThreadMap map) {
+	
+	public InputThread() {	
+		System.out.println(">InputThread>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>实例化成功");
+	}
+	
+	public void init(Socket socket, OutputThread out, OutputThreadMap map) {
+		isStart = true;// 是否循环读消息
 		this.socket = socket;
 		this.out = out;
 		this.map = map;
@@ -73,16 +86,16 @@ public class InputThread extends Thread {
 	 */
 	public void readMessage() throws IOException, ClassNotFoundException {
 
-		/*
 		Object readObject = ois.readObject();// 从流中读取对象
 		
-		UserDao dao = UserDaoFactory.getInstance();// 通过dao模式管理后台
+	//	UserDao dao = UserDaoFactory.getInstance();// 通过dao模式管理后台
 		if (readObject != null && readObject instanceof TranObject) {
 			TranObject read_tranObject = (TranObject) readObject;// 转换成传输对象
 			switch (read_tranObject.getType()) {
 			case REGISTER:// 如果用户是注册
 				User registerUser = (User) read_tranObject.getObject();
-				int registerResult = dao.register(registerUser);
+				registerUser.setCreateTime(new Date());
+				int registerResult = userService.insert(registerUser);
 				System.out.println(MyDate.getDateCN() + " 新用户注册:"
 						+ registerResult);
 				// 给用户回复消息
@@ -94,6 +107,7 @@ public class InputThread extends Thread {
 				out.setMessage(register2TranObject);
 				break;
 			case LOGIN:
+				/*
 				User loginUser = (User) read_tranObject.getObject();
 				ArrayList<User> list = dao.login(loginUser);
 				TranObject<ArrayList<User>> login2Object = new TranObject<ArrayList<User>>(
@@ -116,8 +130,10 @@ public class InputThread extends Thread {
 
 				System.out.println(MyDate.getDateCN() + " 用户："
 						+ loginUser.getId() + " 上线了");
+						*/
 				break;
 			case LOGOUT:// 如果是退出，更新数据库在线状态，同时群发告诉所有在线用户
+				/*
 				User logoutUser = (User) read_tranObject.getObject();
 				int offId = logoutUser.getId();
 				System.out
@@ -136,9 +152,11 @@ public class InputThread extends Thread {
 				for (OutputThread offOut : map.getAll()) {// 广播用户下线消息
 					offOut.setMessage(offObject);
 				}
+				*/
 				break;
 			case MESSAGE:// 如果是转发消息（可添加群发）
 				// 获取消息中要转发的对象id，然后获取缓存的该对象的写线程
+				/*
 				int id2 = read_tranObject.getToUser();
 				OutputThread toOut = map.getById(id2);
 				if (toOut != null) {// 如果用户在线
@@ -152,20 +170,23 @@ public class InputThread extends Thread {
 					offText.setFromUser(0);
 					out.setMessage(offText);
 				}
+				*/
 				break;
 			case REFRESH:
+				/*
 				List<User> refreshList = dao.refresh(read_tranObject
 						.getFromUser());
 				TranObject<List<User>> refreshO = new TranObject<List<User>>(
 						TranObjectType.REFRESH);
 				refreshO.setObject(refreshList);
 				out.setMessage(refreshO);
+				*/
 				break;
 			default:
 				break;
 			}
 		}
 		
-		*/
+	
 	}
 }

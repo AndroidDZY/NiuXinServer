@@ -1,11 +1,14 @@
 package com.niuxin.bean;
 
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class User {
+public class User implements Serializable{
 
-	private Integer id;
+	private static final long serialVersionUID = 1L;
+	
+	private int id;//用户编号，由数据库自动生成
 	private String userName;
 	private String passWord;
 	private Integer status;
