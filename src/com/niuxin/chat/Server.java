@@ -85,7 +85,8 @@ public class Server implements Runnable{
 			in.init(socket, out, map);
 			out.setStart(true);
 			in.setStart(true);
-			in.start();
+			new Thread(in).start();
+			//in.start();
 			out.start();
 		}
 	}

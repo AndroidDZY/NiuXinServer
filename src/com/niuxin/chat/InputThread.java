@@ -28,7 +28,7 @@ import com.way.chat.dao.impl.UserDaoFactory;
  * 
  */
 @Service
-public class InputThread extends Thread {
+public class InputThread implements Runnable {
 	private Socket socket = null;// socket对象
 	private OutputThread out = null;// 传递进来的写消息线程，因为我们要给用户回复消息啊
 	private OutputThreadMap map = null;// 写消息线程缓存器
@@ -103,6 +103,7 @@ public class InputThread extends Thread {
 						TranObjectType.REGISTER);
 				User register2user = new User();
 				register2user.setId(registerResult);
+				register2user.setStatus(0);
 				register2TranObject.setObject(register2user);
 				out.setMessage(register2TranObject);
 				break;
