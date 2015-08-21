@@ -5,43 +5,59 @@ import java.util.Date;
 
 public class ShareGroup {
 
-	private Integer id;
-	private Integer type;
-	private Integer enterGrade;
+	private Integer id;//
+	private String type;
+	private String enterGrade;
 	private String description;
-	private Integer isfree;
+	private String isfree;
 	private Integer totalNumber;
 	private Integer currentNumber;
 	private Date createTime;
+	private String name;
+	private String mark;
 	public Integer getId() {
 		return id;
 	}
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public Integer getType() {
-		return type;
-	}
-	public void setType(Integer type) {
-		this.type = type;
-	}
-	public Integer getEnterGrade() {
-		return enterGrade;
-	}
-	public void setEnterGrade(Integer enterGrade) {
-		this.enterGrade = enterGrade;
-	}
+
 	public String getDescription() {
 		return description;
 	}
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Integer getIsfree() {
+	
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public String getEnterGrade() {
+		return enterGrade;
+	}
+	public void setEnterGrade(String enterGrade) {
+		this.enterGrade = enterGrade;
+	}
+	public String getIsfree() {
 		return isfree;
 	}
-	public void setIsfree(Integer isfree) {
+	public void setIsfree(String isfree) {
 		this.isfree = isfree;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getMark() {
+		return mark;
+	}
+	public void setMark(String mark) {
+		this.mark = mark;
 	}
 	public Integer getTotalNumber() {
 		return totalNumber;

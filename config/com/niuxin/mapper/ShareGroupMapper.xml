@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.niuxin.mapper.ShareGroupMapper">
+     <resultMap type="com.niuxin.bean.ShareGroup"  id="r">
+           <result property="enterGrade" column="enter_grade"/>
+       
+           <result property="totalNumber" column="total_number"/>
+         
+           <result property="currentNumber" column="current_number"/>
+             <result property="createTime" column="create_time"/>
+    </resultMap>
+    <parameterMap type="com.niuxin.bean.ShareGroup"  id="p"></parameterMap>
+    
+    <insert id="insert" parameterMap="p">    
+        insert into share_group(type,enter_grade,description,isfree,total_number,current_number,create_time,name,mark) 
+        values(#{type},#{enterGrade},#{description},#{isfree},#{totalNumber},#{currentNumber},#{createTime},#{name},#{mark})
+    </insert>
+ 
+    
+       
+</mapper>

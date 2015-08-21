@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.niuxin.bean.ShareGroup;
 import com.niuxin.mapper.ArticleMapper;
 import com.niuxin.mapper.ChatRecordMapper;
 import com.niuxin.mapper.LabMapper;
@@ -21,5 +22,11 @@ public class ShareGroupServiceImpl implements IShareGroupService{
 
 	@Resource
     private ShareGroupMapper shareGroupMapper ;
+	
+	
+	public Integer insert(ShareGroup group){
+
+		return shareGroupMapper.insert(group);
+	}
 
 }
