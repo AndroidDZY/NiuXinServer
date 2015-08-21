@@ -16,6 +16,12 @@
         values(#{type},#{enterGrade},#{description},#{isfree},#{totalNumber},#{currentNumber},#{createTime},#{name},#{mark})
     </insert>
  
+     <select id="selectAll" resultMap="r">    
+        select * from share_group order by id asc
+    </select>
     
+      <select id="selectById" resultMap="r" parameterType="int">    
+        select * from share_group where id= #{id}
+    </select>
        
 </mapper>

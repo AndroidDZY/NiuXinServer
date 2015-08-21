@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.niuxin.bean.UserGroup;
 import com.niuxin.mapper.ArticleMapper;
 import com.niuxin.mapper.ChatRecordMapper;
 import com.niuxin.mapper.LabMapper;
@@ -27,5 +28,17 @@ public class UserGroupServiceImpl implements IUserGroupService{
 
 	@Resource
     private UserGroupMapper userGroupMapper ;
+
+	@Override
+	public Integer insert(UserGroup userGroup) {
+		// TODO Auto-generated method stub
+		return userGroupMapper.insert(userGroup);
+	}
+
+	@Override
+	public List<UserGroup> selectByUserid(int userid) {
+		// TODO Auto-generated method stub
+		return userGroupMapper.selectByUserid(userid);
+	}
 
 }

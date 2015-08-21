@@ -25,8 +25,18 @@ public class ShareGroupServiceImpl implements IShareGroupService{
 	
 	
 	public Integer insert(ShareGroup group){
-
 		return shareGroupMapper.insert(group);
+	}
+
+
+	@Override
+	public List<ShareGroup> selectAll() {
+		return shareGroupMapper.slectAll();
+	}
+	
+	@Override
+	public ShareGroup selectById(int id){
+		return shareGroupMapper.selectById(id);
 	}
 
 }

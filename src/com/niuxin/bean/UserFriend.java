@@ -3,6 +3,11 @@ package com.niuxin.bean;
 public class UserFriend {
 
 	private Integer id;
+	private Integer userSelfId;
+	private Integer userFriendId;
+	
+	
+	
 	public Integer getId() {
 		return id;
 	}
@@ -21,7 +26,6 @@ public class UserFriend {
 	public void setUserFriendId(Integer userFriendId) {
 		this.userFriendId = userFriendId;
 	}
-	private Integer userSelfId;
-	private Integer userFriendId;
+	
 	
 }
