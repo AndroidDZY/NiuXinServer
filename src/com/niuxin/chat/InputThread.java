@@ -5,6 +5,7 @@ package com.niuxin.chat;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.annotation.Resource;
@@ -108,33 +109,30 @@ public class InputThread implements Runnable {
 				out.setMessage(register2TranObject);
 				break;
 			case LOGIN:
-				/*
 				User loginUser = (User) read_tranObject.getObject();
-				ArrayList<User> list = dao.login(loginUser);
-				TranObject<ArrayList<User>> login2Object = new TranObject<ArrayList<User>>(
+				System.out.println(loginUser.getUserName()+"账号名:密码"+loginUser.getPassWord());
+				User userQuery = userService.select(loginUser);//查询的用户信息
+				TranObject<User> login2Object = new TranObject<User>(
 						TranObjectType.LOGIN);
-				if (list != null) {// 如果登录成功
-					TranObject<User> onObject = new TranObject<User>(
-							TranObjectType.LOGIN);
-					User login2User = new User();
-					login2User.setId(loginUser.getId());
-					onObject.setObject(login2User);
+				if(userQuery!=null){
+					TranObject<User> onObject = new TranObject<User>(TranObjectType.LOGIN);
+					onObject.setObject(userQuery);
 					for (OutputThread onOut : map.getAll()) {
 						onOut.setMessage(onObject);// 广播一下用户上线
 					}
-					map.add(loginUser.getId(), out);// 先广播，再把对应用户id的写线程存入map中，以便转发消息时调用
-					login2Object.setObject(list);// 把好友列表加入回复的对象中
-				} else {
+					map.add(userQuery.getId(), out);// 先广播，再把对应用户id的写线程存入map中，以便转发消息时调用
+					out.setMessage(onObject);// 同时把登录信息回复给用户
+					
+					login2Object.setObject(userQuery);// 把好友列表加入回复的对象中  这里暂时只存放自己 没有放好友和群组
+					System.out.println(MyDate.getDateCN() + " 用户："
+							+ loginUser.getId() + " 上线了");			
+				}else{
 					login2Object.setObject(null);
 				}
-				out.setMessage(login2Object);// 同时把登录信息回复给用户
-
-				System.out.println(MyDate.getDateCN() + " 用户："
-						+ loginUser.getId() + " 上线了");
-						*/
+						
 				break;
 			case LOGOUT:// 如果是退出，更新数据库在线状态，同时群发告诉所有在线用户
-				/*
+	/*			
 				User logoutUser = (User) read_tranObject.getObject();
 				int offId = logoutUser.getId();
 				System.out

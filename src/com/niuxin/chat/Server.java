@@ -97,20 +97,15 @@ public class Server implements Runnable{
 	public void quit() {
 		try {
 			this.isStarted = false;
-			serverSocket.close();
+			if(serverSocket!=null)
+				serverSocket.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public void run() {
-		
-		if(in==null){
-			System.out.println("InputThread>>>>>>>>>>>>初始化失败");
-		}else
-			System.out.println("InputThread>>>>>>>>>>>>初始化成功");
-		
+	public void run() {		
 		start();
 	}
 }

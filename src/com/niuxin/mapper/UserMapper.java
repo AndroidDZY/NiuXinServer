@@ -19,4 +19,6 @@ public interface UserMapper {
    
     public User findByUserName(String userName);
 
+	public User select(User user);
+
 }

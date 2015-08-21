@@ -19,6 +19,10 @@
         select * from user order by id asc
     </select>
     
+     <select id="select" resultMap="r" parameterMap="p">    
+        select * from user where username=#{userName} and password = #{passWord}
+    </select>
+    
     <insert id="insert" parameterMap="p">    
         insert into user(username,password,status,createtime,updatetime,email,isOnline,img,ip,port) 
         values(#{userName},#{passWord},#{status},#{createTime},#{updateTime},#{email},#{isOnline},#{img},#{ip},#{port})

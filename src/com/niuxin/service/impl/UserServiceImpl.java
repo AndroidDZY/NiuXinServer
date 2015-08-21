@@ -40,5 +40,9 @@ public class UserServiceImpl implements IUserService{
     public int update(User user) {
          return this.userDao.update(user);
     }
-
+	@Override
+	public User select(User user) {		
+		return  this.userDao.select(user);
+	}
+	
 }
