@@ -36,9 +36,9 @@ public class UserGroupServiceImpl implements IUserGroupService{
 	}
 
 	@Override
-	public List<UserGroup> selectByUserid(int userid) {
+	public List<UserGroup> selectByUserid(int id) {
 		// TODO Auto-generated method stub
-		return userGroupMapper.selectByUserid(userid);
+		return userGroupMapper.selectByUserid(id);
 	}
 
 }

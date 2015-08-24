@@ -1,6 +1,5 @@
 package com.niuxin.action;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,25 +10,26 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 
 import com.niuxin.bean.ShareGroup;
+import com.niuxin.bean.UserGroup;
 import com.niuxin.service.IShareGroupService;
+import com.niuxin.service.IUserGroupService;
 import com.opensymphony.xwork2.ActionSupport;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
 public class ShareGroupAction extends ActionSupport {
 	private static final long serialVersionUID = 2099761683755776L;
-	private static Logger logger = Logger.getLogger(UserAction.class);
 	HttpServletResponse response = ServletActionContext.getResponse();
 	HttpServletRequest request = ServletActionContext.getRequest();
 
 	@Resource
 	private IShareGroupService shareGroupService;
+	@Resource
+	private IUserGroupService userGroupService;
 
 	public void insert() {
 		response.setContentType("text/plain");
@@ -41,8 +41,8 @@ public class ShareGroupAction extends ActionSupport {
 			e2.printStackTrace();
 		}
 		ShareGroup group = new ShareGroup();
-		BufferedInputStream in = null;
 		String str = "";	
+		//从request的输入流中获取数据
 		StringBuilder buffer = new StringBuilder();
 		BufferedReader reader = null;
 		try {
@@ -61,8 +61,9 @@ public class ShareGroupAction extends ActionSupport {
 					e.printStackTrace();
 				}
 			}
-		}
+		}		
 		str = buffer.toString();
+		//用json进行解析
 		JSONObject json_data = JSONObject.fromObject(str);
 		String name = json_data.getString("name");
 		if (name != null)
@@ -86,20 +87,23 @@ public class ShareGroupAction extends ActionSupport {
 		group.setCurrentNumber(1);// 群当前人数为1
 		group.setCreateTime(new Date());
 		
-		Integer userid = json_data.getInt("id");//获取穿件的用户id
+		Integer userid = json_data.getInt("id");//获取创建的用户id
 		group.setCreateuserid(userid);
-		Integer result = shareGroupService.insert(group);
-
+		Integer result = shareGroupService.insert(group); //建创建群组的数据保存到数据库，返回该条数据的ID；
 		JSONObject jsonObject = new JSONObject();
 		if (result != null) {
+			UserGroup userGroup = new UserGroup();
+			userGroup.setUserId(userid);
+			userGroup.setGroupId(group.getId());
+			userGroupService.insert(userGroup);//将创建用户和其创建的数据库ID保存到数据库中
 			try {
-				jsonObject.put("success", true);
+				jsonObject.put("success", true);//如果成功返回true
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 		} else {
 			try {
-				jsonObject.put("success", false);
+				jsonObject.put("success", false);//如果成功返回false
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}

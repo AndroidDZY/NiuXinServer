@@ -34,7 +34,6 @@ public class Server implements Runnable{
 
 	public Server() {		
 		try {
-			System.out.println("server>>>>>>>>>>>>初始化成功");
 			// 创建线程池，池中具有(cpu个数*50)条线程
 			executorService = Executors.newFixedThreadPool(Runtime.getRuntime()
 					.availableProcessors() * 50);
@@ -45,8 +44,7 @@ public class Server implements Runnable{
 		}
 	}
 
-	public void start() {
-		System.out.println(MyDate.getDateCN() + " 服务器已启动...");
+	public void start() {		
 		try {
 			while (isStarted) {
 				socket = serverSocket.accept();

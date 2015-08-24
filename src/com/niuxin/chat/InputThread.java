@@ -5,7 +5,6 @@ package com.niuxin.chat;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.Date;
 
 import javax.annotation.Resource;
@@ -14,8 +13,8 @@ import org.springframework.stereotype.Service;
 
 import com.niuxin.bean.User;
 import com.niuxin.service.IUserService;
-import com.niuxin.service.impl.UserServiceImpl;
 import com.niuxin.util.MyDate;
+import com.niuxin.util.TextMessage;
 import com.niuxin.util.TranObject;
 import com.niuxin.util.TranObjectType;
 /*
@@ -40,7 +39,7 @@ public class InputThread implements Runnable {
 
 	
 	public InputThread() {	
-		System.out.println(">InputThread>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>实例化成功");
+		
 	}
 	
 	public void init(Socket socket, OutputThread out, OutputThreadMap map) {
@@ -158,7 +157,7 @@ public class InputThread implements Runnable {
 				break;
 			case MESSAGE:// 如果是转发消息（可添加群发）
 				// 获取消息中要转发的对象id，然后获取缓存的该对象的写线程
-				/*
+
 				int id2 = read_tranObject.getToUser();
 				OutputThread toOut = map.getById(id2);
 				if (toOut != null) {// 如果用户在线
@@ -172,7 +171,6 @@ public class InputThread implements Runnable {
 					offText.setFromUser(0);
 					out.setMessage(offText);
 				}
-				*/
 				break;
 			case REFRESH:
 				/*

@@ -30,8 +30,13 @@
 		    
      <package name="qun" extends="struts-default">      
          <action name="qun_*" class="com.niuxin.action.ShareGroupAction" method="{1}">			
-		</action>
-		      
+	 </action>
+     
     </package>
+    
+        <package name="group" extends="struts-default">      
+         <action name="group_*" class="com.niuxin.action.UserGroupAction" method="{1}">			
+	 </action>
+	  </package>
     
 </struts>       
