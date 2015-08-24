@@ -15,6 +15,7 @@ public class ShareGroup {
 	private Date createTime;
 	private String name;
 	private String mark;
+	private Integer createuserid;
 	public Integer getId() {
 		return id;
 	}
@@ -76,5 +77,11 @@ public class ShareGroup {
 	}
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
+	}
+	public Integer getCreateuserid() {
+		return createuserid;
+	}
+	public void setCreateuserid(Integer createuserid) {
+		this.createuserid = createuserid;
 	}
 }
