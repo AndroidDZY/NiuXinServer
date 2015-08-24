@@ -114,8 +114,9 @@ public class InputThread implements Runnable {
 				User userQuery = userService.select(loginUser);//查询的用户信息
 				TranObject<User> login2Object = new TranObject<User>(
 						TranObjectType.LOGIN);
+				TranObject<User> onObject = new TranObject<User>(TranObjectType.LOGIN);
 				if(userQuery!=null){
-					TranObject<User> onObject = new TranObject<User>(TranObjectType.LOGIN);
+					//TranObject<User> onObject = new TranObject<User>(TranObjectType.LOGIN);
 					onObject.setObject(userQuery);
 					for (OutputThread onOut : map.getAll()) {
 						onOut.setMessage(onObject);// 广播一下用户上线
@@ -127,6 +128,8 @@ public class InputThread implements Runnable {
 					System.out.println(MyDate.getDateCN() + " 用户："
 							+ loginUser.getId() + " 上线了");			
 				}else{
+					onObject.setObject(null);
+					out.setMessage(onObject);
 					login2Object.setObject(null);
 				}
 						

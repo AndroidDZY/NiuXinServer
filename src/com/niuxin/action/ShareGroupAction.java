@@ -1,7 +1,5 @@
 package com.niuxin.action;
 
-import java.io.BufferedInputStream;
-import java.text.DateFormat;
 import java.util.Date;
 
 import javax.annotation.Resource;
@@ -14,8 +12,6 @@ import org.apache.struts2.ServletActionContext;
 import com.niuxin.bean.ShareGroup;
 import com.niuxin.service.IShareGroupService;
 import com.opensymphony.xwork2.ActionSupport;
-
-import net.sf.json.JSONObject;
 
 public class ShareGroupAction extends ActionSupport {
 	private static final long serialVersionUID = 2099761683755776L;
