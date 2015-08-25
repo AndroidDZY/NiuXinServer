@@ -25,15 +25,15 @@ public class ChatRecordServiceImpl implements IChatRecordService{
 	}
 
 	@Override
-	public List<ChatRecord> selectByGroupId(int id) {
+	public List<ChatRecord> selectByGroupId(Integer id) {
 		// TODO Auto-generated method stub
 		return chatRecordMapper.selectByGroupId(id);
 	}
 
 	@Override
-	public List<ChatRecord> selectByUserId(int id) {
+	public List<ChatRecord> selectByUser(ChatRecord cr) {
 		// TODO Auto-generated method stub
-		return chatRecordMapper.selectByUserId(id);
+		return chatRecordMapper.selectByUser(cr);
 	}
    
 

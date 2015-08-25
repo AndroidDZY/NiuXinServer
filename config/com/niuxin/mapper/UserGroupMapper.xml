@@ -17,5 +17,10 @@
       <select id="selectByUserid" resultMap="r" parameterType="int">    
         select * from user_group where user_id= #{id}
     </select>
+    
+         <select id="selectByGroupid" resultMap="r" parameterType="int">    
+        select * from user_group where user_id= #{groupid}
+    </select>
+      
        
 </mapper>

@@ -17,13 +17,12 @@ public class TranObject<T> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private TranObjectType type;// 发送的消息类型
-
+	private int istoGroup;//1代表发给群组 0
 	private int fromUser;// 来自哪个用户
 	private int toUser;// 发往哪个用户
 
 	private T object;// 传输的对象，这个对象我们可以自定义任何
-	private List<Integer> group;// 群发给哪些用户
-
+	
 	public TranObject(TranObjectType type) {
 		this.type = type;
 	}
@@ -54,5 +53,13 @@ public class TranObject<T> implements Serializable {
 
 	public TranObjectType getType() {
 		return type;
+	}
+
+	public int getIstoGroup() {
+		return istoGroup;
+	}
+
+	public void setIstoGroup(int istoGroup) {
+		this.istoGroup = istoGroup;
 	}
 }

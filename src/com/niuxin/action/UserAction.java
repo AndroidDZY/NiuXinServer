@@ -29,7 +29,6 @@ public class UserAction extends ActionSupport {
 	private IUserService userService;
 
 	public void countAll() {
-		System.out.println("countAll>>>>>>>>>>>>>>>>");
 		response.setContentType("text/plain");
 		response.setCharacterEncoding("utf-8");
 		System.out.println("数据库中的记录条数:" + userService.countAll());

@@ -9,5 +9,6 @@ public interface UserGroupMapper {
 
 	public Integer insert(UserGroup userGroup);
 	public List<UserGroup> selectByUserid(int id);
+	public List<UserGroup> selectByGroupid(int groupid);
 
 }

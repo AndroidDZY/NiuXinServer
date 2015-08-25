@@ -1,42 +1,54 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
 <struts>
-	<constant name="struts.enable.DynamicMethodInvocation" value="false" /> 
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
 	<constant name="struts.devMode" value="false" />
 	<constant name="struts.action.extension" value="do,action" />
 	<constant name="struts.objectFactory" value="spring" />
-    <constant name="struts.multipart.saveDir" value="/tmp"></constant>
-    <constant name="struts.multipart.maxSize" value="4800000000" /> 
+	<constant name="struts.multipart.saveDir" value="/tmp"></constant>
+	<constant name="struts.multipart.maxSize" value="4800000000" />
 
-    <package name="user" extends="struts-default">
-       
-        <action name="login_*" class="com.niuxin.action.LoginAction" method="{1}">
+	<package name="user" extends="struts-default">
+
+		<action name="login_*" class="com.niuxin.action.LoginAction"
+			method="{1}">
 		</action>
+
+		<action name="logout_*" class="com.niuxin.web.action.LogoutAction"
+			method="{1}">
+			<result name="login" type="redirect">../login.jsp</result>
+		</action>
+
+		<action name="action_*" class="com.niuxin.action.UserAction"
+			method="{1}">
+
+		</action>
+
+	</package>
+
+	<package name="share" extends="struts-default">
+		<action name="share_*" class="com.niuxin.action.ShareAction"
+			method="{1}">
+		</action>
+	</package>
+
+	<package name="qun" extends="struts-default">
+		<action name="qun_*" class="com.niuxin.action.ShareGroupAction"
+			method="{1}">
+		</action>
+
+	</package>
+
+	<package name="group" extends="struts-default">
+		<action name="group_*" class="com.niuxin.action.UserGroupAction"
+			method="{1}">
+		</action>
+	</package>
 	
-       <action name="logout_*" class="com.niuxin.web.action.LogoutAction" method="{1}">
-		   <result name="login" type="redirect">../login.jsp</result>
-	   </action>
-        
-        <action name="action_*" class="com.niuxin.action.UserAction" method="{1}">
-			
+		<package name="chatrecord" extends="struts-default">
+		<action name="chatrecord_*" class="com.niuxin.action.ChatRecordAction"
+			method="{1}">
 		</action>
-		
-    </package>
-    
-      <package name="share" extends="struts-default">      
-         <action name="share_*" class="com.niuxin.action.ShareAction" method="{1}">			
-		</action>
-		    </package>
-		    
-     <package name="qun" extends="struts-default">      
-         <action name="qun_*" class="com.niuxin.action.ShareGroupAction" method="{1}">			
-	 </action>
-     
-    </package>
-    
-        <package name="group" extends="struts-default">      
-         <action name="group_*" class="com.niuxin.action.UserGroupAction" method="{1}">			
-	 </action>
-	  </package>
-    
+	</package>
+
 </struts>       

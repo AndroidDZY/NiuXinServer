@@ -3,7 +3,15 @@ package com.niuxin.bean;
 import java.util.Date;
 
 public class ChatRecord {
-
+	private Integer id;
+	private Integer sendUserId;
+	private String message;
+	private Integer receiveUserId;
+	private Integer receiveGroupId;
+	private String imageUrl;
+	private String audioUrl;
+	private String videoUrl;
+	private Date createTime;
 	public Integer getId() {
 		return id;
 	}
@@ -58,14 +66,6 @@ public class ChatRecord {
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
-	private Integer id;
-	private Integer sendUserId;
-	private String message;
-	private Integer receiveUserId;
-	private Integer receiveGroupId;
-	private String imageUrl;
-	private String audioUrl;
-	private String videoUrl;
-	private Date createTime;
+	
 	
 }
