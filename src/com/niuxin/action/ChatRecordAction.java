@@ -39,13 +39,16 @@ public class ChatRecordAction extends ActionSupport {
 	public void select(){//根据用户组来查询
 		response.setContentType("text/plain");
 		response.setCharacterEncoding("utf-8");
+		/*
 		try {
 			request.setCharacterEncoding("UTF-8");
 		} catch (UnsupportedEncodingException e2) {
 			e2.printStackTrace();
 		}
 		String requestStr = new GetJsonString().getJsonString(request);
-		
+		*/
+		//http://localhost:8080/NiuXinServer/chatrecord/chatrecord_select.do
+		String requestStr = "{'groupId':'1','sendtoUserId':'-1','sendUserId':21}";
 		//用json进行解析
 		JSONObject data = JSONObject.fromObject(requestStr);
 		String sendUserId = data.getString("sendUserId");//发送消息的用户
