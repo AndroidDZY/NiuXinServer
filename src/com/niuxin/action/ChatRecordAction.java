@@ -52,8 +52,10 @@ public class ChatRecordAction extends ActionSupport {
 		}
 		String requestStr = new GetJsonString().getJsonString(request);
 	
+		JSONArray jsar =  JSONArray.fromObject(requestStr);
+		
 		//用json进行解析
-		JSONObject data = JSONObject.fromObject(requestStr);
+		JSONObject data = jsar.getJSONObject(0);
 		String sendUserId = data.getString("sendUserId");//发送消息的用户
 		String groupId = data.getString("groupId");//群组id
 		String sendtoUserId = data.getString("sendtoUserId");//接受消息的用户

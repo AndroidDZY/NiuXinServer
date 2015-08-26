@@ -45,4 +45,12 @@ public class ShareAction extends ActionSupport {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	public void insert() {
+		response.setContentType("text/plain");
+		response.setCharacterEncoding("utf-8");
+		
+		
+	}
 }

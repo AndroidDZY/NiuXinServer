@@ -44,7 +44,10 @@ public class UserGroupAction extends ActionSupport {
 		response.setCharacterEncoding("utf-8");
 
 		String str = new GetJsonString().getJsonString(request);
-		JSONObject json_data = JSONObject.fromObject(str);
+		//用json进行解析
+		JSONArray jsar =  JSONArray.fromObject(str);
+		JSONObject json_data = jsar.getJSONObject(0);		
+		//JSONObject json_data = JSONObject.fromObject(str);
 		Integer id = json_data.getInt("id");//获取用户的ID
 		List<UserGroup> list = userGroupService.selectByUserid(id); //建创建群组的数据保存到数据库，返回该条数据的ID；
 		List<ShareGroup> groupList = new LinkedList<ShareGroup>();

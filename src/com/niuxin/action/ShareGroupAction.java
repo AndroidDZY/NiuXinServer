@@ -19,6 +19,7 @@ import com.niuxin.service.IUserGroupService;
 import com.niuxin.util.GetJsonString;
 import com.opensymphony.xwork2.ActionSupport;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
@@ -68,7 +69,11 @@ public class ShareGroupAction extends ActionSupport {
 		}		
 		str = buffer.toString();*/
 		//用json进行解析
-		JSONObject json_data = JSONObject.fromObject(str);
+		JSONArray jsar =  JSONArray.fromObject(str);
+		
+		//用json进行解析
+		JSONObject json_data = jsar.getJSONObject(0);
+		
 		String name = json_data.getString("name");
 		if (name != null)
 			group.setName(name);
