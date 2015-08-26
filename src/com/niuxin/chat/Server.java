@@ -97,7 +97,7 @@ public class Server implements Runnable{
 		private OutputThreadMap map;
 
 		public SocketTask(Socket socket) {	
-			System.out.println("SocketTask>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+
 			this.socket = socket;
 			map = OutputThreadMap.getInstance();
 			out = new OutputThread(socket, map);//

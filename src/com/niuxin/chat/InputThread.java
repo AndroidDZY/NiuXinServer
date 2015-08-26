@@ -41,12 +41,12 @@ public class InputThread implements Runnable {
 	private IUserGroupService userGroupService = null;
 	private IChatRecordService chatRecordService = null;
 	
-	public InputThread(){
-		System.out.println("默认构造函数》》》》》》》》》》》》》》》》》》》》》》》》》");
+	public InputThread(){//这边需要添加默认构造函数，具体哪边调用还不清楚
+
 	}
 	
 	public  InputThread(Socket socket, OutputThread out, OutputThreadMap map) {
-		System.out.println("新添加的》》》》》》》》》》》》》》》》》》》》》》》》》");
+
 		isStart = true;// 是否循环读消息
 		this.socket = socket;
 		this.out = out;
@@ -113,8 +113,7 @@ public class InputThread implements Runnable {
 		try{
 			 readObject = ois.readObject();// 从流中读取对象
 		}catch(Exception e){
-			e.printStackTrace();
-			System.out.println("可能出现了突然客户端断开的异常");
+			isStart = false;	//这边这样处理，可能会有问题。后续再继续研究吧。。。。。。。。。。		
 		}
 		
 
@@ -128,8 +127,7 @@ public class InputThread implements Runnable {
 				registerUser.setStatus(1);
 				registerUser.setIsOnline(0);
 				int registerResult = userService.insert(registerUser);
-				System.out.println(MyDate.getDateCN() + " 新用户注册:"
-						+ registerResult);
+			//	System.out.println(MyDate.getDateCN() + " 新用户注册:"+ registerResult);
 				// 给用户回复消息
 				TranObject<User> register2TranObject = new TranObject<User>(
 						TranObjectType.REGISTER);
@@ -156,8 +154,7 @@ public class InputThread implements Runnable {
 					out.setMessage(onObject);// 同时把登录信息回复给用户
 					
 					login2Object.setObject(userQuery);// 把好友列表加入回复的对象中  这里暂时只存放自己 没有放好友和群组
-					System.out.println(MyDate.getDateCN() + " 用户："
-							+ loginUser.getId() + " 上线了");			
+				//	System.out.println(MyDate.getDateCN() + " 用户："+ loginUser.getId() + " 上线了");			
 				}else{
 					onObject.setObject(null);
 					out.setMessage(onObject);
@@ -206,7 +203,11 @@ public class InputThread implements Runnable {
 					Integer id2 = read_tranObject.getToUser();
 					OutputThread toOut = map.getById(id2);//根据要发送的用户id 找到该用户的线程，然后向该线程写消息
 					if (toOut != null) {// 如果用户在线
-						toOut.setMessage(read_tranObject);
+						TranObject<TextMessage> offText = new TranObject<TextMessage>(
+								TranObjectType.MESSAGE);
+						offText.setObject((TextMessage)read_tranObject.getObject());
+						offText.setFromUser(read_tranObject.getFromUser());
+						toOut.setMessage(offText);
 					} else {// 如果为空，说明用户已经下线,回复用户
 						TextMessage text = new TextMessage();
 						text.setMessage("亲！对方不在线哦，您的消息将暂时保存在服务器");
@@ -222,7 +223,11 @@ public class InputThread implements Runnable {
 					for(int i = 0; i<userList.size();i++){
 						OutputThread toOut = map.getById(userList.get(i).getUserId());//根据要发送的用户id 找到该用户的线程，然后向该线程写消息
 						if (toOut != null) {// 如果用户在线
-							toOut.setMessage(read_tranObject);
+							TranObject<TextMessage> offText = new TranObject<TextMessage>(
+									TranObjectType.MESSAGE);
+							offText.setObject((TextMessage)read_tranObject.getObject());
+							offText.setFromUser(read_tranObject.getFromUser());
+							toOut.setMessage(offText);
 						} 
 					}
 				}				
