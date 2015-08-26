@@ -14,6 +14,12 @@
     <select id="countAll" resultType="int">  
         select count(*) c from user;
     </select>
+    
+    
+      <select id="findByUserId" resultMap="r" parameterType="int">  
+        select * from user where id = #{id};
+    </select>
+    
 
     <select id="selectAll" resultMap="r">    
         select * from user order by id asc

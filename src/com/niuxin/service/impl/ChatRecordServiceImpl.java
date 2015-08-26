@@ -18,23 +18,23 @@ public class ChatRecordServiceImpl implements IChatRecordService{
 
 	@Resource
     private ChatRecordMapper chatRecordMapper ;
-/*
+
 	@Override
 	public void insert(ChatRecord chatRecord) {
 		chatRecordMapper.insert(chatRecord);
 	}
-*/
+
 	@Override
 	public List<ChatRecord> selectByGroupId(Integer id) {
 		// TODO Auto-generated method stub
 		return chatRecordMapper.selectByGroupId(id);
 	}
-/*
+
 	@Override
 	public List<ChatRecord> selectByUser(ChatRecord cr) {
 		// TODO Auto-generated method stub
 		return chatRecordMapper.selectByUser(cr);
 	}
-  */ 
+  
 
 }

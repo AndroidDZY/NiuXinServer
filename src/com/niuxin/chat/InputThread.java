@@ -2,15 +2,11 @@ package com.niuxin.chat;
 
 
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.Date;
 import java.util.List;
-
-import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
@@ -41,18 +37,16 @@ public class InputThread implements Runnable {
 	private OutputThreadMap map = null;// 写消息线程缓存器
 	private ObjectInputStream ois = null;// 对象输入流
 	private boolean isStart = true;// 是否循环读消息
-	@Resource
-	private IUserService userService;
-	@Resource
-	private IUserGroupService userGroupService;
-	@Resource
-	private IChatRecordService chatRecordService;
+	private IUserService userService = null;
+	private IUserGroupService userGroupService = null;
+	private IChatRecordService chatRecordService = null;
 	
-	public InputThread() {	
-		
+	public InputThread(){
+		System.out.println("默认构造函数》》》》》》》》》》》》》》》》》》》》》》》》》");
 	}
 	
-	public void init(Socket socket, OutputThread out, OutputThreadMap map) {
+	public  InputThread(Socket socket, OutputThread out, OutputThreadMap map) {
+		System.out.println("新添加的》》》》》》》》》》》》》》》》》》》》》》》》》");
 		isStart = true;// 是否循环读消息
 		this.socket = socket;
 		this.out = out;
@@ -63,6 +57,13 @@ public class InputThread implements Runnable {
 			e.printStackTrace();
 		}
 
+		
+	}
+
+	public void init2(IUserService userService,IUserGroupService userGroupService,IChatRecordService chatRecordService){
+		this.userService = userService;
+		this.userGroupService = userGroupService;
+		this.chatRecordService = chatRecordService;
 	}
 
 	public void setStart(boolean isStart) {// 提供接口给外部关闭读消息线程
@@ -82,8 +83,21 @@ public class InputThread implements Runnable {
 				socket.close();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
+		}finally{
+			if (ois != null)
+				try {
+					ois.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			if (socket != null)
+				try {
+					socket.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 		}
 
 	}
@@ -95,9 +109,15 @@ public class InputThread implements Runnable {
 	 * @throws ClassNotFoundException
 	 */
 	public void readMessage() throws IOException, ClassNotFoundException {
-
-		Object readObject = ois.readObject();// 从流中读取对象
+		Object readObject = null;
+		try{
+			 readObject = ois.readObject();// 从流中读取对象
+		}catch(Exception e){
+			e.printStackTrace();
+			System.out.println("可能出现了突然客户端断开的异常");
+		}
 		
+
 	//	UserDao dao = UserDaoFactory.getInstance();// 通过dao模式管理后台
 		if (readObject != null && readObject instanceof TranObject) {
 			TranObject read_tranObject = (TranObject) readObject;// 转换成传输对象
@@ -129,9 +149,9 @@ public class InputThread implements Runnable {
 				if(userQuery!=null){
 					//TranObject<User> onObject = new TranObject<User>(TranObjectType.LOGIN);
 					onObject.setObject(userQuery);
-					for (OutputThread onOut : map.getAll()) {
-						onOut.setMessage(onObject);// 广播一下用户上线
-					}
+				//	for (OutputThread onOut : map.getAll()) {
+				//		onOut.setMessage(onObject);// 广播一下用户上线
+				//	}
 					map.add(userQuery.getId(), out);// 先广播，再把对应用户id的写线程存入map中，以便转发消息时调用
 					out.setMessage(onObject);// 同时把登录信息回复给用户
 					
@@ -179,7 +199,8 @@ public class InputThread implements Runnable {
 					chat.setReceiveUserId(-1);
 				}
 					chat.setCreateTime(new Date());
-		//			chatRecordService.insert(chat);//向数据库保存聊天记录
+					chat.setMessage(((TextMessage)read_tranObject.getObject()).getMessage());
+					chatRecordService.insert(chat);//向数据库保存聊天记录
 				//消息转发
 				if(istogroup==0){//两人之间聊天的情况
 					Integer id2 = read_tranObject.getToUser();

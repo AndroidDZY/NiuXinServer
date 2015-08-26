@@ -16,6 +16,7 @@ import com.niuxin.bean.ShareGroup;
 import com.niuxin.bean.UserGroup;
 import com.niuxin.service.IShareGroupService;
 import com.niuxin.service.IUserGroupService;
+import com.niuxin.util.GetJsonString;
 import com.opensymphony.xwork2.ActionSupport;
 
 import net.sf.json.JSONException;
@@ -41,7 +42,10 @@ public class ShareGroupAction extends ActionSupport {
 			e2.printStackTrace();
 		}
 		ShareGroup group = new ShareGroup();
-		String str = "";	
+		
+		String str = new GetJsonString().getJsonString(request);
+		/*
+		 String str = "";
 		//从request的输入流中获取数据
 		StringBuilder buffer = new StringBuilder();
 		BufferedReader reader = null;
@@ -62,7 +66,7 @@ public class ShareGroupAction extends ActionSupport {
 				}
 			}
 		}		
-		str = buffer.toString();
+		str = buffer.toString();*/
 		//用json进行解析
 		JSONObject json_data = JSONObject.fromObject(str);
 		String name = json_data.getString("name");

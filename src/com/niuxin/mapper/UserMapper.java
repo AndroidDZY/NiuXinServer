@@ -18,7 +18,7 @@ public interface UserMapper {
     public int countAll();
    
     public User findByUserName(String userName);
-
+    public User findByUserId(Integer id) ;
 	public User select(User user);
 
 }

@@ -52,6 +52,9 @@ public class OutputThread extends Thread {
 				synchronized (this) {
 					wait();
 				}
+				if(!socket.isConnected()){
+					isStart = false;
+				}
 				if (object != null) {
 					oos.writeObject(object);
 					oos.flush();

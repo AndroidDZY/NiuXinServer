@@ -12,6 +12,8 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.niuxin.service.IChatRecordService;
+import com.niuxin.service.IUserGroupService;
 import com.niuxin.service.IUserService;
 import com.niuxin.util.Constants;
 import com.niuxin.util.MyDate;
@@ -29,8 +31,13 @@ public class Server implements Runnable{
 	private Socket socket = null;
 	private boolean isStarted = true;
 
+	
 	@Resource
-    private InputThread in;
+	private IUserService userService;
+	@Resource
+	private IUserGroupService userGroupService;
+	@Resource
+	private IChatRecordService chatRecordService;
 
 	public Server() {		
 		try {
@@ -48,8 +55,8 @@ public class Server implements Runnable{
 		try {
 			while (isStarted) {
 				socket = serverSocket.accept();
-				String ip = socket.getInetAddress().toString();
-				System.out.println(MyDate.getDateCN() + " 用户：" + ip + " 已建立连接");
+			//	String ip = socket.getInetAddress().toString();
+			//	System.out.println(MyDate.getDateCN() + " 用户：" + ip + " 已建立连接");
 				// 为支持多用户并发访问，采用线程池管理每一个用户的连接请求
 				if (socket.isConnected())
 					executorService.execute(new SocketTask(socket));// 添加到线程池
@@ -63,32 +70,8 @@ public class Server implements Runnable{
 			// isStarted = false;
 		}
 	}
-
-	private final class SocketTask implements Runnable {
-		private Socket socket = null;
-		//private InputThread in;
-		private OutputThread out;
-		private OutputThreadMap map;
-
-		public SocketTask(Socket socket) {
-			this.socket = socket;
-			map = OutputThreadMap.getInstance();
-		}
-
-		@Override
-		public void run() {
-			out = new OutputThread(socket, map);//
-			// 先实例化写消息线程,（把对应用户的写线程存入map缓存器中）
-			//in = new InputThread(socket, out, map);// 再实例化读消息线程
-			in.init(socket, out, map);
-			out.setStart(true);
-			in.setStart(true);
-			new Thread(in).start();
-			//in.start();
-			out.start();
-		}
-	}
-
+	
+	
 	/**
 	 * 退出
 	 */
@@ -106,4 +89,31 @@ public class Server implements Runnable{
 	public void run() {		
 		start();
 	}
+
+	private final class SocketTask implements Runnable {
+		private Socket socket = null;
+		private InputThread in ;
+		private OutputThread out;
+		private OutputThreadMap map;
+
+		public SocketTask(Socket socket) {	
+			System.out.println("SocketTask>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+			this.socket = socket;
+			map = OutputThreadMap.getInstance();
+			out = new OutputThread(socket, map);//
+			// 先实例化写消息线程,（把对应用户的写线程存入map缓存器中）
+			in = new InputThread(socket, out, map);// 再实例化读消息线程	
+			in.init2(userService,userGroupService,chatRecordService);
+		}
+
+		@Override
+		public void run() {
+			out.setStart(true);
+			in.setStart(true);
+			new Thread(in).start();			
+			out.start();
+		}
+	}
+
+	
 }

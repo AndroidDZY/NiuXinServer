@@ -14,8 +14,11 @@ import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 
 import com.niuxin.bean.ChatRecord;
+import com.niuxin.bean.User;
 import com.niuxin.service.IChatRecordService;
+import com.niuxin.service.IUserService;
 import com.niuxin.util.GetJsonString;
+import com.niuxin.util.JSONChangeUtil;
 import com.opensymphony.xwork2.ActionSupport;
 
 import net.sf.json.JSONArray;
@@ -29,26 +32,26 @@ public class ChatRecordAction extends ActionSupport {
 
 	@Resource
 	private IChatRecordService chatRecordService;
+	@Resource
+	private IUserService userService;
 
 	public void insert() {
 		ChatRecord chatRecord = new ChatRecord();	
-//		chatRecordService.insert(chatRecord);//插入聊天记录
+		chatRecordService.insert(chatRecord);//插入聊天记录
 		
 	}
 
 	public void select(){//根据用户组来查询
 		response.setContentType("text/plain");
 		response.setCharacterEncoding("utf-8");
-		/*
+		
 		try {
 			request.setCharacterEncoding("UTF-8");
 		} catch (UnsupportedEncodingException e2) {
 			e2.printStackTrace();
 		}
 		String requestStr = new GetJsonString().getJsonString(request);
-		*/
-		//http://localhost:8080/NiuXinServer/chatrecord/chatrecord_select.do
-		String requestStr = "{'groupId':'1','sendtoUserId':'-1','sendUserId':21}";
+	
 		//用json进行解析
 		JSONObject data = JSONObject.fromObject(requestStr);
 		String sendUserId = data.getString("sendUserId");//发送消息的用户
@@ -61,12 +64,21 @@ public class ChatRecordAction extends ActionSupport {
 			ChatRecord cr = new ChatRecord();
 			cr.setSendUserId(Integer.valueOf(sendUserId));
 			cr.setReceiveUserId(Integer.valueOf(sendtoUserId));
-	//		list = chatRecordService.selectByUser(cr);
+			list = chatRecordService.selectByUser(cr);
 		}
 		String json = "";
+		JSONArray jsa = new JSONArray();
 		if(list!=null)
-			 json = JSONArray.fromObject(list).toString();	
-		else{
+		{
+			JSONObject oj = null;
+			for(ChatRecord lt:list){
+				User user = userService.findByUserId(lt.getSendUserId());
+				oj = JSONObject.fromObject(lt);
+				oj.put("sendUsername", user.getUserName());
+				jsa.add(oj);
+			}			
+			json = jsa.toString();	
+		}else{
 			JSONObject js = new JSONObject();
 			js.put("hasdata", "nodata");	
 			json = js.toString();

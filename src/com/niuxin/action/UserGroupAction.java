@@ -25,6 +25,7 @@ import com.niuxin.bean.UserGroup;
 import com.niuxin.service.IShareGroupService;
 import com.niuxin.service.IUserGroupService;
 import com.niuxin.service.IUserService;
+import com.niuxin.util.GetJsonString;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class UserGroupAction extends ActionSupport {
@@ -42,7 +43,7 @@ public class UserGroupAction extends ActionSupport {
 		response.setContentType("text/plain");
 		response.setCharacterEncoding("utf-8");
 
-		String str =getRequestString();
+		String str = new GetJsonString().getJsonString(request);
 		JSONObject json_data = JSONObject.fromObject(str);
 		Integer id = json_data.getInt("id");//获取用户的ID
 		List<UserGroup> list = userGroupService.selectByUserid(id); //建创建群组的数据保存到数据库，返回该条数据的ID；
@@ -77,31 +78,6 @@ public class UserGroupAction extends ActionSupport {
 		}
 	}
 
-	public String getRequestString(){
-		String str = "";	
-		//从request的输入流中获取数据
-		StringBuilder buffer = new StringBuilder();
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(new InputStreamReader(request.getInputStream(), "UTF-8"));
-			String line = null;
-			while ((line = reader.readLine()) != null) {
-				buffer.append(line);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (null != reader) {
-				try {
-					reader.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}		
-		str = buffer.toString();
-		
-		return str;
-	}
+	
 	
 }

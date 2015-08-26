@@ -44,5 +44,10 @@ public class UserServiceImpl implements IUserService{
 	public User select(User user) {		
 		return  this.userDao.select(user);
 	}
+	@Override
+	public User findByUserId(Integer id) {
+		// TODO Auto-generated method stub
+		return this.userDao.findByUserId(id);
+	}
 	
 }
