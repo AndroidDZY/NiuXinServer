@@ -12,15 +12,14 @@
 	</insert>
 
 
-
 	<select id="selectByGroupId" resultMap="r" parameterType="int">
-		select * from chat_record where receive_group_id=#{receiveGroupId}	
+		select * from chat_record where receiveGroupId=#{receiveGroupId}	
 	</select>
+
 
 	<select id="selectByUser" resultMap="r" parameterMap="p">
 		 select * from chat_record where receive_user_id= #{receiveUserId} 
 			or send_user_id=#{sendUserId}
 	</select>
-
 
 </mapper>

@@ -179,7 +179,7 @@ public class InputThread implements Runnable {
 					chat.setReceiveUserId(-1);
 				}
 					chat.setCreateTime(new Date());
-					chatRecordService.insert(chat);//向数据库保存聊天记录
+		//			chatRecordService.insert(chat);//向数据库保存聊天记录
 				//消息转发
 				if(istogroup==0){//两人之间聊天的情况
 					Integer id2 = read_tranObject.getToUser();

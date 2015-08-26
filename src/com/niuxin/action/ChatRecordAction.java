@@ -32,7 +32,7 @@ public class ChatRecordAction extends ActionSupport {
 
 	public void insert() {
 		ChatRecord chatRecord = new ChatRecord();	
-		chatRecordService.insert(chatRecord);//插入聊天记录
+//		chatRecordService.insert(chatRecord);//插入聊天记录
 		
 	}
 
@@ -61,7 +61,7 @@ public class ChatRecordAction extends ActionSupport {
 			ChatRecord cr = new ChatRecord();
 			cr.setSendUserId(Integer.valueOf(sendUserId));
 			cr.setReceiveUserId(Integer.valueOf(sendtoUserId));
-			list = chatRecordService.selectByUser(cr);
+	//		list = chatRecordService.selectByUser(cr);
 		}
 		String json = "";
 		if(list!=null)
