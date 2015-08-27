@@ -10,5 +10,9 @@ public interface ShareMapper {
 
     public List<Share> selectAll();
 
+	public Share selectById(Integer id);
+
+	public List<Share> selectByShareName(String number);
+
 
 }

@@ -139,7 +139,7 @@ public class InputThread implements Runnable {
 				break;
 			case LOGIN:
 				User loginUser = (User) read_tranObject.getObject();
-				System.out.println(loginUser.getUserName()+"账号名:密码"+loginUser.getPassWord());
+			//	System.out.println(loginUser.getUserName()+"账号名:密码"+loginUser.getPassWord());
 				User userQuery = userService.select(loginUser);//查询的用户信息
 				TranObject<User> login2Object = new TranObject<User>(
 						TranObjectType.LOGIN);
@@ -166,7 +166,7 @@ public class InputThread implements Runnable {
 		
 				User logoutUser = (User) read_tranObject.getObject();
 				int offId = logoutUser.getId();
-				System.out.println(MyDate.getDateCN() + " 用户：" + offId + " 下线了");
+		//		System.out.println(MyDate.getDateCN() + " 用户：" + offId + " 下线了");
 				isStart = false;// 结束自己的读循环
 				map.remove(offId);// 从缓存的线程中移除下线的用户
 				out.setMessage(null);// 先要设置一个空消息去唤醒写线程

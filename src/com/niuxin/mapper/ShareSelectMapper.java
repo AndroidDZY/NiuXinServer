@@ -9,5 +9,6 @@ public interface ShareSelectMapper {
 
 	public Integer insert(ShareSelect shareSelect);
 	public List<ShareSelect> selectByUserid(int id);
+	public void delete(ShareSelect id);
 
 }

@@ -12,5 +12,13 @@
         select * from share order by id asc
     </select>
    
+ <select id="selectById" resultMap="r">    
+        select * from share where id =#{id}
+    </select>
+    
  
+   <select id="selectByShareName" resultMap="r" parameterType="String">  
+        select * from share where number like "%"#{number}"%"
+    </select>
+
 </mapper>

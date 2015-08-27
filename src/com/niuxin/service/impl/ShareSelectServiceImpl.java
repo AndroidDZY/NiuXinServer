@@ -48,4 +48,11 @@ public class ShareSelectServiceImpl implements IShareSelectService{
 		return shareSelectMapper.selectByUserid(id);
 	}
 
+
+	@Override
+	public void delete(ShareSelect id) {
+		// TODO Auto-generated method stub
+		shareSelectMapper.delete(id);
+	}
+
 }

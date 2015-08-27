@@ -31,7 +31,7 @@ public class UserAction extends ActionSupport {
 	public void countAll() {
 		response.setContentType("text/plain");
 		response.setCharacterEncoding("utf-8");
-		System.out.println("数据库中的记录条数:" + userService.countAll());
+	//	System.out.println("数据库中的记录条数:" + userService.countAll());
 		JSONObject jsonObject = new JSONObject();	
 		 try {
 			jsonObject.put("username", "huangwuyi");
@@ -44,7 +44,7 @@ public class UserAction extends ActionSupport {
 		}  
 		 
 		 String json = jsonObject.toString();
-		 System.out.println("json"+json);
+		// System.out.println("json"+json);
 		 try {
 			response.getWriter().write(json);
 			response.getWriter().flush();  
@@ -55,7 +55,7 @@ public class UserAction extends ActionSupport {
 	}
 
 	public void insert() {
-		System.out.println("开始插入记录？？？？？》》》》》》");
+	//	System.out.println("开始插入记录？？？？？》》》》》》");
 		User user = new User();
 		user.setCreateTime(new Date());
 		user.setPassWord("111111");
@@ -70,7 +70,7 @@ public class UserAction extends ActionSupport {
 		List<User> list = userService.selectAll();
 		for (int i = 0; i < list.size(); i++) {
 			User user = list.get(i);
-			System.out.println(user.toString());
+	//		System.out.println(user.toString());
 		}
 	}
 

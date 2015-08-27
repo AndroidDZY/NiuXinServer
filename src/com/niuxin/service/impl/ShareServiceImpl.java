@@ -25,6 +25,18 @@ public class ShareServiceImpl implements IShareService{
 		return this.shareDao.selectAll();
 	}
 
+	@Override
+	public Share selectById(Integer shareId) {
+		// TODO Auto-generated method stub
+		return this.shareDao.selectById(shareId);
+	}
+
+	@Override
+	public List<Share> selectByShareName(String number) {
+		// TODO Auto-generated method stub
+		return this.shareDao.selectByShareName(number);
+	}
+
 
 	
 }
