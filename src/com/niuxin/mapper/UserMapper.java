@@ -7,7 +7,7 @@ import com.niuxin.bean.User;
 
 public interface UserMapper {
 
-    public int insert(User user);
+    public int insert(User user);//插入用户
      
     public int update(User user);
    

@@ -32,7 +32,12 @@ public class SearchAction extends ActionSupport {
 	@Resource
 	private IShareGroupService shareGroupService;
 	
-	//1.搜索好友
+	//1.搜索好友  参数：用户的用户名
+	//群组：根据群组名称，以及群组个股标签
+	//聊天纪录：即聊天内容
+	//收藏：用户收藏的言论和文章（假数据）
+	//自选股：根据自选股名称或者股票代码
+
 	
 	
 	

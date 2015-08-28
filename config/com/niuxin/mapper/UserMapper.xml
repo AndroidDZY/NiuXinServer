@@ -39,7 +39,7 @@
     </update>
     
     <delete id="delete" parameterType="int">    
-        delete from user where username=#{id}
+        delete from user where id=#{id}
     </delete>
     
     <select id="findByUserName" parameterType="String"  resultMap="r"> 

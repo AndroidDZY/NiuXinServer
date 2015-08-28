@@ -65,14 +65,7 @@ public class UserAction extends ActionSupport {
 		userService.insert(user);
 	}
 
-	public void selectAll() {
-		
-		List<User> list = userService.selectAll();
-		for (int i = 0; i < list.size(); i++) {
-			User user = list.get(i);
-	//		System.out.println(user.toString());
-		}
-	}
+	
 
 	public void update() {
 		User user = new User();
@@ -90,6 +83,7 @@ public class UserAction extends ActionSupport {
 	}
 
 	public void findByName() {
+		
 		User user = userService.findByUserName("test");
 	}
 	

@@ -44,7 +44,6 @@ public class UserGroupAction extends ActionSupport {
 		response.setCharacterEncoding("utf-8");
 
 		String str = new GetJsonString().getJsonString(request);
-		System.out.println("str>>>>>>>>>>>"+str);
 		//用json进行解析
 		JSONArray jsar =  JSONArray.fromObject(str);
 		JSONObject json_data = jsar.getJSONObject(0);		

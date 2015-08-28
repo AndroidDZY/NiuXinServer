@@ -33,7 +33,9 @@ public class ShareAction extends ActionSupport {
 	@Resource
 	private IShareSelectService shareSelectService;
 
-	public void selectAll() {
+	
+	
+	public void   selectAll() {
 		response.setContentType("text/plain");
 		response.setCharacterEncoding("utf-8");
 
@@ -41,6 +43,28 @@ public class ShareAction extends ActionSupport {
 		JSONArray result = JSONArray.fromObject(list);
 		String json = result.toString();
 	//	System.out.println("json" + json);
+		try {
+			response.getWriter().write(json);
+			response.getWriter().flush();
+			response.getWriter().close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void selectAllByShareName() {
+		response.setContentType("text/plain");
+		response.setCharacterEncoding("utf-8");
+		
+		String str = new GetJsonString().getJsonString(request);
+		// 用json进行解析
+		JSONArray jsar = JSONArray.fromObject(str);
+		JSONObject json_data = jsar.getJSONObject(0);
+		int userid = json_data.getInt("userid");
+		String sharename = json_data.getString("sharename");
+		List<Share> list = shareService.selectByShareName(sharename);
+		JSONArray result = JSONArray.fromObject(list);
+		String json = result.toString();
 		try {
 			response.getWriter().write(json);
 			response.getWriter().flush();
