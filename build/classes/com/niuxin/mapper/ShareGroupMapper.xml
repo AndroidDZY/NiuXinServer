@@ -12,8 +12,8 @@
     <parameterMap type="com.niuxin.bean.ShareGroup"  id="p"></parameterMap>
     
     <insert id="insert" parameterMap="p" useGeneratedKeys="true" keyProperty="id">    
-        insert into share_group(type,enter_grade,description,isfree,total_number,current_number,create_time,name,mark,createuserid) 
-        values(#{type},#{enterGrade},#{description},#{isfree},#{totalNumber},#{currentNumber},#{createTime},#{name},#{mark},#{createuserid})
+        insert into share_group(type,enter_grade,description,isfree,total_number,current_number,create_time,name,mark,createuserid,img) 
+        values(#{type},#{enterGrade},#{description},#{isfree},#{totalNumber},#{currentNumber},#{createTime},#{name},#{mark},#{createuserid},#{img})
     </insert>
  
      <select id="selectAll" resultMap="r">    

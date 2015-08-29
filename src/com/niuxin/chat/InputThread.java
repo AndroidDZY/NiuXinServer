@@ -11,9 +11,11 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.niuxin.bean.ChatRecord;
+import com.niuxin.bean.ShareGroup;
 import com.niuxin.bean.User;
 import com.niuxin.bean.UserGroup;
 import com.niuxin.service.IChatRecordService;
+import com.niuxin.service.IShareGroupService;
 import com.niuxin.service.IUserGroupService;
 import com.niuxin.service.IUserService;
 import com.niuxin.util.MyDate;
@@ -40,7 +42,7 @@ public class InputThread implements Runnable {
 	private IUserService userService = null;
 	private IUserGroupService userGroupService = null;
 	private IChatRecordService chatRecordService = null;
-	
+	private IShareGroupService shareGroupService = null;
 	public InputThread(){//这边需要添加默认构造函数，具体哪边调用还不清楚
 
 	}
@@ -60,7 +62,7 @@ public class InputThread implements Runnable {
 		
 	}
 
-	public void init2(IUserService userService,IUserGroupService userGroupService,IChatRecordService chatRecordService){
+	public void init2(IUserService userService,IUserGroupService userGroupService,IChatRecordService chatRecordService,IShareGroupService shareGroupService){
 		this.userService = userService;
 		this.userGroupService = userGroupService;
 		this.chatRecordService = chatRecordService;
@@ -150,7 +152,7 @@ public class InputThread implements Runnable {
 				//	for (OutputThread onOut : map.getAll()) {
 				//		onOut.setMessage(onObject);// 广播一下用户上线
 				//	}
-					map.add(userQuery.getId(), out);// 先广播，再把对应用户id的写线程存入map中，以便转发消息时调用
+					map.add(userQuery.getId(), out);//再把对应用户id的写线程存入map中，以便转发消息时调用
 					out.setMessage(onObject);// 同时把登录信息回复给用户
 					
 					login2Object.setObject(userQuery);// 把好友列表加入回复的对象中  这里暂时只存放自己 没有放好友和群组
@@ -188,7 +190,7 @@ public class InputThread implements Runnable {
 				ChatRecord chat = new ChatRecord();
 				//保存消息
 				chat.setSendUserId(read_tranObject.getFromUser());
-				if(istogroup==0){//两人之间聊天的情况
+				if(istogroup==2){//两人之间聊天的情况
 					chat.setReceiveUserId(read_tranObject.getToUser());
 					chat.setReceiveGroupId(-1);
 				}else{
@@ -199,14 +201,16 @@ public class InputThread implements Runnable {
 					chat.setMessage(((TextMessage)read_tranObject.getObject()).getMessage());
 					chatRecordService.insert(chat);//向数据库保存聊天记录
 				//消息转发
-				if(istogroup==0){//两人之间聊天的情况
+				if(istogroup==2){//两人之间聊天的情况
 					Integer id2 = read_tranObject.getToUser();
+					User toUser = userService.findByUserId(id2);
 					OutputThread toOut = map.getById(id2);//根据要发送的用户id 找到该用户的线程，然后向该线程写消息
 					if (toOut != null) {// 如果用户在线
 						TranObject<TextMessage> offText = new TranObject<TextMessage>(
 								TranObjectType.MESSAGE);
 						offText.setObject((TextMessage)read_tranObject.getObject());
 						offText.setFromUser(read_tranObject.getFromUser());
+						offText.setImg(toUser.getImg());
 						toOut.setMessage(offText);
 					} else {// 如果为空，说明用户已经下线,回复用户
 						TextMessage text = new TextMessage();
@@ -219,6 +223,7 @@ public class InputThread implements Runnable {
 					}
 				}else if(istogroup==1){//群聊的情况
 					Integer groupID = read_tranObject.getToUser();//获取聊天的群组编号
+					ShareGroup sg = shareGroupService.selectById(groupID);
 					List<UserGroup> userList= userGroupService.selectByGroupid(groupID);
 					for(int i = 0; i<userList.size();i++){
 						OutputThread toOut = map.getById(userList.get(i).getUserId());//根据要发送的用户id 找到该用户的线程，然后向该线程写消息
@@ -227,6 +232,7 @@ public class InputThread implements Runnable {
 									TranObjectType.MESSAGE);
 							offText.setObject((TextMessage)read_tranObject.getObject());
 							offText.setFromUser(read_tranObject.getFromUser());
+							offText.setImg(sg.getImg());
 							toOut.setMessage(offText);
 						} 
 					}

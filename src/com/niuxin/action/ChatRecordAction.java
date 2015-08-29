@@ -77,6 +77,7 @@ public class ChatRecordAction extends ActionSupport {
 				User user = userService.findByUserId(lt.getSendUserId());
 				oj = JSONObject.fromObject(lt);
 				oj.put("sendUsername", user.getUserName());
+				oj.put("img", user.getImg());
 				jsa.add(oj);
 			}			
 			json = jsa.toString();	

@@ -13,13 +13,23 @@
 
 
 	<select id="selectByGroupId" resultMap="r" parameterType="int">
-		select * from chat_record where receiveGroupId=#{receiveGroupId}	
+		select * from chat_record where receiveGroupId=#{receiveGroupId}	GROUP BY  id asc
 	</select>
 
 
 	<select id="selectByUser" resultMap="r" parameterMap="p">
-		 select * from chat_record where receive_user_id= #{receiveUserId} 
-			or send_user_id=#{sendUserId}
+		 select * from chat_record where receiveUserId= #{receiveUserId} 
+			and sendUserId=#{sendUserId} GROUP BY  id asc
+	</select>
+	
+	<select id="selectLastByGroupId" resultMap="r" parameterType="int">
+		select * from chat_record where receiveGroupId=#{receiveGroupId}	GROUP BY  id desc limit 1
+	</select>
+
+
+	<select id="selectLastByUser" resultMap="r" parameterMap="p">
+		 select * from chat_record where receiveUserId= #{receiveUserId} 
+			and sendUserId=#{sendUserId} GROUP BY  id desc limit 1
 	</select>
 
 </mapper>

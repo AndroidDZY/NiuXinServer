@@ -15,7 +15,7 @@
     </insert>
    
       <select id="selectByUserid" resultMap="r" parameterType="int">    
-        select * from user_friend where id= #{userid}
+        select * from user_friend where user_self_id = #{userid}
     </select>
        
 </mapper>

@@ -16,6 +16,7 @@ public class ShareGroup {
 	private String name;
 	private String mark;
 	private Integer createuserid;
+	private Integer img;
 	public Integer getId() {
 		return id;
 	}
@@ -83,5 +84,11 @@ public class ShareGroup {
 	}
 	public void setCreateuserid(Integer createuserid) {
 		this.createuserid = createuserid;
+	}
+	public Integer getImg() {
+		return img;
+	}
+	public void setImg(Integer img) {
+		this.img = img;
 	}
 }

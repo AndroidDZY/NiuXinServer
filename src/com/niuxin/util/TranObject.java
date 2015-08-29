@@ -20,6 +20,7 @@ public class TranObject<T> implements Serializable {
 	private int istoGroup;//1代表发给群组 0
 	private int fromUser;// 来自哪个用户
 	private int toUser;// 发往哪个用户
+	private int img;// 这个字段传送群组或者 个人用户的img
 
 	private T object;// 传输的对象，这个对象我们可以自定义任何
 	
@@ -61,5 +62,13 @@ public class TranObject<T> implements Serializable {
 
 	public void setIstoGroup(int istoGroup) {
 		this.istoGroup = istoGroup;
+	}
+
+	public int getImg() {
+		return img;
+	}
+
+	public void setImg(int img) {
+		this.img = img;
 	}
 }
