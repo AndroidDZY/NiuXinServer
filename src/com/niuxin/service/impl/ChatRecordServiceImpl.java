@@ -47,6 +47,12 @@ public class ChatRecordServiceImpl implements IChatRecordService{
 		// TODO Auto-generated method stub
 		return chatRecordMapper.selectLastByUser(chatRecord);
 	}
+
+	@Override
+	public List<ChatRecord> selectByChatRecord(ChatRecord cr) {
+		// TODO Auto-generated method stub
+		return chatRecordMapper.selectByChatRecord(cr);
+	}
   
 
 }

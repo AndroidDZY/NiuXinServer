@@ -20,5 +20,6 @@ public interface UserMapper {
     public User findByUserName(String userName);
     public User findByUserId(Integer id) ;
 	public User select(User user);
+	public List<User> findAllByUserName(String userName);
 
 }

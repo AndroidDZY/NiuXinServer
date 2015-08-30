@@ -47,4 +47,6 @@ public class UserGroupServiceImpl implements IUserGroupService{
 		return userGroupMapper.selectByGroupid(groupid);
 	}
 
+	
+
 }

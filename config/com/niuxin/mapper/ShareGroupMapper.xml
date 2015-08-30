@@ -23,5 +23,17 @@
       <select id="selectById" resultMap="r" parameterType="int">    
         select * from share_group where id= #{id}
     </select>
+    
+         <select id="selectByType" resultMap="r" parameterType="String">    
+        select * from share_group where type= #{type}
+    </select>
+    
+     <select id="selectByisFree" resultMap="r" parameterType="String">    
+        select * from share_group where isfree = #{isfree}
+    </select>
+    
+       <select id="selectByShareGroup" resultMap="r" parameterMap="p">    
+        select * from share_group where isfree = #{isfree} and  type= #{type} or  name like "%"#{name}"%" or mark like "%"#{mark}"%" 
+    </select>
        
 </mapper>

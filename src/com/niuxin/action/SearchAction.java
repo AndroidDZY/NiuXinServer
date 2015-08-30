@@ -2,7 +2,6 @@ package com.niuxin.action;
 
 
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -11,10 +10,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts2.ServletActionContext;
 
+import com.niuxin.bean.ChatRecord;
 import com.niuxin.bean.ShareGroup;
-import com.niuxin.bean.UserGroup;
+import com.niuxin.bean.User;
+import com.niuxin.service.IChatRecordService;
 import com.niuxin.service.IShareGroupService;
 import com.niuxin.service.IUserGroupService;
+import com.niuxin.service.IUserService;
 import com.niuxin.util.GetJsonString;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -31,49 +33,91 @@ public class SearchAction extends ActionSupport {
 	private IUserGroupService userGroupService;
 	@Resource
 	private IShareGroupService shareGroupService;
+	@Resource
+	private IUserService userService;
+	@Resource
+	private IChatRecordService chatRecordService;
 	
 	//1.搜索好友  参数：用户的用户名
 	//群组：根据群组名称，以及群组个股标签
 	//聊天纪录：即聊天内容
 	//收藏：用户收藏的言论和文章（假数据）
-	//自选股：根据自选股名称或者股票代码
 
 	
-	
-	
-	public void listGroupById() {
+	public void serachUser() {//根据用户的输入条件查找用户
 		response.setContentType("text/plain");
 		response.setCharacterEncoding("utf-8");
 
 		String str = new GetJsonString().getJsonString(request);
 		//用json进行解析
 		JSONArray jsar =  JSONArray.fromObject(str);
-		JSONObject json_data = jsar.getJSONObject(0);		
-		//JSONObject json_data = JSONObject.fromObject(str);
-		Integer id = json_data.getInt("id");//获取用户的ID
-		List<UserGroup> list = userGroupService.selectByUserid(id); //建创建群组的数据保存到数据库，返回该条数据的ID；
-		List<ShareGroup> groupList = new LinkedList<ShareGroup>();
-		for(int i =0 ;i<list.size();i++){//获取用户所在的群组信息
-			groupList.add(shareGroupService.selectById(list.get(i).getGroupId()));
+		JSONObject json_data = jsar.getJSONObject(0);	
+		Integer id = json_data.getInt("id");//获取用户的id
+		String searchText = json_data.getString("searchText");//获取用户搜索的内容
+
+		
+		List<User> userList = userService.findAllByUserName(searchText);
+
+		JSONArray jsonarray = new JSONArray();
+		for(int i =0 ;i<userList.size();i++){//获取用户所在的群组信息
+			 JSONObject jsonobject = new JSONObject();
+			 jsonobject.put("id", userList.get(i).getId());	
+			 jsonobject.put("name", userList.get(i).getUserName());	
+			 jsonobject.put("img", userList.get(i).getImg());	
+
+			 jsonarray.add(jsonobject);
+		}	
+		String json ="";
+		if(jsonarray.size()!=0)
+			 json = jsonarray.toString();
+		try {
+			response.getWriter().write(json);
+			response.getWriter().flush();
+			response.getWriter().close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		//还需要获取用户的聊天信息 包括最后一个发言的用户名和他的发言记录  还有发言时间
-		//这里暂时先构造一些假数据
-		String lastmes = "汪总：今天又要涨停";
-		String time = "13:20";
-		/////////////////////////////////////////
+	}
+	
+	public void serachGroup() {//根据用户的输入条件查找群组
+		response.setContentType("text/plain");
+		response.setCharacterEncoding("utf-8");
+
+		String str = new GetJsonString().getJsonString(request);
+		//用json进行解析
+		JSONArray jsar =  JSONArray.fromObject(str);
+		JSONObject json_data = jsar.getJSONObject(0);	
+		Integer id = json_data.getInt("id");//获取用户的id
+		String searchText = json_data.getString("searchText");//获取用户搜索的内容
+		String type = json_data.getString("type");//股票的类型
+		String isfree = json_data.getString("isfree");//股票是否收费
+		
+		String score = json_data.getString("score");//股票的群组评分
+		String paimingtype  = json_data.getString("paimingtype");//股票的排名类型
+		String total_number  = json_data.getString("total_number");//讨论组的总人数
+		
+		
+		ShareGroup usgp = new ShareGroup();
+		usgp.setType(type);
+		usgp.setIsfree(isfree);
+		usgp.setName(searchText);
+		usgp.setMark(searchText);
+		List<ShareGroup> groupList = shareGroupService.selectByShareGroup(usgp);
+
 		JSONArray jsonarray = new JSONArray();
 		for(int i =0 ;i<groupList.size();i++){//获取用户所在的群组信息
 			 JSONObject jsonobject = new JSONObject();
 			 jsonobject.put("id", groupList.get(i).getId());	
 			 jsonobject.put("name", groupList.get(i).getName());	
-			 jsonobject.put("lastmes", lastmes);	
-			 jsonobject.put("time", time);	
 			 jsonobject.put("type", groupList.get(i).getType());	
 			 jsonobject.put("currentNumber",  groupList.get(i).getCurrentNumber());	
-			 jsonobject.put("totalNumber", groupList.get(i).getTotalNumber());		
+			 jsonobject.put("totalNumber", groupList.get(i).getTotalNumber());	
+			 jsonobject.put("mark", groupList.get(i).getMark());
 			 jsonarray.add(jsonobject);
-		}		
-		String json = jsonarray.toString();
+		}	
+		String json ="";
+		if(jsonarray.size()!=0)
+			 json = jsonarray.toString();
 		try {
 			response.getWriter().write(json);
 			response.getWriter().flush();
@@ -83,6 +127,44 @@ public class SearchAction extends ActionSupport {
 		}
 	}
 
+	public void searchChatRecord() {//根据用户的输入条件查找聊天记录
+		response.setContentType("text/plain");
+		response.setCharacterEncoding("utf-8");
+
+		String str = new GetJsonString().getJsonString(request);
+		//用json进行解析
+		JSONArray jsar =  JSONArray.fromObject(str);
+		JSONObject json_data = jsar.getJSONObject(0);	
+		Integer id = json_data.getInt("id");//获取用户自己的id
+		String searchText = json_data.getString("searchText");//获取用户搜索的内容
+		ChatRecord cr = new ChatRecord();
+		cr.setSendUserId(id);
+		cr.setMessage(searchText);
+		List<ChatRecord> recordlist = chatRecordService.selectByChatRecord(cr);
+
 	
+		JSONArray jsonarray = new JSONArray();
+		for(int i =0 ;i<recordlist.size();i++){//获取用户所在的群组信息
+			 JSONObject jsonobject = new JSONObject();
+			 jsonobject.put("id", recordlist.get(i).getId());
+			 jsonobject.put("message", recordlist.get(i).getMessage());	
+			 jsonobject.put("sendUserId", recordlist.get(i).getSendUserId());
+			 jsonobject.put("receiveGroupId", recordlist.get(i).getReceiveGroupId());
+			 jsonobject.put("receiveUserId", recordlist.get(i).getReceiveUserId());
+			 jsonarray.add(jsonobject);
+		}	
+		String json ="";
+		if(jsonarray.size()!=0)
+			 json = jsonarray.toString();
+		try {
+			response.getWriter().write(json);
+			response.getWriter().flush();
+			response.getWriter().close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+
+	}
 	
 }

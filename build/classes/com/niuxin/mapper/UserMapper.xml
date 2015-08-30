@@ -45,5 +45,9 @@
     <select id="findByUserName" parameterType="String"  resultMap="r"> 
         select * from user where username=#{username}
     </select>
+    
+     <select id="findAllByUserName" parameterType="String"  resultMap="r"> 
+        select * from user where username=#{username}
+    </select>
  
 </mapper>

@@ -31,5 +31,11 @@
 		 select * from chat_record where receiveUserId= #{receiveUserId} 
 			and sendUserId=#{sendUserId} GROUP BY  id desc limit 1
 	</select>
+	
+	<select id="selectByChatRecord" resultMap="r" parameterMap="p">
+		 select * from chat_record where sendUserId=#{sendUserId} and message=#{message}
+	</select>
+	
+	
 
 </mapper>

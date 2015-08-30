@@ -3,6 +3,7 @@ package com.niuxin.mapper;
 import java.util.List;
 
 import com.niuxin.bean.ShareGroup;
+import com.niuxin.bean.UserGroup;
 
 public interface ShareGroupMapper {
 
@@ -12,4 +13,7 @@ public interface ShareGroupMapper {
 	
 	public ShareGroup selectById(int id);
 	
+	public List<ShareGroup> selectByType(String type);
+	public List<ShareGroup> selectByisFree(String isfree);
+	public List<ShareGroup> selectByShareGroup(ShareGroup userGroup);
 }

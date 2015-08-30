@@ -21,4 +21,6 @@ public interface IUserService {
     public User findByUserId(Integer id);
 
 	public User select(User user);
+
+	public List<User> findAllByUserName(String userName);
 }

@@ -3,6 +3,7 @@ package com.niuxin.service;
 import java.util.List;
 
 import com.niuxin.bean.ShareGroup;
+import com.niuxin.bean.UserGroup;
 
 public interface IShareGroupService {
 
@@ -13,4 +14,7 @@ public interface IShareGroupService {
 	public ShareGroup selectById(int id);
 	
 
+	public List<ShareGroup> selectByType(String type);
+	public List<ShareGroup> selectByisFree(String isFree);
+	public List<ShareGroup> selectByShareGroup(ShareGroup userGroup);
 }

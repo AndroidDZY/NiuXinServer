@@ -12,5 +12,6 @@ public interface ChatRecordMapper {
 	public List<ChatRecord> selectByUser(ChatRecord chatRecord);//根据发送或者接收的用户来查询
 	public ChatRecord selectLastByGroupId(Integer receiveGroupId);
 	public ChatRecord selectLastByUser(ChatRecord chatRecord);
+	public List<ChatRecord> selectByChatRecord(ChatRecord cr);
 
 }

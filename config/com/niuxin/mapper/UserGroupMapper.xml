@@ -21,6 +21,8 @@
          <select id="selectByGroupid" resultMap="r" parameterType="int">    
         select * from user_group where group_id= #{groupid}
     </select>
+    
+        
       
        
 </mapper>
