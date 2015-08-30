@@ -50,5 +50,11 @@
 			method="{1}">
 		</action>
 	</package>
+	
+		<package name="search" extends="struts-default">
+		<action name="search_*" class="com.niuxin.action.SearchAction"
+			method="{1}">
+		</action>
+	</package>
 
 </struts>       
