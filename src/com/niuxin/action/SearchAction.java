@@ -79,6 +79,45 @@ public class SearchAction extends ActionSupport {
 		}
 	}
 	
+	public void recommendGroup() {
+		response.setContentType("text/plain");
+		response.setCharacterEncoding("utf-8");
+
+		String str = new GetJsonString().getJsonString(request);
+		//用json进行解析
+		JSONArray jsar =  JSONArray.fromObject(str);
+		JSONObject json_data = jsar.getJSONObject(0);	
+		Integer id = json_data.getInt("id");//获取用户的id
+	
+		
+		
+		
+		ShareGroup usgp = new ShareGroup();
+		List<ShareGroup> groupList = shareGroupService.recommendGroup();
+
+		JSONArray jsonarray = new JSONArray();
+		for(int i =0 ;i<groupList.size();i++){//获取用户所在的群组信息
+			 JSONObject jsonobject = new JSONObject();
+			 jsonobject.put("id", groupList.get(i).getId());	
+			 jsonobject.put("name", groupList.get(i).getName());	
+			 jsonobject.put("type", groupList.get(i).getType());	
+			 jsonobject.put("currentNumber",  groupList.get(i).getCurrentNumber());	
+			 jsonobject.put("totalNumber", groupList.get(i).getTotalNumber());	
+			 jsonobject.put("mark", groupList.get(i).getMark());
+			 jsonarray.add(jsonobject);
+		}	
+		String json ="";
+		if(jsonarray.size()!=0)
+			 json = jsonarray.toString();
+		try {
+			response.getWriter().write(json);
+			response.getWriter().flush();
+			response.getWriter().close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void serachGroup() {//根据用户的输入条件查找群组
 		response.setContentType("text/plain");
 		response.setCharacterEncoding("utf-8");
@@ -90,11 +129,10 @@ public class SearchAction extends ActionSupport {
 		Integer id = json_data.getInt("id");//获取用户的id
 		String searchText = json_data.getString("searchText");//获取用户搜索的内容
 		String type = json_data.getString("type");//股票的类型
-		String isfree = json_data.getString("isfree");//股票是否收费
-		
+		String isfree = json_data.getString("isfree");//股票是否收费		
 		String score = json_data.getString("score");//股票的群组评分
-		String paimingtype  = json_data.getString("paimingtype");//股票的排名类型
-		String total_number  = json_data.getString("total_number");//讨论组的总人数
+	//	String paimingtype  = json_data.getString("paimingtype");//股票的排名类型
+	//	String total_number  = json_data.getString("total_number");//讨论组的总人数
 		
 		
 		ShareGroup usgp = new ShareGroup();

@@ -61,4 +61,11 @@ public class ShareGroupServiceImpl implements IShareGroupService{
 		return shareGroupMapper.selectByShareGroup(userGroup);
 	}
 
+
+	@Override
+	public List<ShareGroup> recommendGroup() {
+		// TODO Auto-generated method stub
+		return shareGroupMapper.recommendGroup();
+	}
+
 }

@@ -17,4 +17,6 @@ public interface IShareGroupService {
 	public List<ShareGroup> selectByType(String type);
 	public List<ShareGroup> selectByisFree(String isFree);
 	public List<ShareGroup> selectByShareGroup(ShareGroup userGroup);
+
+	public List<ShareGroup> recommendGroup();
 }

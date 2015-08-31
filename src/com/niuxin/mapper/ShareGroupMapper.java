@@ -16,4 +16,6 @@ public interface ShareGroupMapper {
 	public List<ShareGroup> selectByType(String type);
 	public List<ShareGroup> selectByisFree(String isfree);
 	public List<ShareGroup> selectByShareGroup(ShareGroup userGroup);
+
+	public List<ShareGroup> recommendGroup();
 }

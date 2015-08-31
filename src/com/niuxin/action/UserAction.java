@@ -1,6 +1,5 @@
 package com.niuxin.action;
 
-
 import java.io.IOException;
 import java.util.Date;
 import java.util.LinkedList;
@@ -37,28 +36,29 @@ public class UserAction extends ActionSupport {
 	@Resource
 	private IUserFriendService userFriendService;
 
+	
 
 	public void countAll() {
 		response.setContentType("text/plain");
 		response.setCharacterEncoding("utf-8");
-	//	System.out.println("数据库中的记录条数:" + userService.countAll());
-		JSONObject jsonObject = new JSONObject();	
-		 try {
+		// System.out.println("数据库中的记录条数:" + userService.countAll());
+		JSONObject jsonObject = new JSONObject();
+		try {
 			jsonObject.put("username", "huangwuyi");
 			jsonObject.put("sex", "男");
-		    jsonObject.put("QQ", "413425430");
-		    jsonObject.put("Min.score", new Integer(99));
-		    jsonObject.put("nickname", "梦中心境");
+			jsonObject.put("QQ", "413425430");
+			jsonObject.put("Min.score", new Integer(99));
+			jsonObject.put("nickname", "梦中心境");
 		} catch (JSONException e) {
 			e.printStackTrace();
-		}  
-		 
-		 String json = jsonObject.toString();
+		}
+
+		String json = jsonObject.toString();
 		// System.out.println("json"+json);
-		 try {
+		try {
 			response.getWriter().write(json);
-			response.getWriter().flush();  
-			response.getWriter().close();  
+			response.getWriter().flush();
+			response.getWriter().close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -67,36 +67,36 @@ public class UserAction extends ActionSupport {
 	public void insertFriend() {
 		response.setContentType("text/plain");
 		response.setCharacterEncoding("utf-8");
-		
+
 		String str = new GetJsonString().getJsonString(request);
-		if(str!=null&&!str.equals("")){
+		if (str != null && !str.equals("")) {
 			// 用json进行解析
 			JSONArray jsar = JSONArray.fromObject(str);
 			List<UserFriend> userfriendlist = null;
 			for (int i = 0; i < jsar.size(); i++) {
 				UserFriend userSelect = new UserFriend();
-				JSONObject json_data = jsar.getJSONObject(i);				
-				if(i==0){
+				JSONObject json_data = jsar.getJSONObject(i);
+				if (i == 0) {
 					userfriendlist = userFriendService.selectByUserid(json_data.getInt("selfid"));
-				}	
-				if(userfriendlist!=null){
+				}
+				if (userfriendlist != null) {
 					int mark = 0;
-					for(int j = 0;j<userfriendlist.size();j++){						
-						if(userfriendlist.get(j).getUserFriendId()==json_data.getInt("friendid")){						
-							mark =1;
+					for (int j = 0; j < userfriendlist.size(); j++) {
+						if (userfriendlist.get(j).getUserFriendId() == json_data.getInt("friendid")) {
+							mark = 1;
 							break;
-						}	
+						}
 					}
-					if(mark==0){
+					if (mark == 0) {
 						userSelect.setUserSelfId(json_data.getInt("selfid"));
 						userSelect.setUserFriendId(json_data.getInt("friendid"));
 						userFriendService.insert(userSelect);
 					}
 				}
-			
+
 			}
 		}
-		
+
 		String json = "";
 		try {
 			response.getWriter().write(json);
@@ -107,9 +107,8 @@ public class UserAction extends ActionSupport {
 		}
 	}
 
-	
 	public void insert() {
-	//	System.out.println("开始插入记录？？？？？》》》》》》");
+		// System.out.println("开始插入记录？？？？？》》》》》》");
 		User user = new User();
 		user.setCreateTime(new Date());
 		user.setPassWord("111111");
@@ -118,8 +117,6 @@ public class UserAction extends ActionSupport {
 		user.setUserName("test");
 		userService.insert(user);
 	}
-
-	
 
 	public void update() {
 		User user = new User();
@@ -137,8 +134,8 @@ public class UserAction extends ActionSupport {
 	}
 
 	public void findByName() {
-		
+
 		User user = userService.findByUserName("test");
 	}
-	
+
 }

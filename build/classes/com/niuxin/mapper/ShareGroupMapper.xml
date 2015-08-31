@@ -33,7 +33,13 @@
     </select>
     
        <select id="selectByShareGroup" resultMap="r" parameterMap="p">    
-        select * from share_group where isfree = #{isfree} and  type= #{type} or  name like "%"#{name}"%" or mark like "%"#{mark}"%" 
+        select * from share_group where isfree = #{isfree} and  type= #{type} and ( name like "%"#{name}"%" or mark like "%"#{mark}"%" )
     </select>
+    
+        <select id="recommendGroup" resultMap="r" >    
+          select * from share_group where 1=1 order BY  total_number LIMIT 2
+    </select>
+    
+       
        
 </mapper>
