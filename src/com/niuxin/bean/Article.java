@@ -7,6 +7,7 @@ public class Article {
 
 	private Integer id;
 	private Date createUser;
+	private String title;
 	public Integer getId() {
 		return id;
 	}
@@ -30,6 +31,12 @@ public class Article {
 	}
 	public void setContent(String content) {
 		this.content = content;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	private Date createTime;
 	private String content;
