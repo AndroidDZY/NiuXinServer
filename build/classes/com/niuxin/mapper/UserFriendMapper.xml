@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.niuxin.mapper.UserFriendMapper">
+     <resultMap type="com.niuxin.bean.UserFriend"  id="r">   
+         
+          <result property="userSelfId" column="user_self_id"/>
+       
+           <result property="userFriendId" column="user_friend_id"/>
+    </resultMap>
+    <parameterMap type="com.niuxin.bean.UserFriend"  id="p"></parameterMap>
+    
+   
+    <insert id="insert" parameterMap="p">    
+        insert into user_friend(user_self_id,user_friend_id) values(#{userSelfId},#{userFriendId})
+    </insert>
+   
+      <select id="selectByUserid" resultMap="r" parameterType="int">    
+        select * from user_friend where user_self_id = #{userid}
+    </select>
+       
+</mapper>
