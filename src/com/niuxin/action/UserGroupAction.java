@@ -1,10 +1,7 @@
 package com.niuxin.action;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -17,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 
-import com.google.gson.JsonObject;
 import com.niuxin.bean.ChatRecord;
 import com.niuxin.bean.ShareGroup;
 import com.niuxin.bean.UserFriend;
