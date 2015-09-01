@@ -66,6 +66,7 @@ public class InputThread implements Runnable {
 		this.userService = userService;
 		this.userGroupService = userGroupService;
 		this.chatRecordService = chatRecordService;
+		this.shareGroupService = shareGroupService;
 	}
 
 	public void setStart(boolean isStart) {// 提供接口给外部关闭读消息线程
@@ -223,7 +224,7 @@ public class InputThread implements Runnable {
 					}
 				}else if(istogroup==1){//群聊的情况
 					Integer groupID = read_tranObject.getToUser();//获取聊天的群组编号
-					ShareGroup sg = shareGroupService.selectById(groupID);
+					ShareGroup sg = shareGroupService.selectById(groupID);				
 					List<UserGroup> userList= userGroupService.selectByGroupid(groupID);
 					for(int i = 0; i<userList.size();i++){
 						OutputThread toOut = map.getById(userList.get(i).getUserId());//根据要发送的用户id 找到该用户的线程，然后向该线程写消息
