@@ -18,8 +18,9 @@
 
 
 	<select id="selectByUser" resultMap="r" parameterMap="p">
-		 select * from chat_record where receiveUserId= #{receiveUserId} 
-			or sendUserId=#{sendUserId}  order BY  id asc
+		 select * from chat_record where ((receiveUserId= #{receiveUserId} 
+			and sendUserId=#{sendUserId} ) or  (receiveUserId= #{sendUserId} 
+			and sendUserId=#{receiveUserId} ) ) order BY  id asc
 	</select>
 	
 	<select id="selectLastByGroupId" resultMap="r" parameterType="int">
