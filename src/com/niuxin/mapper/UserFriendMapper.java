@@ -10,4 +10,6 @@ public interface UserFriendMapper {
 
 	public List<UserFriend> selectByUserid(int userid);
 
+	public List<UserFriend> selectByUseridOrReceiveID(Integer id);
+
 }

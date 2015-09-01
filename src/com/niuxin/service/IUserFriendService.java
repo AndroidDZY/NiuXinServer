@@ -9,4 +9,6 @@ public interface IUserFriendService {
 	public Integer insert(UserFriend userGroup);
 
 	public List<UserFriend> selectByUserid(int userid);
+
+	public List<UserFriend> selectByUseridOrReceiveID(Integer id);
 }

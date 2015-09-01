@@ -29,4 +29,10 @@ public class UserFriendServiceImpl implements IUserFriendService{
 		return userFriendMapper.selectByUserid(userid);
 	}
 
+	@Override
+	public List<UserFriend> selectByUseridOrReceiveID(Integer id) {
+		// TODO Auto-generated method stub
+		return userFriendMapper.selectByUseridOrReceiveID(id);
+	}
+
 }

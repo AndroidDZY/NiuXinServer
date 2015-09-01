@@ -28,8 +28,10 @@
 
 
 	<select id="selectLastByUser" resultMap="r" parameterMap="p">
-		 select * from chat_record where receiveUserId= #{receiveUserId} 
-			and sendUserId=#{sendUserId}  order BY  id desc limit 1
+		 select * from chat_record where ((receiveUserId= #{receiveUserId} 
+			and sendUserId=#{sendUserId} ) or  (receiveUserId= #{sendUserId} 
+			and sendUserId=#{receiveUserId} ) )
+			 order BY  id desc limit 1
 	</select>
 	
 	<select id="selectByChatRecord" resultMap="r" parameterMap="p">
