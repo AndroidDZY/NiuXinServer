@@ -68,4 +68,22 @@ public class ShareGroupServiceImpl implements IShareGroupService{
 		return shareGroupMapper.recommendGroup();
 	}
 
+
+	@Override
+	public List<ShareGroup> recommendGroupForYou() {	
+		return shareGroupMapper.recommendGroupForYou();
+	}
+
+
+	@Override
+	public List<ShareGroup> recommendGroupHot() {
+		return shareGroupMapper.recommendGroupHot();
+	}
+
+
+	@Override
+	public List<ShareGroup> recommendGroupLearn() {
+		return shareGroupMapper.recommendGroupLearn();
+	}
+
 }

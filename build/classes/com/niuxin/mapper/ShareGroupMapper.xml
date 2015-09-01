@@ -39,6 +39,15 @@
         <select id="recommendGroup" resultMap="r" >    
           select * from share_group where 1=1 order BY  total_number LIMIT 2
     </select>
+        <select id="recommendGroupForYou" resultMap="r" >    
+          select * from share_group where 1=1 order BY  total_number 
+    </select>
+        <select id="recommendGroupHot" resultMap="r" >    
+          select * from share_group where 1=1 order BY  current_number
+    </select>
+        <select id="recommendGroupLearn" resultMap="r" >    
+          select * from share_group where type='教学' order BY  current_number
+    </select>
     
        
        

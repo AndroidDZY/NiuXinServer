@@ -46,11 +46,6 @@ public class SearchAction extends ActionSupport {
 	@Resource
 	private IUserFriendService userFriendService;
 
-	// 1.搜索好友 参数：用户的用户名
-	// 群组：根据群组名称，以及群组个股标签
-	// 聊天纪录：即聊天内容
-	// 收藏：用户收藏的言论和文章（假数据）
-
 	public void serachUser() {// 根据用户的输入条件查找用户
 		response.setContentType("text/plain");
 		response.setCharacterEncoding("utf-8");
@@ -121,6 +116,116 @@ public class SearchAction extends ActionSupport {
 		}
 	}
 
+	
+	public void recommendGroupForYou() {
+		response.setContentType("text/plain");
+		response.setCharacterEncoding("utf-8");
+
+		String str = new GetJsonString().getJsonString(request);
+		// 用json进行解析
+		JSONArray jsar = JSONArray.fromObject(str);
+		JSONObject json_data = jsar.getJSONObject(0);
+		Integer id = json_data.getInt("id");// 获取用户的id
+
+		ShareGroup usgp = new ShareGroup();
+		List<ShareGroup> groupList = shareGroupService.recommendGroupForYou();
+
+		JSONArray jsonarray = new JSONArray();
+		for (int i = 0; i < groupList.size(); i++) {// 获取用户所在的群组信息
+			JSONObject jsonobject = new JSONObject();
+			jsonobject.put("id", groupList.get(i).getId());
+			jsonobject.put("name", groupList.get(i).getName());
+			jsonobject.put("type", groupList.get(i).getType());
+			jsonobject.put("currentNumber", groupList.get(i).getCurrentNumber());
+			jsonobject.put("totalNumber", groupList.get(i).getTotalNumber());
+			jsonobject.put("mark", groupList.get(i).getMark());
+			jsonarray.add(jsonobject);
+		}
+		String json = "";
+		if (jsonarray.size() != 0)
+			json = jsonarray.toString();
+		try {
+			response.getWriter().write(json);
+			response.getWriter().flush();
+			response.getWriter().close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	public void recommendGroupHot() {
+		response.setContentType("text/plain");
+		response.setCharacterEncoding("utf-8");
+
+		String str = new GetJsonString().getJsonString(request);
+		// 用json进行解析
+		JSONArray jsar = JSONArray.fromObject(str);
+		JSONObject json_data = jsar.getJSONObject(0);
+		Integer id = json_data.getInt("id");// 获取用户的id
+
+		ShareGroup usgp = new ShareGroup();
+		List<ShareGroup> groupList = shareGroupService.recommendGroupHot();
+
+		JSONArray jsonarray = new JSONArray();
+		for (int i = 0; i < groupList.size(); i++) {// 获取用户所在的群组信息
+			JSONObject jsonobject = new JSONObject();
+			jsonobject.put("id", groupList.get(i).getId());
+			jsonobject.put("name", groupList.get(i).getName());
+			jsonobject.put("type", groupList.get(i).getType());
+			jsonobject.put("currentNumber", groupList.get(i).getCurrentNumber());
+			jsonobject.put("totalNumber", groupList.get(i).getTotalNumber());
+			jsonobject.put("mark", groupList.get(i).getMark());
+			jsonarray.add(jsonobject);
+		}
+		String json = "";
+		if (jsonarray.size() != 0)
+			json = jsonarray.toString();
+		try {
+			response.getWriter().write(json);
+			response.getWriter().flush();
+			response.getWriter().close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	public void recommendGroupLearn() {
+		response.setContentType("text/plain");
+		response.setCharacterEncoding("utf-8");
+
+		String str = new GetJsonString().getJsonString(request);
+		// 用json进行解析
+		JSONArray jsar = JSONArray.fromObject(str);
+		JSONObject json_data = jsar.getJSONObject(0);
+		Integer id = json_data.getInt("id");// 获取用户的id
+
+		ShareGroup usgp = new ShareGroup();
+		List<ShareGroup> groupList = shareGroupService.recommendGroupLearn();
+
+		JSONArray jsonarray = new JSONArray();
+		for (int i = 0; i < groupList.size(); i++) {// 获取用户所在的群组信息
+			JSONObject jsonobject = new JSONObject();
+			jsonobject.put("id", groupList.get(i).getId());
+			jsonobject.put("name", groupList.get(i).getName());
+			jsonobject.put("type", groupList.get(i).getType());
+			jsonobject.put("currentNumber", groupList.get(i).getCurrentNumber());
+			jsonobject.put("totalNumber", groupList.get(i).getTotalNumber());
+			jsonobject.put("mark", groupList.get(i).getMark());
+			jsonarray.add(jsonobject);
+		}
+		String json = "";
+		if (jsonarray.size() != 0)
+			json = jsonarray.toString();
+		try {
+			response.getWriter().write(json);
+			response.getWriter().flush();
+			response.getWriter().close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	
+	
+	
 	public void serachGroup() {// 根据用户的输入条件查找群组
 		response.setContentType("text/plain");
 		response.setCharacterEncoding("utf-8");

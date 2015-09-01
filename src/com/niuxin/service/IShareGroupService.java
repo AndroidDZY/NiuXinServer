@@ -19,4 +19,10 @@ public interface IShareGroupService {
 	public List<ShareGroup> selectByShareGroup(ShareGroup userGroup);
 
 	public List<ShareGroup> recommendGroup();
+
+	public List<ShareGroup> recommendGroupForYou();
+
+	public List<ShareGroup> recommendGroupHot();
+
+	public List<ShareGroup> recommendGroupLearn();
 }
