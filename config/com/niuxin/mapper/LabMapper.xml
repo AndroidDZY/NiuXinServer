@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.niuxin.mapper.LabMapper">
+     <resultMap type="com.niuxin.bean.Lab"  id="r">
+          <result property="createTime" column="create_time"/>
+           <result property="createId" column="create_id"/>
+            <result property="updateTime" column="update_time"/>
+    </resultMap>
+    <parameterMap type="com.niuxin.bean.Lab"  id="p"></parameterMap>
+    
+      <select id="selectByCreateId" resultMap="r" parameterType="int">  
+        select * from lab where create_id = #{id};
+    </select>
+    
+
+   
+    <insert id="insert" parameterMap="p">    
+        insert into lab(id,name,create_time,create_id,update_time) 
+        values(#{id},#{name},#{createTime},#{createId},#{updateTime})
+    </insert>
+    
+    <update id="update" parameterMap="p">  
+        update lab set name=#{name},update_time=#{updateTime} where id=#{id}
+    </update>
+    
+   
+ 
+</mapper>

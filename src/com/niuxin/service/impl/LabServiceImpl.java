@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.niuxin.bean.Lab;
 import com.niuxin.mapper.ArticleMapper;
 import com.niuxin.mapper.ChatRecordMapper;
 import com.niuxin.mapper.LabMapper;
@@ -19,5 +20,23 @@ public class LabServiceImpl implements ILabService{
 
 	@Resource
     private LabMapper labMapper ;
+
+	@Override
+	public List<Lab> selectByCreateId(Integer id) {
+		// TODO Auto-generated method stub
+		return labMapper.selectByCreateId(id);
+	}
+
+	@Override
+	public void insert(Lab lab) {
+		// TODO Auto-generated method stub
+		labMapper.insert(lab);
+	}
+
+	@Override
+	public void update(Lab lab) {
+		// TODO Auto-generated method stub
+		labMapper.update(lab);
+	}
 
 }
