@@ -14,15 +14,17 @@
     
 
    
-    <insert id="insert" parameterMap="p">    
-        insert into lab(id,name,create_time,create_id,update_time) 
-        values(#{id},#{name},#{createTime},#{createId},#{updateTime})
+    <insert id="insert" parameterMap="p" useGeneratedKeys="true" keyProperty="id">    
+        insert into lab(id,name,create_time,create_id) 
+        values(#{id},#{name},#{createTime},#{createId})
     </insert>
     
     <update id="update" parameterMap="p">  
         update lab set name=#{name},update_time=#{updateTime} where id=#{id}
     </update>
     
-   
+     <delete id="delete" parameterType="int">  
+        delete from lab where id=#{id}
+    </delete>
  
 </mapper>

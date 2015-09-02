@@ -35,23 +35,33 @@ public class LabAction extends ActionSupport {
 		JSONArray jsar = JSONArray.fromObject(str);
 		JSONObject json_data = jsar.getJSONObject(0);
 		// JSONObject json_data = JSONObject.fromObject(str);
-		Integer id = json_data.getInt("id");// 获取用户的ID
+		Integer id = json_data.getInt("userid");// 获取用户的ID
 		String name = json_data.getString("name");
 		Lab lab = new Lab();
-		lab.setCreateId(id);
+		//lab.setCreateId(id);
 		lab.setCreateTime(new Date());
 		lab.setName(name);
-
+		lab.setCreateId(id);
 		labService.insert(lab);
-		
-		String json = "";
+		JSONArray jsonarray = new JSONArray();
+		JSONObject jsonobject = new JSONObject();
+		jsonobject.put("id", lab.getId());// 标签的id
+		jsonarray.add(jsonobject);
+
+		String json = jsonarray.toString();
+
 		try {
 			response.getWriter().write(json);
 			response.getWriter().flush();
 			response.getWriter().close();
-		} catch (IOException e) {
+		} catch (
+
+		IOException e)
+
+		{
 			e.printStackTrace();
 		}
+
 	}
 
 	public void update() {
@@ -61,7 +71,7 @@ public class LabAction extends ActionSupport {
 		String str = new GetJsonString().getJsonString(request);
 		// 用json进行解析
 		JSONArray jsar = JSONArray.fromObject(str);
-		if(jsar!=null){
+		if (jsar != null) {
 			for (int i = 0; i < jsar.size(); i++) {
 				Lab lab = new Lab();
 				JSONObject json_data = jsar.getJSONObject(i);
@@ -73,7 +83,34 @@ public class LabAction extends ActionSupport {
 				labService.update(lab);
 			}
 		}
-	
+
+		String json = "";
+		try {
+			response.getWriter().write(json);
+			response.getWriter().flush();
+			response.getWriter().close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void delete() {
+		response.setContentType("text/plain");
+		response.setCharacterEncoding("utf-8");
+
+		String str = new GetJsonString().getJsonString(request);
+		// 用json进行解析
+		JSONArray jsar = JSONArray.fromObject(str);
+		if (jsar != null) {
+			for (int i = 0; i < jsar.size(); i++) {
+				Lab lab = new Lab();
+				JSONObject json_data = jsar.getJSONObject(i);
+				Integer id = json_data.getInt("id");// 获取标签的ID
+
+				labService.delete(id);
+			}
+		}
+
 		String json = "";
 		try {
 			response.getWriter().write(json);
@@ -92,21 +129,21 @@ public class LabAction extends ActionSupport {
 		// 用json进行解析
 		JSONArray jsar = JSONArray.fromObject(str);
 		JSONObject json_data = jsar.getJSONObject(0);
-		Integer id = json_data.getInt("id");// 获取用户的ID		
+		Integer id = json_data.getInt("id");// 获取用户的ID
 		JSONArray jsonarray = new JSONArray();
 		String json = "";
-		List<Lab> lblist = labService.selectByCreateId(id);//根据创建者的ID查找
-		
-		if(lblist!=null){
+		List<Lab> lblist = labService.selectByCreateId(id);// 根据创建者的ID查找
+
+		if (lblist != null) {
 			for (int i = 0; i < lblist.size(); i++) {
 				JSONObject jsonobject = new JSONObject();
 				jsonobject.put("id", lblist.get(i).getId());// 标签的id
-				jsonobject.put("name", lblist.get(i).getName());// 标签的名称	
+				jsonobject.put("name", lblist.get(i).getName());// 标签的名称
 				jsonarray.add(jsonobject);
 			}
-			 json = jsonarray.toString();
+			json = jsonarray.toString();
 		}
-	
+
 		try {
 			response.getWriter().write(json);
 			response.getWriter().flush();

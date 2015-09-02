@@ -56,5 +56,11 @@
 			method="{1}">
 		</action>
 	</package>
+	
+		<package name="lab" extends="struts-default">
+		<action name="lab_*" class="com.niuxin.action.LabAction"
+			method="{1}">
+		</action>
+	</package>
 
 </struts>       

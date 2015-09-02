@@ -39,4 +39,9 @@ public class LabServiceImpl implements ILabService{
 		labMapper.update(lab);
 	}
 
+	@Override
+	public void delete(Integer id) {
+		labMapper.delete(id);
+	}
+
 }

@@ -12,6 +12,8 @@ public interface ILabService {
 
 	void update(Lab lab);
 
+	void delete(Integer id);
+
   
 
 }

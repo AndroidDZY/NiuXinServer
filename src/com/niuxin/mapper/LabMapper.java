@@ -12,5 +12,7 @@ public interface LabMapper {
 
 	void update(Lab lab);
 
+	void delete(Integer id);
+
 
 }
