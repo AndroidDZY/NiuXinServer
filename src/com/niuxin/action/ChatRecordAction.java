@@ -3,7 +3,6 @@ package com.niuxin.action;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -18,7 +17,6 @@ import com.niuxin.bean.User;
 import com.niuxin.service.IChatRecordService;
 import com.niuxin.service.IUserService;
 import com.niuxin.util.GetJsonString;
-import com.niuxin.util.JSONChangeUtil;
 import com.opensymphony.xwork2.ActionSupport;
 
 import net.sf.json.JSONArray;
