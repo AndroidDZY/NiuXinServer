@@ -3,7 +3,6 @@ package com.niuxin.service;
 import java.util.List;
 
 import com.niuxin.bean.ShareGroup;
-import com.niuxin.bean.UserGroup;
 
 public interface IShareGroupService {
 

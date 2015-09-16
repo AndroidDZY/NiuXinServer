@@ -9,13 +9,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.niuxin.bean.ShareGroup;
-import com.niuxin.bean.UserGroup;
-import com.niuxin.mapper.ArticleMapper;
-import com.niuxin.mapper.ChatRecordMapper;
-import com.niuxin.mapper.LabMapper;
 import com.niuxin.mapper.ShareGroupMapper;
-import com.niuxin.service.IArticleService;
-import com.niuxin.service.ILabService;
 import com.niuxin.service.IShareGroupService;
 
 @Service
@@ -32,7 +26,7 @@ public class ShareGroupServiceImpl implements IShareGroupService{
 
 	@Override
 	public List<ShareGroup> selectAll() {
-		return shareGroupMapper.slectAll();
+		return shareGroupMapper.selectAll();
 	}
 	
 	@Override

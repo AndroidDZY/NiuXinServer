@@ -3,13 +3,12 @@ package com.niuxin.mapper;
 import java.util.List;
 
 import com.niuxin.bean.ShareGroup;
-import com.niuxin.bean.UserGroup;
 
 public interface ShareGroupMapper {
 
 	public Integer insert(ShareGroup group);
 
-	public List<ShareGroup> slectAll();
+	public List<ShareGroup> selectAll();
 	
 	public ShareGroup selectById(int id);
 	

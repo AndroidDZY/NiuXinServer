@@ -6,13 +6,7 @@ import java.util.Date;
 public class Form {
 
 	private Integer id;
-	private String contract;
-	public String getContract() {
-		return contract;
-	}
-	public void setContract(String contract) {
-		this.contract = contract;
-	}
+	private String contract;	
 	private String operation;
 	private BigDecimal price;
 	private Integer handnum;
@@ -32,6 +26,12 @@ public class Form {
 	
 	public Integer getId() {
 		return id;
+	}
+	public String getContract() {
+		return contract;
+	}
+	public void setContract(String contract) {
+		this.contract = contract;
 	}
 	public void setId(Integer id) {
 		this.id = id;

@@ -11,6 +11,18 @@
 
     
     
+      <insert id="insert" parameterMap="p" useGeneratedKeys="true" keyProperty="id">    
+        insert into form(contract,operation,price,handnum,position,minnum,maxnum,remark,pictureurl,audiourl,sendto,createtime,updatetime,audioread,sendfrom,occupy,name) 
+        values(#{contract},#{operation},#{price},#{handnum},#{position},#{minnum},#{maxnum},#{remark},#{pictureurl},#{audiourl},#{sendto},#{createtime},#{updatetime},#{audioread},#{sendfrom},#{occupy},#{name})
+    </insert>
+ 
+     <select id="selectAll" resultMap="r">    
+        select * from form order by id asc
+    </select>
+    
+      <select id="selectById" resultMap="r" parameterType="int">    
+        select * from form where id= #{id}
+    </select>
     
     
     
