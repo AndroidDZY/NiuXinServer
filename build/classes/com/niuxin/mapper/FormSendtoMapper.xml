@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.niuxin.mapper.FormSendtoMapper">
+     <resultMap type="com.niuxin.bean.FormSendto"  id="r">
+         
+    </resultMap>
+    <parameterMap type="com.niuxin.bean.FormSendto"  id="p"></parameterMap>
+    
+
+    
+    
+     <insert id="insert" parameterMap="p" useGeneratedKeys="true" keyProperty="id">    
+        insert into form_sendto(userid,groupid) 
+        values(#{userid},#{groupid})
+    </insert>
+    
+   
+   <select id="selectById" resultMap="r" parameterType="int">    
+        select * from form_sendto where id= #{id}
+    </select>
+     
+    
+    
+</mapper>

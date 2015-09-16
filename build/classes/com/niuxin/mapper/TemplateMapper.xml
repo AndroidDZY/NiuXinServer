@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.niuxin.mapper.TemplateMapper">
+     <resultMap type="com.niuxin.bean.Template"  id="r">
+          <result property="createTime" column="create_time"/>
+           <result property="createId" column="create_id"/>
+            <result property="updateTime" column="update_time"/>
+    </resultMap>
+    <parameterMap type="com.niuxin.bean.Template"  id="p"></parameterMap>
+    
+
+    
+    
+      <insert id="insert" parameterMap="p" useGeneratedKeys="true" keyProperty="id">    
+        insert into form(contract,operation,price,handnum,position,minnum,maxnum,remark,pictureurl,audiourl,sendto,createtime,updatetime,audioread,sendfrom,occupy,name) 
+        values(#{contract},#{operation},#{price},#{handnum},#{position},#{minnum},#{maxnum},#{remark},#{pictureurl},#{audiourl},#{sendto},#{createtime},#{updatetime},#{audioread},#{sendfrom},#{occupy},#{name})
+    </insert>
+ 
+     <select id="selectAll" resultMap="r">    
+        select * from form order by id asc
+    </select>
+    
+      <select id="selectById" resultMap="r" parameterType="int">    
+        select * from form where id= #{id}
+    </select>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</mapper>
