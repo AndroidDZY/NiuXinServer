@@ -9,15 +9,16 @@
 
     
     
+     <insert id="insert" parameterMap="p" useGeneratedKeys="true" keyProperty="id">    
+        insert into form_sendto(userid,groupid) 
+        values(#{userid},#{groupid})
+    </insert>
     
-    
-    
-    
-    
-    
-    
-    
-    
+   
+   <select id="selectById" resultMap="r" parameterType="int">    
+        select * from form_sendto where id= #{id}
+    </select>
+     
     
     
 </mapper>

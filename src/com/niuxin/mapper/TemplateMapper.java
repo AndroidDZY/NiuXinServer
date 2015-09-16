@@ -7,7 +7,6 @@ import com.niuxin.bean.Form;
 public interface TemplateMapper {
 
 	
-
 	public Integer insert(Form form);
 
 	public List<Form> selectAll();

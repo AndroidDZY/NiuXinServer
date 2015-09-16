@@ -20,19 +20,19 @@ public class TemplateServiceImpl implements ITemplateService{
 
 	@Override
 	public Integer insert(Form form) {
-		// TODO Auto-generated method stub
+		
 		return templateMapper.insert(form);
 	}
 
 	@Override
 	public List<Form> selectAll() {
-		// TODO Auto-generated method stub
+		
 		return templateMapper.selectAll();
 	}
 
 	@Override
 	public Form selectById(Integer id) {
-		// TODO Auto-generated method stub
+		
 		return templateMapper.selectById(id);
 	}
 
