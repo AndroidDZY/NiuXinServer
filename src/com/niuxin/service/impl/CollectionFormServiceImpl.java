@@ -36,4 +36,10 @@ public class CollectionFormServiceImpl implements ICollectionFormService{
 		return collectionFormMapper.selectById(id);
 	}
 
+	@Override
+	public void delete(Integer id) {
+		// TODO Auto-generated method stub
+		collectionFormMapper.delete(id);
+	}
+
 }

@@ -14,6 +14,7 @@ import org.apache.struts2.ServletActionContext;
 import com.niuxin.bean.CollectionForm;
 import com.niuxin.bean.Form;
 import com.niuxin.bean.FormSendto;
+import com.niuxin.bean.Lab;
 import com.niuxin.bean.SuperForm;
 import com.niuxin.bean.Template;
 import com.niuxin.service.ICollectionFormService;
@@ -172,7 +173,7 @@ public class FormAction extends ActionSupport {
 				form.setName(name);
 				form.setId(id);
 				
-				switch (type) {
+				switch (type) {// 1代表Form 2代表Template  3代表CollectionForm
 				case 1: {
 					formService.update((Form)form);
 					break;
@@ -194,7 +195,7 @@ public class FormAction extends ActionSupport {
 			e.printStackTrace();
 		}
 	}
-/*
+
 	public void delete() {
 		response.setContentType("text/plain");
 		response.setCharacterEncoding("utf-8");
@@ -207,8 +208,23 @@ public class FormAction extends ActionSupport {
 				Lab lab = new Lab();
 				JSONObject json_data = jsar.getJSONObject(i);
 				Integer id = json_data.getInt("id");// 获取标签的ID
+				Integer type = json_data.getInt("type");// 获取标签的ID
 
-				labService.delete(id);
+				switch (type) {		// 1代表Form 2代表Template  3代表CollectionForm
+				case 1: {
+					formService.delete(id);
+					break;
+				}
+				case 2: {
+					templateService.delete(id);
+					break;
+				}	
+				case 3: {
+					collectionFormService.delete(id);
+					break;
+				}	
+				}
+		
 			}
 		}
 
@@ -221,7 +237,7 @@ public class FormAction extends ActionSupport {
 			e.printStackTrace();
 		}
 	}
-
+	/*
 	public void select() {
 		response.setContentType("text/plain");
 		response.setCharacterEncoding("utf-8");

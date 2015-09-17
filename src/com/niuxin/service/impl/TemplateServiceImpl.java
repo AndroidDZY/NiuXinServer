@@ -41,4 +41,9 @@ public class TemplateServiceImpl implements ITemplateService{
 		templateMapper.update(form);
 	}
 
+	@Override
+	public void delete(Integer id) {
+		templateMapper.delete(id);
+	}
+
 }

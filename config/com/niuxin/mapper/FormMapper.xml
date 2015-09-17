@@ -3,12 +3,6 @@
 <mapper namespace="com.niuxin.mapper.FormMapper">
      <resultMap type="com.niuxin.bean.Form"  id="r">
 
-         <result property="enterGrade" column="enter_grade"/>
-       
-           <result property="totalNumber" column="total_number"/>
-         
-           <result property="currentNumber" column="current_number"/>
-             <result property="createTime" column="create_time"/>
          
     </resultMap>
     <parameterMap type="com.niuxin.bean.Form"  id="p"></parameterMap>
@@ -33,7 +27,9 @@
     </update>
   
     
-    
+         <delete id="delete" parameterType="int">  
+        delete from form where id=#{id}
+    </delete>
     
     
     

@@ -15,4 +15,6 @@ public interface ITemplateService {
 
 	public void update(Template form);
 
+	public void delete(Integer id);
+
 }

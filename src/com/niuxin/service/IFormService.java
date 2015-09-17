@@ -14,4 +14,6 @@ public interface IFormService {
 
 	public void update(Form form);
 
+	public void delete(Integer id);
+
 }

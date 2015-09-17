@@ -14,4 +14,6 @@ public interface FormMapper {
 	public Form selectById(Integer id);
 	
 	public void update(Form form);
+	
+	public void delete(Integer id);
 }

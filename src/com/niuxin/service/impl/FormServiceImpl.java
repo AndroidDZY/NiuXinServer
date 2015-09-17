@@ -41,4 +41,10 @@ public class FormServiceImpl implements IFormService{
 		formMapper.update(form);
 	}
 
+	@Override
+	public void delete(Integer id) {
+		// TODO Auto-generated method stub
+		formMapper.delete(id);
+	}
+
 }

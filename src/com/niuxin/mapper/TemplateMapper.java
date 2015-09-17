@@ -14,4 +14,6 @@ public interface TemplateMapper {
 	public Template selectById(Integer id);
 	
 	public void update(Template form);
+	
+	public void delete(Integer id);
 }

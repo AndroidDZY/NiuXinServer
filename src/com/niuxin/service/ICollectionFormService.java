@@ -11,6 +11,8 @@ public interface ICollectionFormService {
 	public List<CollectionForm> selectAll();
 	
 	public CollectionForm selectById(Integer id);
+
+	public void delete(Integer id);
 	
 
 }
