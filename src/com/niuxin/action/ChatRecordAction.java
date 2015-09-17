@@ -33,12 +33,7 @@ public class ChatRecordAction extends ActionSupport {
 	@Resource
 	private IUserService userService;
 
-	public void insert() {
-		ChatRecord chatRecord = new ChatRecord();	
-		chatRecordService.insert(chatRecord);//插入聊天记录
-		
-	}
-
+	
 	public void select(){//根据用户组来查询
 		response.setContentType("text/plain");
 		response.setCharacterEncoding("utf-8");

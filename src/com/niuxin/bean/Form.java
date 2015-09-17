@@ -24,6 +24,7 @@ public class Form {
 	private Integer occupy;
 	private String name;
 	
+	
 	public Integer getId() {
 		return id;
 	}
@@ -132,5 +133,6 @@ public class Form {
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	
 }

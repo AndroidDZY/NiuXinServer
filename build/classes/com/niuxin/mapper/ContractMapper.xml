@@ -12,6 +12,16 @@
     
     
     
+      
+    <insert id="insert" parameterMap="p" useGeneratedKeys="true" keyProperty="id">    
+        insert into contract(create_userid,create_time,name) 
+        values(#{createUserid},#{createTime},#{name})
+    </insert>
+   
+    
+    <select id="selectByUserId" resultMap="r" parameterType="int">    
+        select * from contract where create_userid= #{id}
+    </select>
     
     
     
