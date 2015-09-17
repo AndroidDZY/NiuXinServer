@@ -12,4 +12,6 @@ public interface IFormService {
 	
 	public Form selectById(Integer id);
 
+	public void update(Form form);
+
 }

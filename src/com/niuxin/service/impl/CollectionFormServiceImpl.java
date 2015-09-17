@@ -8,7 +8,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.niuxin.bean.Form;
+import com.niuxin.bean.CollectionForm;
 import com.niuxin.mapper.CollectionFormMapper;
 import com.niuxin.service.ICollectionFormService;
 
@@ -19,19 +19,19 @@ public class CollectionFormServiceImpl implements ICollectionFormService{
     private CollectionFormMapper collectionFormMapper ;
 
 	@Override
-	public Integer insert(Form form) {
+	public Integer insert(CollectionForm form) {
 		// TODO Auto-generated method stub
 		return collectionFormMapper.insert(form);
 	}
 
 	@Override
-	public List<Form> selectAll() {
+	public List<CollectionForm> selectAll() {
 		// TODO Auto-generated method stub
 		return collectionFormMapper.selectAll();
 	}
 
 	@Override
-	public Form selectById(Integer id) {
+	public CollectionForm selectById(Integer id) {
 		// TODO Auto-generated method stub
 		return collectionFormMapper.selectById(id);
 	}

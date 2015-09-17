@@ -2,15 +2,15 @@ package com.niuxin.service;
 
 import java.util.List;
 
-import com.niuxin.bean.Form;
+import com.niuxin.bean.CollectionForm;
 
 public interface ICollectionFormService {
 
-	public Integer insert(Form form);
+	public Integer insert(CollectionForm form);
 
-	public List<Form> selectAll();
+	public List<CollectionForm> selectAll();
 	
-	public Form selectById(Integer id);
+	public CollectionForm selectById(Integer id);
 	
 
 }

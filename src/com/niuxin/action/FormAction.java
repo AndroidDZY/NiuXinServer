@@ -11,8 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts2.ServletActionContext;
 
+import com.niuxin.bean.CollectionForm;
 import com.niuxin.bean.Form;
 import com.niuxin.bean.FormSendto;
+import com.niuxin.bean.SuperForm;
+import com.niuxin.bean.Template;
 import com.niuxin.service.ICollectionFormService;
 import com.niuxin.service.IFormFromService;
 import com.niuxin.service.IFormSendtoService;
@@ -48,7 +51,7 @@ public class FormAction extends ActionSupport {
 		} catch (UnsupportedEncodingException e2) {
 			e2.printStackTrace();
 		}
-		Form form = new Form();
+		SuperForm form = new SuperForm();
 
 		String str = new GetJsonString().getJsonString(request);
 
@@ -119,15 +122,15 @@ public class FormAction extends ActionSupport {
 		try {
 			switch (type) {
 			case 1: {
-				formService.insert(form);
+				formService.insert((Form)form);
 				break;
 			}
 			case 2: {
-				templateService.insert(form);
+				templateService.insert((Template)form);
 				break;
 			}
 			case 3: {
-				collectionFormService.insert(form);
+				collectionFormService.insert((CollectionForm)form);
 				break;
 			}
 			default: {
@@ -150,4 +153,111 @@ public class FormAction extends ActionSupport {
 			e.printStackTrace();
 		}
 	}
+
+	public void update() {
+		response.setContentType("text/plain");
+		response.setCharacterEncoding("utf-8");
+
+		String str = new GetJsonString().getJsonString(request);
+		// 用json进行解析
+		JSONArray jsar = JSONArray.fromObject(str);
+		if (jsar != null) {
+			for (int i = 0; i < jsar.size(); i++) {
+				SuperForm form = new SuperForm();
+				JSONObject json_data = jsar.getJSONObject(i);
+				Integer id = json_data.getInt("id");// 获取标签的ID
+				Integer type = json_data.getInt("type");// 获取标签的ID
+				String name = json_data.getString("name");
+				form.setUpdatetime(new Date());
+				form.setName(name);
+				form.setId(id);
+				
+				switch (type) {
+				case 1: {
+					formService.update((Form)form);
+					break;
+				}
+				case 2: {
+					templateService.update((Template)form);
+					break;
+				}								
+				}
+			}
+		}
+
+		String json = "";
+		try {
+			response.getWriter().write(json);
+			response.getWriter().flush();
+			response.getWriter().close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+/*
+	public void delete() {
+		response.setContentType("text/plain");
+		response.setCharacterEncoding("utf-8");
+
+		String str = new GetJsonString().getJsonString(request);
+		// 用json进行解析
+		JSONArray jsar = JSONArray.fromObject(str);
+		if (jsar != null) {
+			for (int i = 0; i < jsar.size(); i++) {
+				Lab lab = new Lab();
+				JSONObject json_data = jsar.getJSONObject(i);
+				Integer id = json_data.getInt("id");// 获取标签的ID
+
+				labService.delete(id);
+			}
+		}
+
+		String json = "";
+		try {
+			response.getWriter().write(json);
+			response.getWriter().flush();
+			response.getWriter().close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void select() {
+		response.setContentType("text/plain");
+		response.setCharacterEncoding("utf-8");
+
+		String str = new GetJsonString().getJsonString(request);
+		// 用json进行解析
+		JSONArray jsar = JSONArray.fromObject(str);
+		JSONObject json_data = jsar.getJSONObject(0);
+		Integer id = json_data.getInt("id");// 获取用户的ID
+		JSONArray jsonarray = new JSONArray();
+		String json = "";
+		List<Lab> lblist = labService.selectByCreateId(id);// 根据创建者的ID查找
+
+		if (lblist != null) {
+			for (int i = 0; i < lblist.size(); i++) {
+				JSONObject jsonobject = new JSONObject();
+				jsonobject.put("id", lblist.get(i).getId());// 标签的id
+				jsonobject.put("name", lblist.get(i).getName());// 标签的名称
+				jsonarray.add(jsonobject);
+			}
+			json = jsonarray.toString();
+		}
+
+		try {
+			response.getWriter().write(json);
+			response.getWriter().flush();
+			response.getWriter().close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+*/
+	
+	
+
+	
+	
 }

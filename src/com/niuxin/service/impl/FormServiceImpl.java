@@ -36,4 +36,9 @@ public class FormServiceImpl implements IFormService{
 		return formMapper.selectById(id);
 	}
 
+	@Override
+	public void update(Form form) {
+		formMapper.update(form);
+	}
+
 }

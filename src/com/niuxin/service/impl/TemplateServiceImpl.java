@@ -8,7 +8,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.niuxin.bean.Form;
+import com.niuxin.bean.Template;
 import com.niuxin.mapper.TemplateMapper;
 import com.niuxin.service.ITemplateService;
 
@@ -19,21 +19,26 @@ public class TemplateServiceImpl implements ITemplateService{
     private TemplateMapper templateMapper ;
 
 	@Override
-	public Integer insert(Form form) {
+	public Integer insert(Template form) {
 		
 		return templateMapper.insert(form);
 	}
 
 	@Override
-	public List<Form> selectAll() {
+	public List<Template> selectAll() {
 		
 		return templateMapper.selectAll();
 	}
 
 	@Override
-	public Form selectById(Integer id) {
+	public Template selectById(Integer id) {
 		
 		return templateMapper.selectById(id);
+	}
+
+	@Override
+	public void update(Template form) {
+		templateMapper.update(form);
 	}
 
 }
