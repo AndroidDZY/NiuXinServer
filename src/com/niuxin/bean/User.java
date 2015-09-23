@@ -17,7 +17,7 @@ public class User implements Serializable{
 	
 	private String email;// 邮箱
 	private int isOnline;// 是否在线
-	private int img;// 头像图标
+	private String img;// 头像图标
 	private String ip;
 	private int port;
 	
@@ -37,11 +37,13 @@ public class User implements Serializable{
 		this.isOnline = isOnline;
 	}
 
-	public int getImg() {
+	
+
+	public String getImg() {
 		return img;
 	}
 
-	public void setImg(int img) {
+	public void setImg(String img) {
 		this.img = img;
 	}
 

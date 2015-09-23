@@ -130,7 +130,7 @@ public class ShareGroupAction extends ActionSupport {
 		String isfree = json_data.getString("isfree");
 		if (isfree != null)
 			group.setIsfree(isfree);
-		Integer img = json_data.getInt("img");
+		String img = json_data.getString("img");
 		if (img != null)
 			group.setImg(img);
 		group.setTotalNumber(50);// 设置群最多人数为50
