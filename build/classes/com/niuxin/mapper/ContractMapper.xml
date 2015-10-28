@@ -23,7 +23,9 @@
         select * from contract where create_userid= #{id}
     </select>
     
-    
+      <select id="selectAll" resultMap="r" >    
+        select * from contract 
+    </select>
     
     
     

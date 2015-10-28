@@ -2,28 +2,25 @@ package com.niuxin.action;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONException;
-import net.sf.json.JSONObject;
-
 import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 
-import com.niuxin.bean.Share;
-import com.niuxin.bean.ShareSelect;
 import com.niuxin.bean.User;
 import com.niuxin.bean.UserFriend;
 import com.niuxin.service.IUserFriendService;
 import com.niuxin.service.IUserService;
 import com.niuxin.util.GetJsonString;
 import com.opensymphony.xwork2.ActionSupport;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONException;
+import net.sf.json.JSONObject;
 
 public class UserAction extends ActionSupport {
 	private static final long serialVersionUID = 209976163083755776L;
@@ -36,7 +33,39 @@ public class UserAction extends ActionSupport {
 	@Resource
 	private IUserFriendService userFriendService;
 
-	
+	// 查找除本人之外的所有用户
+	public void serachAllUserExceptSelf() {
+		response.setContentType("text/plain");
+		response.setCharacterEncoding("utf-8");
+
+		String str = new GetJsonString().getJsonString(request);
+		// 用json进行解析
+		JSONArray jsar = JSONArray.fromObject(str);
+		JSONObject json_data = jsar.getJSONObject(0);
+		Integer id = json_data.getInt("id");// 获取用户的id
+		
+		List<User> userList = userService.selectAll();
+		JSONArray jsonarray = new JSONArray();
+		for (int i = 0; i < userList.size(); i++) {// 获取除自己之外的所有用户信息
+			if(id==userList.get(i).getId())
+				continue;
+			JSONObject jsonobject = new JSONObject();
+			jsonobject.put("id", userList.get(i).getId());
+			jsonobject.put("name", userList.get(i).getUserName());
+			jsonobject.put("img", userList.get(i).getImg());
+			jsonarray.add(jsonobject);
+		}
+		String json = "";
+		if (jsonarray.size() != 0)
+			json = jsonarray.toString();
+		try {
+			response.getWriter().write(json);
+			response.getWriter().flush();
+			response.getWriter().close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public void countAll() {
 		response.setContentType("text/plain");

@@ -1,6 +1,6 @@
 package com.niuxin.bean;
 
-public class Contract {
+public class Contract {//合约
 
 	private Integer id;
 	private Integer createUserid;

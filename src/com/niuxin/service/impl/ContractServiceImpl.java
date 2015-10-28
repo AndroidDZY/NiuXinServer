@@ -2,6 +2,8 @@ package com.niuxin.service.impl;
 
 
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -27,5 +29,13 @@ public class ContractServiceImpl implements IContractService{
 		
 		return contractMapper.selectByUserId(id);
 	}
+
+	@Override
+	public List<Contract> selectAll() {
+		// TODO Auto-generated method stub
+		return contractMapper.selectAll();
+	}
+
+	
 
 }

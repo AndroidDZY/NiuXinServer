@@ -1,5 +1,7 @@
 package com.niuxin.mapper;
 
+import java.util.List;
+
 import com.niuxin.bean.Contract;
 
 public interface ContractMapper {
@@ -8,4 +10,6 @@ public interface ContractMapper {
 
 	public Contract selectByUserId(Integer id);
 
+	public List<Contract> selectAll();
+	
 }
