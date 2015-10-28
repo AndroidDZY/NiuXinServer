@@ -14,7 +14,6 @@ import org.apache.struts2.ServletActionContext;
 import com.niuxin.bean.CollectionForm;
 import com.niuxin.bean.Form;
 import com.niuxin.bean.FormSendto;
-import com.niuxin.bean.Lab;
 import com.niuxin.bean.SuperForm;
 import com.niuxin.bean.Template;
 import com.niuxin.service.ICollectionFormService;
@@ -173,7 +172,7 @@ public class FormAction extends ActionSupport {
 				form.setName(name);
 				form.setId(id);
 				
-				switch (type) {// 1代表Form 2代表Template  3代表CollectionForm
+				switch (type) {// 1代表Form 2代表Template 3代表CollectionForm
 				case 1: {
 					formService.update((Form)form);
 					break;
@@ -205,7 +204,6 @@ public class FormAction extends ActionSupport {
 		JSONArray jsar = JSONArray.fromObject(str);
 		if (jsar != null) {
 			for (int i = 0; i < jsar.size(); i++) {
-				Lab lab = new Lab();
 				JSONObject json_data = jsar.getJSONObject(i);
 				Integer id = json_data.getInt("id");// 获取标签的ID
 				Integer type = json_data.getInt("type");// 获取标签的ID
@@ -237,8 +235,10 @@ public class FormAction extends ActionSupport {
 			e.printStackTrace();
 		}
 	}
-	/*
-	public void select() {
+	
+	
+	
+	/*public void select() {//////这个方法还没写好，还需要修改。
 		response.setContentType("text/plain");
 		response.setCharacterEncoding("utf-8");
 
@@ -246,7 +246,7 @@ public class FormAction extends ActionSupport {
 		// 用json进行解析
 		JSONArray jsar = JSONArray.fromObject(str);
 		JSONObject json_data = jsar.getJSONObject(0);
-		Integer id = json_data.getInt("id");// 获取用户的ID
+		Integer id = json_data.getInt("id");// 获取表单的id
 		JSONArray jsonarray = new JSONArray();
 		String json = "";
 		List<Lab> lblist = labService.selectByCreateId(id);// 根据创建者的ID查找
@@ -269,8 +269,8 @@ public class FormAction extends ActionSupport {
 			e.printStackTrace();
 		}
 	}
-
 */
+
 	
 	
 
