@@ -43,7 +43,7 @@ public class ContractAction extends ActionSupport {
 		for (int i = 0; i < contractList.size(); i++) {// 获取除自己之外的所有用户信息			
 			JSONObject jsonobject = new JSONObject();
 			jsonobject.put("id", contractList.get(i).getId());
-			jsonobject.put("name", contractList.get(i).getName());		
+			jsonobject.put("type", contractList.get(i).getType());		
 			jsonarray.add(jsonobject);
 		}
 		String json = "";

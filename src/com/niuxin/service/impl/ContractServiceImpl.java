@@ -24,11 +24,6 @@ public class ContractServiceImpl implements IContractService{
 		return contractMapper.insert(contract);
 	}
 
-	@Override
-	public Contract selectByUserId(Integer id) {
-		
-		return contractMapper.selectByUserId(id);
-	}
 
 	@Override
 	public List<Contract> selectAll() {
