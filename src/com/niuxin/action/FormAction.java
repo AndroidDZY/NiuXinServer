@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,7 @@ import org.apache.struts2.ServletActionContext;
 import com.niuxin.bean.CollectionForm;
 import com.niuxin.bean.Form;
 import com.niuxin.bean.FormSendto;
+import com.niuxin.bean.Lab;
 import com.niuxin.bean.SuperForm;
 import com.niuxin.bean.Template;
 import com.niuxin.service.ICollectionFormService;
@@ -238,7 +240,7 @@ public class FormAction extends ActionSupport {
 	
 	
 	
-	/*public void select() {//////这个方法还没写好，还需要修改。
+	public void select() {//////这个方法还没写好，还需要修改。
 		response.setContentType("text/plain");
 		response.setCharacterEncoding("utf-8");
 
@@ -269,7 +271,7 @@ public class FormAction extends ActionSupport {
 			e.printStackTrace();
 		}
 	}
-*/
+
 
 	
 	

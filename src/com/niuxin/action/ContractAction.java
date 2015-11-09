@@ -7,7 +7,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 
 import com.niuxin.bean.Contract;
@@ -20,7 +19,7 @@ import net.sf.json.JSONObject;
 
 public class ContractAction extends ActionSupport {
 	private static final long serialVersionUID = 209976163083755776L;
-	private static Logger logger = Logger.getLogger(ContractAction.class);
+//	private static Logger logger = Logger.getLogger(ContractAction.class);
 	HttpServletResponse response = ServletActionContext.getResponse();
 	HttpServletRequest request = ServletActionContext.getRequest();
 
