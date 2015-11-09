@@ -14,13 +14,10 @@ import org.apache.struts2.ServletActionContext;
 
 import com.niuxin.bean.CollectionForm;
 import com.niuxin.bean.Form;
-import com.niuxin.bean.FormSendto;
 import com.niuxin.bean.Lab;
 import com.niuxin.bean.SuperForm;
 import com.niuxin.bean.Template;
 import com.niuxin.service.ICollectionFormService;
-import com.niuxin.service.IFormFromService;
-import com.niuxin.service.IFormSendtoService;
 import com.niuxin.service.IFormService;
 import com.niuxin.service.ITemplateService;
 import com.niuxin.util.GetJsonString;
@@ -36,14 +33,12 @@ public class FormAction extends ActionSupport {
 
 	@Resource
 	private IFormService formService;
-	@Resource
-	private IFormFromService formFromService;
+	
 	@Resource
 	private ITemplateService templateService;
 	@Resource
 	private ICollectionFormService collectionFormService;
-	@Resource
-	private IFormSendtoService formSendtoService;
+
 
 	public void insert() {
 		response.setContentType("text/plain");
@@ -103,15 +98,13 @@ public class FormAction extends ActionSupport {
 		if (audiourl != null)
 			form.setAudiourl(audiourl);
 
-		// 发送的用户分为个人用户和群组 这里用了两个字段 前台要传两个字段
-		FormSendto sendtos = new FormSendto();
+		// 发送的用户分为个人用户和群组 这里用了两个字段 前台要传两个字段		
 		String sendtouser = json_data.getString("sendtouser");
-		sendtos.setUserid(sendtouser);
+		if(sendtouser!=null&&sendtouser!="")
+			form.setSendtoUser(Integer.valueOf(sendtouser));	
 		String sendtogroup = json_data.getString("sendtogroup");
-		sendtos.setGroupid(sendtogroup);
-		formSendtoService.insert(sendtos);
-		if (sendtos.getId() != null)
-			form.setSendto(sendtos.getId());
+		if(sendtouser!=null&&sendtouser!="")
+			form.setSendtoGroup(Integer.valueOf(sendtogroup));
 		form.setCreatetime(new Date());
 		form.setUpdatetime(new Date());
 		form.setAudioread(0);

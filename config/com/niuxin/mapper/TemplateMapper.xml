@@ -3,15 +3,17 @@
 <mapper namespace="com.niuxin.mapper.TemplateMapper">
      <resultMap type="com.niuxin.bean.Template"  id="r">
         
+         <result property="sendtoUser" column="sendto_user"/>
+              <result property="sendtoGroup" column="sendto_group"/>
     </resultMap>
     <parameterMap type="com.niuxin.bean.Template"  id="p"></parameterMap>
     
 
     
     
-      <insert id="insert" parameterMap="p" useGeneratedKeys="true" keyProperty="id">    
-        insert into template(contract,operation,price,handnum,position,minnum,maxnum,remark,pictureurl,audiourl,sendto,createtime,updatetime,audioread,sendfrom,occupy,name) 
-        values(#{contract},#{operation},#{price},#{handnum},#{position},#{minnum},#{maxnum},#{remark},#{pictureurl},#{audiourl},#{sendto},#{createtime},#{updatetime},#{audioread},#{sendfrom},#{occupy},#{name})
+         <insert id="insert" parameterMap="p" useGeneratedKeys="true" keyProperty="id">    
+        insert into form(contract,operation,price,handnum,position,minnum,maxnum,remark,pictureurl,audiourl,sendto,createtime,updatetime,audioread,sendfrom,occupy,name,sendto_user,sendto_group) 
+        values(#{contract},#{operation},#{price},#{handnum},#{position},#{minnum},#{maxnum},#{remark},#{pictureurl},#{audiourl},#{sendto},#{createtime},#{updatetime},#{audioread},#{sendfrom},#{occupy},#{name},#{sendtoUser},#{sendtoGroup})
     </insert>
  
      <select id="selectAll" resultMap="r">    

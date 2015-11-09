@@ -3,6 +3,8 @@
 <mapper namespace="com.niuxin.mapper.CollectionFormMapper">
      <resultMap type="com.niuxin.bean.CollectionForm"  id="r">
         
+         <result property="sendtoUser" column="sendto_user"/>
+              <result property="sendtoGroup" column="sendto_group"/>
     </resultMap>
     <parameterMap type="com.niuxin.bean.CollectionForm"  id="p"></parameterMap>
     
@@ -11,8 +13,8 @@
     
     
       <insert id="insert" parameterMap="p" useGeneratedKeys="true" keyProperty="id">    
-        insert into collection_form(contract,operation,price,handnum,position,minnum,maxnum,remark,pictureurl,audiourl,sendto,createtime,updatetime,audioread,sendfrom,occupy,name) 
-        values(#{contract},#{operation},#{price},#{handnum},#{position},#{minnum},#{maxnum},#{remark},#{pictureurl},#{audiourl},#{sendto},#{createtime},#{updatetime},#{audioread},#{sendfrom},#{occupy},#{name})
+        insert into form(contract,operation,price,handnum,position,minnum,maxnum,remark,pictureurl,audiourl,sendto,createtime,updatetime,audioread,sendfrom,occupy,name,sendto_user,sendto_group) 
+        values(#{contract},#{operation},#{price},#{handnum},#{position},#{minnum},#{maxnum},#{remark},#{pictureurl},#{audiourl},#{sendto},#{createtime},#{updatetime},#{audioread},#{sendfrom},#{occupy},#{name},#{sendtoUser},#{sendtoGroup})
     </insert>
  
      <select id="selectAll" resultMap="r">    

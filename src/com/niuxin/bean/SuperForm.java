@@ -23,7 +23,8 @@ public class SuperForm{
 	private Integer sendfrom;
 	private Integer occupy;
 	private String name;
-	
+	private Integer sendtoUser;
+	private Integer sendtoGroup;
 	
 	public Integer getId() {
 		return id;
@@ -132,6 +133,18 @@ public class SuperForm{
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public Integer getSendtoUser() {
+		return sendtoUser;
+	}
+	public void setSendtoUser(Integer sendtoUser) {
+		this.sendtoUser = sendtoUser;
+	}
+	public Integer getSendtoGroup() {
+		return sendtoGroup;
+	}
+	public void setSendtoGroup(Integer sendtoGroup) {
+		this.sendtoGroup = sendtoGroup;
 	}
 
 	
