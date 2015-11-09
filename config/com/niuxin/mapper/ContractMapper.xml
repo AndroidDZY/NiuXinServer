@@ -2,32 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <mapper namespace="com.niuxin.mapper.ContractMapper">
      <resultMap type="com.niuxin.bean.Contract"  id="r">
-          <result property="createTime" column="create_time"/>
-           <result property="createUserid" column="create_userid"/>
-          
+         
     </resultMap>
     <parameterMap type="com.niuxin.bean.Contract"  id="p"></parameterMap>
     
-
     
-    
-    
-      
     <insert id="insert" parameterMap="p" useGeneratedKeys="true" keyProperty="id">    
-        insert into contract(create_userid,create_time,name) 
-        values(#{createUserid},#{createTime},#{name})
+        insert into contract(type,exchange,name) 
+        values(#{type},#{exchange},#{name})
     </insert>
-   
-    
-    <select id="selectByUserId" resultMap="r" parameterType="int">    
-        select * from contract where create_userid= #{id}
+       
+      <select id="selectAll" resultMap="r" >    
+        select * from contract 
     </select>
     
-    
-    
-    
-    
-    
-    
+ 
     
 </mapper>

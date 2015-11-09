@@ -44,21 +44,27 @@
 			method="{1}">
 		</action>
 	</package>
-	
-		<package name="chatrecord" extends="struts-default">
+
+	<package name="chatrecord" extends="struts-default">
 		<action name="chatrecord_*" class="com.niuxin.action.ChatRecordAction"
 			method="{1}">
 		</action>
 	</package>
-	
-		<package name="search" extends="struts-default">
+
+	<package name="search" extends="struts-default">
 		<action name="search_*" class="com.niuxin.action.SearchAction"
 			method="{1}">
 		</action>
 	</package>
-	
-		<package name="lab" extends="struts-default">
+
+	<package name="lab" extends="struts-default">
 		<action name="lab_*" class="com.niuxin.action.LabAction"
+			method="{1}">
+		</action>
+	</package>
+	
+	<package name="contract" extends="struts-default">
+		<action name="contract_*" class="com.niuxin.action.ContractAction"
 			method="{1}">
 		</action>
 	</package>

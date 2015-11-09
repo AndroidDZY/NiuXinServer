@@ -1,29 +1,30 @@
 package com.niuxin.bean;
 
-public class Contract {
+public class Contract {//合约
 
-	private Integer id;
-	private Integer createUserid;
-	private Integer createTime;
+	private Integer id;	
 	private String name;
+	private String type;
+	private String exchange;
+	
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public String getExchange() {
+		return exchange;
+	}
+	public void setExchange(String exchange) {
+		this.exchange = exchange;
+	}
 	public Integer getId() {
 		return id;
 	}
 	public void setId(Integer id) {
 		this.id = id;
-	}
-	public Integer getCreateUserid() {
-		return createUserid;
-	}
-	public void setCreateUserid(Integer createUserid) {
-		this.createUserid = createUserid;
-	}
-	public Integer getCreateTime() {
-		return createTime;
-	}
-	public void setCreateTime(Integer createTime) {
-		this.createTime = createTime;
-	}
+	}	
 	public String getName() {
 		return name;
 	}

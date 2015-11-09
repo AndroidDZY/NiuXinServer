@@ -9,7 +9,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 
 import com.niuxin.bean.ChatRecord;
@@ -24,7 +23,7 @@ import net.sf.json.JSONObject;
 
 public class ChatRecordAction extends ActionSupport {
 	private static final long serialVersionUID = 209976163083755776L;
-	private static Logger logger = Logger.getLogger(UserAction.class);
+//	private static Logger logger = Logger.getLogger(UserAction.class);
 	HttpServletResponse response = ServletActionContext.getResponse();
 	HttpServletRequest request = ServletActionContext.getRequest();
 
