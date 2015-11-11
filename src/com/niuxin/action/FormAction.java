@@ -3,6 +3,7 @@ package com.niuxin.action;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,10 +17,12 @@ import org.apache.struts2.ServletActionContext;
 import com.niuxin.bean.Form;
 import com.niuxin.bean.SuperForm;
 import com.niuxin.bean.Template;
+import com.niuxin.bean.User;
 import com.niuxin.bean.UserGroup;
 import com.niuxin.service.IFormService;
 import com.niuxin.service.ITemplateService;
 import com.niuxin.service.IUserGroupService;
+import com.niuxin.service.IUserService;
 import com.niuxin.util.GetJsonString;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -39,6 +42,9 @@ public class FormAction extends ActionSupport {
 
 	@Resource
 	private ITemplateService templateService;
+	
+	@Resource
+	private IUserService userService;
 
 	public void insert() {
 		response.setContentType("text/plain");
@@ -237,6 +243,16 @@ public class FormAction extends ActionSupport {
 		for (Integer formid : idlist) {
 			Form form = formService.selectById(formid);
 			JSONObject jsonobj = JSONObject.fromObject(form);
+			User user = userService.findByUserId(form.getSendfrom());			
+			jsonobj.put("sendfrom", form.getSendfrom());
+			jsonobj.put("img", user.getImg());
+			jsonobj.put("sendusername", user.getUserName());
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm EEE");
+			String[] dates = sdf.format(form.getCreatetime()).toString().split(" ");
+			jsonobj.put("sendusername", user.getUserName());
+			jsonobj.put("date", dates[0]);
+			jsonobj.put("time", dates[1]);
+			jsonobj.put("week", dates[2]);
 			jsonarray.add(jsonobj);
 		}
 		json = jsonarray.toString();//返回该用户的所有表单
