@@ -5,26 +5,26 @@ import java.util.Date;
 
 public class SuperForm{
 
-	private Integer id;
-	private String contract;	
-	private String operation;
-	private BigDecimal price;
-	private Integer handnum;
-	private Double position;
-	private Double minnum;
-	private Double maxnum;
-	private String remark;
-	private String pictureurl;
-	private String audiourl;
-	private Integer sendto;
-	private Date createtime;
-	private Date updatetime;
-	private Integer audioread;
-	private Integer sendfrom;
-	private Integer occupy;
-	private String name;
-	private String sendtoUser;
-	private String sendtoGroup;
+	private Integer id; //表单的编号
+	private String contract;	//合约类型
+	private String operation;//操作类型
+	private BigDecimal price;//价格
+	private Integer handnum;//手数
+	private Double position;//仓位
+	private Double minnum;//止损范围最小值
+	private Double maxnum;//止损范围最大值
+	private String remark;//备注
+	private String pictureurl;//上传的图片的url
+	private String audiourl;//上传的语音的url
+	private Integer collection;//是否收藏 0代表没有 1代表收藏
+	private Date createtime;//报单创建时间
+	private Date updatetime;//更新时间
+	private Integer audioread;//是否听过语音 0 代表没有 1代表听过
+	private Integer sendfrom;//是谁发送的
+	private Integer occupy;//暂时保存的一个字段
+	private String name;//表单名称
+	private String sendtoUser;//发送给哪些用户  逗号分隔
+	private String sendtoGroup;//发送给哪些群组  逗号分隔
 	
 	public Integer getId() {
 		return id;
@@ -92,12 +92,6 @@ public class SuperForm{
 	public void setAudiourl(String audiourl) {
 		this.audiourl = audiourl;
 	}
-	public Integer getSendto() {
-		return sendto;
-	}
-	public void setSendto(Integer sendto) {
-		this.sendto = sendto;
-	}
 	public Date getCreatetime() {
 		return createtime;
 	}
@@ -145,6 +139,12 @@ public class SuperForm{
 	}
 	public void setSendtoGroup(String sendtoGroup) {
 		this.sendtoGroup = sendtoGroup;
+	}
+	public Integer getCollection() {
+		return collection;
+	}
+	public void setCollection(Integer collection) {
+		this.collection = collection;
 	}
 	
 	

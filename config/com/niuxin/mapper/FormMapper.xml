@@ -10,8 +10,8 @@
     
 
      <insert id="insert" parameterMap="p" useGeneratedKeys="true" keyProperty="id">    
-        insert into form(contract,operation,price,handnum,position,minnum,maxnum,remark,pictureurl,audiourl,sendto,createtime,updatetime,audioread,sendfrom,occupy,name,sendto_user,sendto_group) 
-        values(#{contract},#{operation},#{price},#{handnum},#{position},#{minnum},#{maxnum},#{remark},#{pictureurl},#{audiourl},#{sendto},#{createtime},#{updatetime},#{audioread},#{sendfrom},#{occupy},#{name},#{sendtoUser},#{sendtoGroup})
+        insert into form(contract,operation,price,handnum,position,minnum,maxnum,remark,pictureurl,audiourl,collection,createtime,updatetime,audioread,sendfrom,occupy,name,sendto_user,sendto_group) 
+        values(#{contract},#{operation},#{price},#{handnum},#{position},#{minnum},#{maxnum},#{remark},#{pictureurl},#{audiourl},#{collection},#{createtime},#{updatetime},#{audioread},#{sendfrom},#{occupy},#{name},#{sendtoUser},#{sendtoGroup})
     </insert>
  
      <select id="selectAll" resultMap="r">    

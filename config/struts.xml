@@ -69,4 +69,10 @@
 		</action>
 	</package>
 
+	<package name="form" extends="struts-default">
+		<action name="form_*" class="com.niuxin.action.FormAction"
+			method="{1}">
+		</action>
+	</package>
+	
 </struts>       
