@@ -18,6 +18,10 @@
         select * from form order by id asc
     </select>
     
+     <select id="selectAllSend" resultMap="r">   <!-- 查找出表单中所有的接收者 --> 
+      select sendto_user,sendto_group,sendto,id from form order by id asc 
+    </select>
+    
       <select id="selectById" resultMap="r" parameterType="int">    
         select * from form where id= #{id}
     </select>
@@ -32,12 +36,5 @@
         delete from form where id=#{id}
     </delete>
     
-    
-    
-    
-    
-    
-    
-    
-    
+
 </mapper>

@@ -11,6 +11,9 @@ public interface FormMapper {
 
 	public List<Form> selectAll();
 	
+	public List<Form> selectAllSend();
+	
+	
 	public Form selectById(Integer id);
 	
 	public void update(Form form);

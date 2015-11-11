@@ -16,4 +16,6 @@ public interface IFormService {
 
 	public void delete(Integer id);
 
+	
+	public List<Form> selectAllSend();
 }

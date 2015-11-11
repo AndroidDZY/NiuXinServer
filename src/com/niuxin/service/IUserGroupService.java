@@ -11,6 +11,5 @@ public interface IUserGroupService {
 	public List<UserGroup> selectByUserid(int userid);
 	public List<UserGroup> selectByGroupid(int groupid);
 	
-	
 
 }

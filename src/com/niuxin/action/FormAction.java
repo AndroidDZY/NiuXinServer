@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -12,14 +13,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts2.ServletActionContext;
 
-import com.niuxin.bean.CollectionForm;
 import com.niuxin.bean.Form;
-import com.niuxin.bean.Lab;
 import com.niuxin.bean.SuperForm;
 import com.niuxin.bean.Template;
-import com.niuxin.service.ICollectionFormService;
+import com.niuxin.bean.UserGroup;
 import com.niuxin.service.IFormService;
 import com.niuxin.service.ITemplateService;
+import com.niuxin.service.IUserGroupService;
 import com.niuxin.util.GetJsonString;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -33,12 +33,12 @@ public class FormAction extends ActionSupport {
 
 	@Resource
 	private IFormService formService;
-	
+
+	@Resource
+	private IUserGroupService userGroupService;
+
 	@Resource
 	private ITemplateService templateService;
-	@Resource
-	private ICollectionFormService collectionFormService;
-
 
 	public void insert() {
 		response.setContentType("text/plain");
@@ -98,13 +98,13 @@ public class FormAction extends ActionSupport {
 		if (audiourl != null)
 			form.setAudiourl(audiourl);
 
-		// 发送的用户分为个人用户和群组 这里用了两个字段 前台要传两个字段		
+		// 发送的用户分为个人用户和群组 这里用了两个字段 前台要传两个字段
 		String sendtouser = json_data.getString("sendtouser");
-		if(sendtouser!=null&&sendtouser!="")
-			form.setSendtoUser(Integer.valueOf(sendtouser));	
+		if (sendtouser != null && sendtouser != "")
+			form.setSendtoUser(sendtouser);
 		String sendtogroup = json_data.getString("sendtogroup");
-		if(sendtouser!=null&&sendtouser!="")
-			form.setSendtoGroup(Integer.valueOf(sendtogroup));
+		if (sendtouser != null && sendtouser != "")
+			form.setSendtoGroup(sendtogroup);
 		form.setCreatetime(new Date());
 		form.setUpdatetime(new Date());
 		form.setAudioread(0);
@@ -117,15 +117,11 @@ public class FormAction extends ActionSupport {
 		try {
 			switch (type) {
 			case 1: {
-				formService.insert((Form)form);
+				formService.insert((Form) form);
 				break;
 			}
 			case 2: {
-				templateService.insert((Template)form);
-				break;
-			}
-			case 3: {
-				collectionFormService.insert((CollectionForm)form);
+				templateService.insert((Template) form);
 				break;
 			}
 			default: {
@@ -166,16 +162,16 @@ public class FormAction extends ActionSupport {
 				form.setUpdatetime(new Date());
 				form.setName(name);
 				form.setId(id);
-				
+
 				switch (type) {// 1代表Form 2代表Template 3代表CollectionForm
 				case 1: {
-					formService.update((Form)form);
+					formService.update((Form) form);
 					break;
 				}
 				case 2: {
-					templateService.update((Template)form);
+					templateService.update((Template) form);
 					break;
-				}								
+				}
 				}
 			}
 		}
@@ -203,7 +199,7 @@ public class FormAction extends ActionSupport {
 				Integer id = json_data.getInt("id");// 获取标签的ID
 				Integer type = json_data.getInt("type");// 获取标签的ID
 
-				switch (type) {		// 1代表Form 2代表Template  3代表CollectionForm
+				switch (type) { // 1代表Form 2代表Template
 				case 1: {
 					formService.delete(id);
 					break;
@@ -211,13 +207,9 @@ public class FormAction extends ActionSupport {
 				case 2: {
 					templateService.delete(id);
 					break;
-				}	
-				case 3: {
-					collectionFormService.delete(id);
-					break;
-				}	
 				}
-		
+				}
+
 			}
 		}
 
@@ -230,32 +222,24 @@ public class FormAction extends ActionSupport {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	
-	public void select() {//////这个方法还没写好，还需要修改。
+
+	public void selectAll() {// 根据用户的id，找出他所有接收的表单
 		response.setContentType("text/plain");
 		response.setCharacterEncoding("utf-8");
-
 		String str = new GetJsonString().getJsonString(request);
 		// 用json进行解析
 		JSONArray jsar = JSONArray.fromObject(str);
 		JSONObject json_data = jsar.getJSONObject(0);
-		Integer id = json_data.getInt("id");// 获取表单的id
+		Integer id = json_data.getInt("id");// 获取用户的id
 		JSONArray jsonarray = new JSONArray();
-		String json = "";
-		List<Lab> lblist = labService.selectByCreateId(id);// 根据创建者的ID查找
-
-		if (lblist != null) {
-			for (int i = 0; i < lblist.size(); i++) {
-				JSONObject jsonobject = new JSONObject();
-				jsonobject.put("id", lblist.get(i).getId());// 标签的id
-				jsonobject.put("name", lblist.get(i).getName());// 标签的名称
-				jsonarray.add(jsonobject);
-			}
-			json = jsonarray.toString();
+		String json = "";		
+		List<Integer> idlist = getAllByUserid(id);//根据用户id，查找他接收的所有表单id
+		for (Integer formid : idlist) {
+			Form form = formService.selectById(formid);
+			JSONObject jsonobj = JSONObject.fromObject(form);
+			jsonarray.add(jsonobj);
 		}
-
+		json = jsonarray.toString();//返回该用户的所有表单
 		try {
 			response.getWriter().write(json);
 			response.getWriter().flush();
@@ -264,11 +248,38 @@ public class FormAction extends ActionSupport {
 			e.printStackTrace();
 		}
 	}
+	
+	private List<Integer> getAllByUserid(Integer id){//私有方法，找出该用户所有接收的表单
+		// 1.找出该用户所有接收的表单
+		List<Form> formlist = formService.selectAllSend();// 首先查找出所有表单的接受群组和接受人
+		List<Integer> idlist = new LinkedList<Integer>();
+		for (Form forms : formlist) {
+			int mark = 0;// 标记位，如果接受人的字符串已经匹配，就不需要在群组里面再找了
+			if (forms.getSendtoUser() != null) {// 如果发送的个人不等于空，查看该字符串是否包含本人，字符串以逗号分隔
+				String[] sendtousers = forms.getSendtoUser().split(",");
+				for (String user : sendtousers) {
+					if (id == Integer.valueOf(user)) {
+						idlist.add(forms.getId());// 如果接受的个人字符串里面有本人，那就直接记住这个表单的id
+						mark = 1;
+						break;
+					}
+				}
+			}
+			if (forms.getSendtoGroup() != null && mark != 1) {
+				String[] groups = forms.getSendtoGroup().split(",");
+				List<UserGroup> usergroups = new LinkedList<UserGroup>();
+				usergroups = userGroupService.selectByUserid(id);// 根据当前用户，找出他所在的组。
+				for (String group : groups) {
+					for (UserGroup usergroup : usergroups) {
+						if (Integer.valueOf(group) == usergroup.getId()) {// 如果当前用的群组和接收用户的群组一直，则保存
+							idlist.add(forms.getId());// 如果接受的个人字符串里面有本人，那就直接记住这个表单的id
+							break;
+						}
+					}
+				}
+			}
+		}
+		return idlist;
+	}
 
-
-	
-	
-
-	
-	
 }

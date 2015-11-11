@@ -47,4 +47,10 @@ public class FormServiceImpl implements IFormService{
 		formMapper.delete(id);
 	}
 
+	@Override
+	public List<Form> selectAllSend() {
+		// TODO Auto-generated method stub
+		return formMapper.selectAllSend();
+	}
+
 }
