@@ -233,13 +233,31 @@ public class FormAction extends ActionSupport {
 		response.setContentType("text/plain");
 		response.setCharacterEncoding("utf-8");
 		String str = new GetJsonString().getJsonString(request);
-		// 用json进行解析
+		//1 用json进行解析接收到的参数 a接收用户的id b报单来源（用户id，群组id 全选为-1 多个以逗号分隔） c合约类型（全选为-1  多个以逗号分隔）  d只展示收藏的报单（关闭为-1 开启为1）
 		JSONArray jsar = JSONArray.fromObject(str);
 		JSONObject json_data = jsar.getJSONObject(0);
 		Integer id = json_data.getInt("id");// 获取用户的id
-		JSONArray jsonarray = new JSONArray();
-		String json = "";		
+ 
+		//2 首先找到该用户所有接收的表单
 		List<Integer> idlist = getAllByUserid(id);//根据用户id，查找他接收的所有表单id
+		
+		//3 根据输入的参数进行删选
+		
+		//4 根据删选后的idlist，组装最后的返回数据。
+		String json = getResultJson(idlist);
+		
+		
+		try {
+			response.getWriter().write(json);
+			response.getWriter().flush();
+			response.getWriter().close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private String getResultJson(List<Integer> idlist) {
+		JSONArray jsonarray = new JSONArray();
 		for (Integer formid : idlist) {
 			Form form = formService.selectById(formid);
 			JSONObject jsonobj = JSONObject.fromObject(form);
@@ -252,17 +270,15 @@ public class FormAction extends ActionSupport {
 			jsonobj.put("sendusername", user.getUserName());
 			jsonobj.put("date", dates[0]);
 			jsonobj.put("time", dates[1]);
-			jsonobj.put("week", dates[2]);
+			jsonobj.put("week", dates[2]);		
+			jsonobj.put("profit", (3-1)*form.getHandnum()-10*form.getHandnum());
 			jsonarray.add(jsonobj);
 		}
-		json = jsonarray.toString();//返回该用户的所有表单
-		try {
-			response.getWriter().write(json);
-			response.getWriter().flush();
-			response.getWriter().close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		//根据参数再进行判断
+		String json = "";	
+		if(jsonarray!=null)
+			json = jsonarray.toString();//返回该用户的所有表单
+		return json;
 	}
 	
 	private List<Integer> getAllByUserid(Integer id){//私有方法，找出该用户所有接收的表单
