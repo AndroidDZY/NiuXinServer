@@ -290,7 +290,7 @@ public class FormAction extends ActionSupport {
 			for (int i = jsonarray.size() - 1; i >= 0; i--) {// 倒序，这样删除就没有问题了
 				JSONObject jo = (JSONObject) jsonarray.get(i);
 				//1 根据发送人
-				if (sendtouserid != "-1") {
+				if (!sendtouserid.equals("-1") ) {
 					int mark = 0;
 					for (String userid : sendtouserids) {
 						if(!userid.equals(jo.get("sendfrom"))){
@@ -303,7 +303,7 @@ public class FormAction extends ActionSupport {
 						continue;
 				}
 				//2 根据发送群组
-				if (sendtogroupid != "-1") {
+				if (!sendtogroupid.equals("-1")) {
 					int mark = 0;					
 					for (String groupid : sendtogroupids) {//前台传过来的群数组
 						for (UserGroup group : usergroups) {////后台查询出来的群数组							
@@ -319,7 +319,7 @@ public class FormAction extends ActionSupport {
 						continue;
 				}
 				//3 根据合约类型
-				if (contract != "-1") {
+				if (!contract.equals("-1")) {
 					if (contract != jo.getString("contract")) {
 						jsonarray.remove(i);
 						continue;

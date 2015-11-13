@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.niuxin.mapper.FollowMapper">
+     <resultMap type="com.niuxin.bean.Form"  id="r">
+
+         <result property="userId" column="user_id"/>
+              <result property="followUserid" column="follow_userid"/>
+               <result property="followGroupid" column="follow_groupid"/>
+    </resultMap>
+    <parameterMap type="com.niuxin.bean.Follow"  id="p"></parameterMap>
+    
+
+     <select id="selectAll" resultMap="r">    
+        select * from form order by id asc
+    </select>
+    
+     
+  
+</mapper>
