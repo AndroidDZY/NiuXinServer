@@ -263,7 +263,7 @@ public class FormAction extends ActionSupport {
 		// 多个以逗号分隔） d只展示收藏的报单（关闭为0 开启为1）
 		JSONArray jsar = JSONArray.fromObject(str);
 		JSONObject json_data = jsar.getJSONObject(0);
-		Integer id = json_data.getInt("id");// 用户自己的id
+		Integer id = json_data.getInt("userid");// 用户自己的id
 		String sendtouserid = json_data.getString("sendtouserid");// 发送给用户的id
 																	// 如果报单来源是全选则为-1
 		String sendtogroupid = json_data.getString("sendtogroupid");// 发送给群组的id
