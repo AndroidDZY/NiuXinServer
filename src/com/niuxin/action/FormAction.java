@@ -392,26 +392,7 @@ public class FormAction extends ActionSupport {
 	}
 		
 	private JSONArray getResultJson(List<Integer> idlist) {  //根据用报单的id，查询报单结果，并添加必要数据供前台显示
-		JSONArray jsonarray = new JSONArray();
-		/*
-		List<Form> formlist =  formService.selectByFormidList(idlist);
-		for (Form form : formlist) {
-			JSONObject jsonobj = JSONObject.fromObject(form);
-			User user = userService.findByUserId(form.getSendfrom());
-			jsonobj.put("sendfrom", form.getSendfrom());
-			jsonobj.put("img", user.getImg());
-			jsonobj.put("sendusername", user.getUserName());
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm EEE");
-			String[] dates = sdf.format(form.getCreatetime()).toString().split(" ");
-			jsonobj.put("sendusername", user.getUserName());
-			jsonobj.put("date", dates[0]);
-			jsonobj.put("time", dates[1]);
-			jsonobj.put("week", dates[2]);
-			jsonobj.put("profit", (3 - 1) * form.getHandnum() - 10 * form.getHandnum());
-			jsonarray.add(jsonobj);
-		}
-		*/
-		
+		JSONArray jsonarray = new JSONArray();		
 		for (Integer formid : idlist) {
 			Form form = formService.selectById(formid);
 			JSONObject jsonobj = JSONObject.fromObject(form);

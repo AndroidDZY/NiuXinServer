@@ -5,15 +5,23 @@
 
          <result property="userId" column="user_id"/>
               <result property="followUserid" column="follow_userid"/>
-               <result property="followGroupid" column="follow_groupid"/>
+             
     </resultMap>
     <parameterMap type="com.niuxin.bean.Follow"  id="p"></parameterMap>
     
 
-     <select id="selectAll" resultMap="r">    
-        select * from form order by id asc
+     <select id="selectByUserId" resultMap="r">    
+        select * from form order by follow_userid=#{id} asc
     </select>
     
+     <insert id="insert" parameterMap="p" useGeneratedKeys="true" keyProperty="id">    
+         INSERT INTO follow(user_id,follow_userid) SELECT #{userId}, #{followUserid} FROM DUAL WHERE NOT EXISTS
+         (SELECT user_id,follow_userid FROM follow WHERE user_id = #{userId} and follow_userid=#{followUserid})
+    </insert>
      
+    
+     <delete id="delete" parameterType="int">
+		delete from follow where id=#{id}
+	</delete>
   
 </mapper>

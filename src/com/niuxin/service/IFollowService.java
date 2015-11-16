@@ -6,6 +6,9 @@ import com.niuxin.bean.Follow;
 
 public interface IFollowService {
 
-	public List<Follow> selectAll();
+	public List<Follow> selectByUserId();
 
+	public void insert(Follow follow);
+	
+	public void delete(int id);
 }
