@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,12 +16,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts2.ServletActionContext;
 
 import com.niuxin.bean.Contract;
+import com.niuxin.bean.Follow;
 import com.niuxin.bean.Form;
 import com.niuxin.bean.SuperForm;
 import com.niuxin.bean.Template;
 import com.niuxin.bean.User;
 import com.niuxin.bean.UserGroup;
 import com.niuxin.service.IContractService;
+import com.niuxin.service.IFollowService;
 import com.niuxin.service.IFormService;
 import com.niuxin.service.ITemplateService;
 import com.niuxin.service.IUserGroupService;
@@ -50,6 +53,9 @@ public class FormAction extends ActionSupport {
 	
 	@Resource
 	private IContractService contractService;
+	
+	@Resource
+	private IFollowService followService;
 
 	public void insert() {
 		response.setContentType("text/plain");
@@ -325,7 +331,8 @@ public class FormAction extends ActionSupport {
 				//1 根据发送人
 				if (!sendtouserid.equals("-1") ) {
 					int mark = 0;
-					for (String userid : sendtouserids) {
+					List<String> sendtouseridlist = handleUsers(sendtouserids,id);
+					for (String userid : sendtouseridlist) {
 						if(!userid.equals(jo.get("sendfrom"))){
 							jsonarray.remove(i);
 							mark=1;
@@ -391,6 +398,26 @@ public class FormAction extends ActionSupport {
 		}
 	}
 		
+	private List<String> handleUsers(String[] sendtouserids,int userid) {
+		List<String> strlist = Arrays.asList(sendtouserids);
+		List<Follow> followlist = new LinkedList<Follow>();
+			for(int i=0;i< strlist.size();i++){
+				if(strlist.get(i).equals("-2")){
+					followlist = followService.selectByUserId(userid);
+					strlist.remove(i);
+					break;
+				}
+			}			
+			if(null!=followlist){
+				for(Follow s:followlist){
+					strlist.add(s.getFollowUserid()+"");
+					
+				}
+			}
+
+		return strlist;
+	}
+
 	private JSONArray getResultJson(List<Integer> idlist) {  //根据用报单的id，查询报单结果，并添加必要数据供前台显示
 		JSONArray jsonarray = new JSONArray();		
 		for (Integer formid : idlist) {

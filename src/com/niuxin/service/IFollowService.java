@@ -6,7 +6,7 @@ import com.niuxin.bean.Follow;
 
 public interface IFollowService {
 
-	public List<Follow> selectByUserId();
+	public List<Follow> selectByUserId(int id);
 
 	public void insert(Follow follow);
 	

@@ -33,6 +33,40 @@ public class UserAction extends ActionSupport {
 	@Resource
 	private IUserFriendService userFriendService;
 
+	
+	// 查找用户的好友
+		public void selectByUserid() {
+			response.setContentType("text/plain");
+			response.setCharacterEncoding("utf-8");
+
+			String str = new GetJsonString().getJsonString(request);
+			// 用json进行解析
+			JSONArray jsar = JSONArray.fromObject(str);
+			JSONObject json_data = jsar.getJSONObject(0);
+			Integer id = json_data.getInt("id");// 获取用户的id
+			
+			List<UserFriend> userList = userFriendService.selectByUserid(id);
+			JSONArray jsonarray = new JSONArray();
+			for (int i = 0; i < userList.size(); i++) {// 获取除自己之外的所有用户信息
+				User user = userService.findByUserId(userList.get(i).getUserFriendId());
+				JSONObject jsonobject = new JSONObject();
+				jsonobject.put("id", user.getId());
+				jsonobject.put("name", user.getUserName());
+				jsonobject.put("img", user.getImg());
+				jsonarray.add(jsonobject);
+			}
+			String json = "";
+			if (jsonarray.size() != 0)
+				json = jsonarray.toString();
+			try {
+				response.getWriter().write(json);
+				response.getWriter().flush();
+				response.getWriter().close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	
 	// 查找除本人之外的所有用户
 	public void serachAllUserExceptSelf() {
 		response.setContentType("text/plain");

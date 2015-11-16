@@ -19,9 +19,9 @@ public class FollowServiceImpl implements IFollowService{
     private FollowMapper followMapper ;
 
 	@Override
-	public List<Follow> selectByUserId() {
+	public List<Follow> selectByUserId(int id) {
 		// TODO Auto-generated method stub
-		return followMapper.selectByUserId();
+		return followMapper.selectByUserId(id);
 	}
 
 	@Override
