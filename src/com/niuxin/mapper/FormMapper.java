@@ -11,7 +11,7 @@ public interface FormMapper {
 
 	public List<Form> selectAll();
 	
-	public List<Form> selectAllSend();
+	public List<Form> selectAllReceive();
 	
 	
 	public Form selectById(Integer id);
@@ -19,4 +19,8 @@ public interface FormMapper {
 	public void update(Form form);
 	
 	public void delete(Integer id);
+	
+	public List<Integer> selectAllSend(Integer id);
+	
+	public List<Form> selectByFormidList(List<Integer> list);
 }

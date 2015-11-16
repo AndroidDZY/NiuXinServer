@@ -16,6 +16,10 @@
         select * from contract 
     </select>
     
+        <select id="SelectById" resultMap="r" >    
+        select * from contract where id = #{id}
+    </select>
  
+      
     
 </mapper>

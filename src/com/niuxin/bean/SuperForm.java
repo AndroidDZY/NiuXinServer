@@ -6,7 +6,14 @@ import java.util.Date;
 public class SuperForm{
 
 	private Integer id; //表单的编号
-	private String contract;	//合约类型
+	private Integer contract;	//合约类型
+	public Integer getContract() {
+		return contract;
+	}
+
+	public void setContract(Integer contract) {
+		this.contract = contract;
+	}
 	private String operation;//操作类型
 	private BigDecimal price;//价格
 	private Integer handnum;//手数
@@ -29,12 +36,7 @@ public class SuperForm{
 	public Integer getId() {
 		return id;
 	}
-	public String getContract() {
-		return contract;
-	}
-	public void setContract(String contract) {
-		this.contract = contract;
-	}
+	
 	public void setId(Integer id) {
 		this.id = id;
 	}

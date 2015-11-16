@@ -10,4 +10,5 @@ public interface ContractMapper {
  
 	public List<Contract> selectAll();
 	
+	public Contract SelectById(Integer id);
 }
