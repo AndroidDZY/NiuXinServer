@@ -236,7 +236,7 @@ public class FormAction extends ActionSupport {
 		// 用json进行解析
 		JSONArray jsar = JSONArray.fromObject(str);
 		JSONObject json_data = jsar.getJSONObject(0);
-		Integer id = json_data.getInt("id");// 获取用户的id
+		Integer id = json_data.getInt("userid");// 获取用户的id
 		JSONArray jsonarray = new JSONArray();
 		String json = "";		
 		List<Integer> idlist = getAllByUserid(id);//根据用户id，查找他接收的所有表单id
