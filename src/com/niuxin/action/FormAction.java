@@ -14,11 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts2.ServletActionContext;
 
+import com.niuxin.bean.Contract;
 import com.niuxin.bean.Form;
 import com.niuxin.bean.SuperForm;
 import com.niuxin.bean.Template;
 import com.niuxin.bean.User;
 import com.niuxin.bean.UserGroup;
+import com.niuxin.service.IContractService;
 import com.niuxin.service.IFormService;
 import com.niuxin.service.ITemplateService;
 import com.niuxin.service.IUserGroupService;
@@ -42,9 +44,12 @@ public class FormAction extends ActionSupport {
 
 	@Resource
 	private ITemplateService templateService;
-	
+
 	@Resource
 	private IUserService userService;
+	
+	@Resource
+	private IContractService contractService;
 
 	public void insert() {
 		response.setContentType("text/plain");
@@ -67,7 +72,7 @@ public class FormAction extends ActionSupport {
 		Integer type = json_data.getInt("type");// 1代表Form 2代表Template
 												// 3代表CollectionForm
 
-		String contract = json_data.getString("contract");
+		Integer contract = json_data.getInt("contract");
 		if (contract != null)
 			form.setContract(contract);
 		String price = json_data.getString("price");
@@ -229,33 +234,51 @@ public class FormAction extends ActionSupport {
 		}
 	}
 
-	public void selectAll() {// 根据用户的id，找出他所有接收的表单
+	public void selectById() {// 根据表单的id，找出表单信息
 		response.setContentType("text/plain");
 		response.setCharacterEncoding("utf-8");
 		String str = new GetJsonString().getJsonString(request);
-		// 用json进行解析
 		JSONArray jsar = JSONArray.fromObject(str);
 		JSONObject json_data = jsar.getJSONObject(0);
-		Integer id = json_data.getInt("userid");// 获取用户的id
-		JSONArray jsonarray = new JSONArray();
-		String json = "";		
-		List<Integer> idlist = getAllByUserid(id);//根据用户id，查找他接收的所有表单id
-		for (Integer formid : idlist) {
-			Form form = formService.selectById(formid);
-			JSONObject jsonobj = JSONObject.fromObject(form);
-			User user = userService.findByUserId(form.getSendfrom());			
-			jsonobj.put("sendfrom", form.getSendfrom());
-			jsonobj.put("img", user.getImg());
-			jsonobj.put("sendusername", user.getUserName());
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm EEE");
-			String[] dates = sdf.format(form.getCreatetime()).toString().split(" ");
-			jsonobj.put("sendusername", user.getUserName());
-			jsonobj.put("date", dates[0]);
-			jsonobj.put("time", dates[1]);
-			jsonobj.put("week", dates[2]);
-			jsonarray.add(jsonobj);
-		}
-		json = jsonarray.toString();//返回该用户的所有表单
+		Integer id = json_data.getInt("formid");// 用户自己的id
+		List<Integer> idlist = new LinkedList<Integer>();
+		idlist.add(id);		
+		// 3 idlist，组装所有接收的的报单数据。
+		JSONArray jsonarray = getResultJson(idlist);		
+		// 5 将删选后的json数组转为字符串
+				String json = "";
+				if (jsonarray != null)
+					json = jsonarray.toString();// 返回该用户的所有表单
+
+				try {
+					response.getWriter().write(json);
+					response.getWriter().flush();
+					response.getWriter().close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+	}
+	
+	public void sendAll(){// 根据用户的id，找出他所有发送的表单
+		response.setContentType("text/plain");
+		response.setCharacterEncoding("utf-8");
+		String str = new GetJsonString().getJsonString(request);
+		// 1 用json进行解析接收到的参数 a接收用户的id b报单来源（用户id，群组id 全选为-1 多个以逗号分隔） c合约类型（全选为-1
+		// 多个以逗号分隔） d只展示收藏的报单（关闭为0 开启为1）
+		JSONArray jsar = JSONArray.fromObject(str);
+		JSONObject json_data = jsar.getJSONObject(0);
+		Integer id = json_data.getInt("userid");// 用户自己的id
+
+		List<Integer> idlist = new LinkedList<Integer>();
+		idlist = formService.selectAllSend(id);//查找用户自己发送的所有报单id
+		// 3 idlist，组装所有接收的的报单数据。
+		JSONArray jsonarray = getResultJson(idlist);
+		
+		// 5 将删选后的json数组转为字符串
+		String json = "";
+		if (jsonarray != null)
+			json = jsonarray.toString();// 返回该用户的所有表单
+
 		try {
 			response.getWriter().write(json);
 			response.getWriter().flush();
@@ -265,9 +288,137 @@ public class FormAction extends ActionSupport {
 		}
 	}
 	
-	private List<Integer> getAllByUserid(Integer id){//私有方法，找出该用户所有接收的表单
+	public void receiveAll() {// 根据用户的id，找出他所有接收的表单
+		response.setContentType("text/plain");
+		response.setCharacterEncoding("utf-8");
+		String str = new GetJsonString().getJsonString(request);
+		// 1 用json进行解析接收到的参数 a接收用户的id b报单来源（用户id，群组id 全选为-1 多个以逗号分隔） c合约类型（全选为-1
+		// 多个以逗号分隔） d只展示收藏的报单（关闭为0 开启为1）
+		JSONArray jsar = JSONArray.fromObject(str);
+		JSONObject json_data = jsar.getJSONObject(0);
+		Integer id = json_data.getInt("userid");// 用户自己的id
+		String sendtouserid = json_data.getString("sendtouserid");// 发送给用户的id
+																	// 如果报单来源是全选则为-1
+		String sendtogroupid = json_data.getString("sendtogroupid");// 发送给群组的id
+																	// 如果报单来源是全选则为-1
+		String contract = json_data.getString("contract");// 合约类型 如果合约类型是全选则为-1
+		Integer collection = json_data.getInt("collection");// 是否只展示收藏 0表示没选择
+															// 1表示选择
+
+		// 2 准备数据库查询出来的数据
+		List<UserGroup> usergroups = userGroupService.selectByUserid(id);// 根据当前用户，找出他所在的组。
+		List<Integer> idlist = getAllReceiveByUserid(id,usergroups);// 根据用户id，查找所有他接收的表单id
+		
+
+		// 3 idlist，组装所有接收的的报单数据。
+		JSONArray jsonarray = getResultJson(idlist);
+
+		// 4 根据输入的参数进行删选
+		String[] sendtouserids = sendtouserid.split(",");// 获取到所有的发送用户的id
+															// 这边可能还有关注者
+															// 所以还得继续处理下
+															// 但总之这边得到所有的发送用户id
+		String[] sendtogroupids = sendtogroupid.split(",");// 获取到所有的发送群组的id
+		if (jsonarray != null) {
+			for (int i = jsonarray.size() - 1; i >= 0; i--) {// 倒序，这样删除就没有问题了
+				JSONObject jo = (JSONObject) jsonarray.get(i);
+				//1 根据发送人
+				if (!sendtouserid.equals("-1") ) {
+					int mark = 0;
+					for (String userid : sendtouserids) {
+						if(!userid.equals(jo.get("sendfrom"))){
+							jsonarray.remove(i);
+							mark=1;
+							break;
+						}
+					}
+					if(mark==1)
+						continue;
+				}
+				//2 根据发送群组
+				if (!sendtogroupid.equals("-1")) {
+					int mark = 0;					
+					for (String groupid : sendtogroupids) {//前台传过来的群数组
+						for (UserGroup group : usergroups) {////后台查询出来的群数组							
+							 if(jsonarray.get(i)==null)
+								 continue;
+								if (Integer.valueOf(groupid) == group.getId()) {// 如果当前用的群组和接收用户的群组一直，则保存
+									jsonarray.remove(i);
+									mark=1;
+									break;				
+							}
+						}					
+					if(mark==1)
+						continue;
+				}
+				}
+				//3 根据合约类型
+				if (!contract.equals("-1")) {
+					String[] contractlist = contract.split(",");
+					int mark = 0;
+					for(String list : contractlist){
+						if (list.trim() .equals(jo.getString("contractid").trim()) ) {
+							mark = 1;
+							break;
+						}
+					}
+					if(mark==0){
+						jsonarray.remove(i);
+						continue;
+					}
+				}
+				//4 根据是否收藏
+				if (collection != 0) {// 不等于0 就只有等于1的情况 代表未收藏
+					if (collection != jo.getInt("collection")) {
+						jsonarray.remove(i);
+						continue;
+					}
+				}
+			}
+		
+		}
+		// 5 将删选后的json数组转为字符串
+		String json = "";
+		if (jsonarray != null)
+			json = jsonarray.toString();// 返回该用户的所有表单
+
+		try {
+			response.getWriter().write(json);
+			response.getWriter().flush();
+			response.getWriter().close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+		
+	private JSONArray getResultJson(List<Integer> idlist) {  //根据用报单的id，查询报单结果，并添加必要数据供前台显示
+		JSONArray jsonarray = new JSONArray();		
+		for (Integer formid : idlist) {
+			Form form = formService.selectById(formid);
+			JSONObject jsonobj = JSONObject.fromObject(form);
+			User user = userService.findByUserId(form.getSendfrom());
+			Contract contract = contractService.SelectById(Integer.valueOf(form.getContract()));
+			jsonobj.put("contractid", contract.getId());
+			jsonobj.put("contract", contract.getType());
+			jsonobj.put("sendfrom", form.getSendfrom());
+			jsonobj.put("img", user.getImg());
+			jsonobj.put("sendusername", user.getUserName());
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm EEE");
+			String[] dates = sdf.format(form.getCreatetime()).toString().split(" ");
+			jsonobj.put("sendusername", user.getUserName());
+			jsonobj.put("date", dates[0]);
+			jsonobj.put("time", dates[1]);
+			jsonobj.put("week", dates[2]);
+			jsonobj.put("profit", (3 - 1) * form.getHandnum() - 10 * form.getHandnum());
+			jsonarray.add(jsonobj);
+		}
+		
+		return jsonarray;
+	}
+
+	private List<Integer> getAllReceiveByUserid(Integer id,List<UserGroup> usergroups) {// 私有方法，找出该用户所有接收的表单
 		// 1.找出该用户所有接收的表单
-		List<Form> formlist = formService.selectAllSend();// 首先查找出所有表单的接受群组和接受人
+		List<Form> formlist = formService.selectAllReceive();// 首先查找出所有表单的接受群组和接受人
 		List<Integer> idlist = new LinkedList<Integer>();
 		for (Form forms : formlist) {
 			int mark = 0;// 标记位，如果接受人的字符串已经匹配，就不需要在群组里面再找了
@@ -282,9 +433,7 @@ public class FormAction extends ActionSupport {
 				}
 			}
 			if (forms.getSendtoGroup() != null && mark != 1) {
-				String[] groups = forms.getSendtoGroup().split(",");
-				List<UserGroup> usergroups = new LinkedList<UserGroup>();
-				usergroups = userGroupService.selectByUserid(id);// 根据当前用户，找出他所在的组。
+				String[] groups = forms.getSendtoGroup().split(",");				
 				for (String group : groups) {
 					for (UserGroup usergroup : usergroups) {
 						if (Integer.valueOf(group) == usergroup.getId()) {// 如果当前用的群组和接收用户的群组一直，则保存

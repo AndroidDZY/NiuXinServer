@@ -10,4 +10,6 @@ public interface IContractService {
 	
 	public List<Contract> selectAll();
 
+	public Contract SelectById(Integer id);
+
 }

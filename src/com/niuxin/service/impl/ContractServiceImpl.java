@@ -31,6 +31,13 @@ public class ContractServiceImpl implements IContractService{
 		return contractMapper.selectAll();
 	}
 
+
+	@Override
+	public Contract SelectById(Integer id) {
+		// TODO Auto-generated method stub
+		return contractMapper.SelectById(id);
+	}
+
 	
 
 }

@@ -48,9 +48,21 @@ public class FormServiceImpl implements IFormService{
 	}
 
 	@Override
-	public List<Form> selectAllSend() {
+	public List<Form> selectAllReceive() {
 		// TODO Auto-generated method stub
-		return formMapper.selectAllSend();
+		return formMapper.selectAllReceive();
+	}
+
+	@Override
+	public List<Integer> selectAllSend(Integer id) {
+		// TODO Auto-generated method stub
+		return formMapper.selectAllSend(id);
+	}
+
+	@Override
+	public List<Form> selectByFormidList(List<Integer> list) {
+		// TODO Auto-generated method stub
+		return formMapper.selectByFormidList( list);
 	}
 
 }

@@ -1,40 +1,58 @@
 <?xml version="1.0" encoding="UTF-8" ?>  
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.niuxin.mapper.FormMapper">
-     <resultMap type="com.niuxin.bean.Form"  id="r">
+	<resultMap type="com.niuxin.bean.Form" id="r">
 
-         <result property="sendtoUser" column="sendto_user"/>
-              <result property="sendtoGroup" column="sendto_group"/>
-    </resultMap>
-    <parameterMap type="com.niuxin.bean.Form"  id="p"></parameterMap>
-    
+		<result property="sendtoUser" column="sendto_user" />
+		<result property="sendtoGroup" column="sendto_group" />
+	</resultMap>
+	<parameterMap type="com.niuxin.bean.Form" id="p"></parameterMap>
 
-     <insert id="insert" parameterMap="p" useGeneratedKeys="true" keyProperty="id">    
-        insert into form(contract,operation,price,handnum,position,minnum,maxnum,remark,pictureurl,audiourl,collection,createtime,updatetime,audioread,sendfrom,occupy,name,sendto_user,sendto_group) 
-        values(#{contract},#{operation},#{price},#{handnum},#{position},#{minnum},#{maxnum},#{remark},#{pictureurl},#{audiourl},#{collection},#{createtime},#{updatetime},#{audioread},#{sendfrom},#{occupy},#{name},#{sendtoUser},#{sendtoGroup})
-    </insert>
- 
-     <select id="selectAll" resultMap="r">    
-        select * from form order by id asc
-    </select>
-    
-     <select id="selectAllSend" resultMap="r">   <!-- 查找出表单中所有的接收者 --> 
-      select sendto_user,sendto_group,sendto,id from form order by id asc 
-    </select>
-    
-      <select id="selectById" resultMap="r" parameterType="int">    
-        select * from form where id= #{id}
-    </select>
-    
 
-     <update id="update" parameterMap="p">  
-        update form set name=#{name},updatetime=#{updateTime} where id=#{id}
-    </update>
-  
-    
-         <delete id="delete" parameterType="int">  
-        delete from form where id=#{id}
-    </delete>
-    
+	<insert id="insert" parameterMap="p" useGeneratedKeys="true"
+		keyProperty="id">
+		insert into
+		form(contract,operation,price,handnum,position,minnum,maxnum,remark,pictureurl,audiourl,collection,createtime,updatetime,audioread,sendfrom,occupy,name,sendto_user,sendto_group)
+		values(#{contract},#{operation},#{price},#{handnum},#{position},#{minnum},#{maxnum},#{remark},#{pictureurl},#{audiourl},#{collection},#{createtime},#{updatetime},#{audioread},#{sendfrom},#{occupy},#{name},#{sendtoUser},#{sendtoGroup})
+	</insert>
+
+	<select id="selectAll" resultMap="r">
+		select * from form order by id asc
+	</select>
+
+	<select id="selectAllReceive" resultMap="r">   <!-- 查找出表单中所有的接收者 -->
+		select sendto_user,sendto_group, id from form order by id asc
+	</select>
+
+	<select id="selectById" resultMap="r" parameterType="int">
+		select * from form where id= #{id}
+	</select>
+
+	<select id="selectAllSend" resultMap="r" parameterType="int">
+		select id from form where sendfrom= #{id}
+	</select>
+
+
+	<update id="update" parameterMap="p">
+		update form set name=#{name},updatetime=#{updateTime} where id=#{id}
+	</update>
+
+
+	<delete id="delete" parameterType="int">
+		delete from form where id=#{id}
+	</delete>
+
+
+	<select id="selectByFormidList" resultMap="r" parameterType="list">
+		select * from form
+		<where>
+			id in
+			<foreach item="item" collection="list" separator="," open="("
+				close=")" index="">
+				#{item, jdbcType=NUMERIC}
+			</foreach>
+		</where>
+	</select>
+
 
 </mapper>
