@@ -264,7 +264,84 @@ public class FormAction extends ActionSupport {
 					e.printStackTrace();
 				}
 	}
-	
+	/*
+	 *  按时间顺序查询
+	 */
+	public void selectFormByTime() {// 按时间顺序查询显示表单
+		response.setContentType("text/plain");
+		response.setCharacterEncoding("utf-8");
+		String str = new GetJsonString().getJsonString(request);
+		JSONArray jsar = JSONArray.fromObject(str);
+		JSONObject json_data = jsar.getJSONObject(0);
+		Integer id = json_data.getInt("id");// 用户自己的id
+		// 根据发送用户的ID按时间查询。
+		List<Form> list= formService.selectFormBytime(id);
+		JSONArray jsonarray =JSONArray.fromObject(list);	
+		// 5 将删选后的json数组转为字符串
+				String json = "";
+				if (jsonarray != null)
+					json = jsonarray.toString();// 返回该用户的所有表单
+
+				try {
+					response.getWriter().write(json);
+					response.getWriter().flush();
+					response.getWriter().close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+	}
+	/*
+	 *  按合约类型查询
+	 */
+	public void selectFormByContract() {// 按合约类型查询显示表单
+		response.setContentType("text/plain");
+		response.setCharacterEncoding("utf-8");
+		String str = new GetJsonString().getJsonString(request);
+		JSONArray jsar = JSONArray.fromObject(str);
+		JSONObject json_data = jsar.getJSONObject(0);
+		Integer id = json_data.getInt("id");// 用户自己的id
+		// 根据发送用户的ID按时间查询。
+		List<Form> list= formService.selectFormBycontract(id);
+		JSONArray jsonarray =JSONArray.fromObject(list);	
+		// 5 将删选后的json数组转为字符串
+				String json = "";
+				if (jsonarray != null)
+					json = jsonarray.toString();// 返回该用户的所有表单
+
+				try {
+					response.getWriter().write(json);
+					response.getWriter().flush();
+					response.getWriter().close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+	}
+	/*
+	 *  按接收者查询
+	 */
+	public void selectFormBySend() {// 按接收者查询显示表单
+		response.setContentType("text/plain");
+		response.setCharacterEncoding("utf-8");
+		String str = new GetJsonString().getJsonString(request);
+		JSONArray jsar = JSONArray.fromObject(str);
+		JSONObject json_data = jsar.getJSONObject(0);
+		Integer id = json_data.getInt("id");// 用户自己的id
+		// 根据发送用户的ID按时间查询。
+		List<Form> list= formService.selectFormBysend(id);
+		JSONArray jsonarray =JSONArray.fromObject(list);	
+		// 5 将删选后的json数组转为字符串
+				String json = "";
+				if (jsonarray != null)
+					json = jsonarray.toString();// 返回该用户的所有表单
+
+				try {
+					response.getWriter().write(json);
+					response.getWriter().flush();
+					response.getWriter().close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+	}
 	public void sendAll(){// 根据用户的id，找出他所有发送的表单
 		response.setContentType("text/plain");
 		response.setCharacterEncoding("utf-8");

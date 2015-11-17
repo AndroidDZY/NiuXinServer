@@ -21,4 +21,10 @@ public interface IFormService {
 	public List<Integer> selectAllSend(Integer id);//根据用户的id，查找他所有已经发送的报单
 	
 	public List<Form> selectByFormidList(List<Integer> list);//根据报单id的list集合，查找所有的报单信息。
+
+	public List<Form> selectFormBytime(Integer id);// 根据发送用户的ID按时间查询
+	
+	public List<Form> selectFormBycontract(Integer id);// 根据发送用户的ID按合约类型查询
+	
+	public List<Form> selectFormBysend(Integer id);// 根据发送用户的ID按接收者查询
 }

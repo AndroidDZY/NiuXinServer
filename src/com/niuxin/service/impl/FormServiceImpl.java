@@ -65,4 +65,22 @@ public class FormServiceImpl implements IFormService{
 		return formMapper.selectByFormidList( list);
 	}
 
+	@Override
+	public List<Form> selectFormBytime(Integer id) {
+		// TODO Auto-generated method stub
+		return formMapper.selectFormBytime(id);
+	}
+
+	@Override
+	public List<Form> selectFormBycontract(Integer id) {
+		// TODO Auto-generated method stub
+		return formMapper.selectFormBycontract(id);
+	}
+
+	@Override
+	public List<Form> selectFormBysend(Integer id) {
+		// TODO Auto-generated method stub
+		return formMapper.selectFormBysend(id);
+	}
+
 }

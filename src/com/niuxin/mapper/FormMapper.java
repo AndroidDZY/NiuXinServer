@@ -23,4 +23,8 @@ public interface FormMapper {
 	public List<Integer> selectAllSend(Integer id);
 	
 	public List<Form> selectByFormidList(List<Integer> list);
+
+	public List<Form> selectFormBytime(Integer id);
+	public List<Form> selectFormBycontract(Integer id);
+	public List<Form> selectFormBysend(Integer id);
 }

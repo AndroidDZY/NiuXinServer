@@ -53,6 +53,15 @@
 			</foreach>
 		</where>
 	</select>
+	<select id="selectFormBytime" resultMap="r" parameterType="list">
+		select * from form where sendfrom=#{id} order by createtime
+	</select>
+	<select id="selectFormBycontract" resultMap="r" parameterType="list">
+		select * from form where sendfrom=#{id} GROUP BY contract
+	</select>
+	<select id="selectFormBysend" resultMap="r" parameterType="list">
+		select * from form where sendfrom=#{id} sendto_user AND sendto_group
+	</select>
 
 
 </mapper>
