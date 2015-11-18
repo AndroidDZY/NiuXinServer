@@ -488,7 +488,6 @@ public class FormAction extends ActionSupport {
 			if(null!=followlist){
 				for(Follow s:followlist){
 					strlist.add(s.getFollowUserid()+"");
-					
 				}
 			}
 
