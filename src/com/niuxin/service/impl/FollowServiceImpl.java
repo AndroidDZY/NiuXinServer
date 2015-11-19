@@ -31,9 +31,9 @@ public class FollowServiceImpl implements IFollowService{
 	}
 
 	@Override
-	public void delete(int id) {
+	public void delete(Follow follow) {
 		// TODO Auto-generated method stub
-		followMapper.delete(id);
+		followMapper.delete(follow);
 	}
 
 

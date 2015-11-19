@@ -10,5 +10,5 @@ public interface IFollowService {
 
 	public void insert(Follow follow);
 	
-	public void delete(int id);
+	public void delete(Follow follow);
 }

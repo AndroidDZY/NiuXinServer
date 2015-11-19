@@ -9,6 +9,6 @@ public interface FollowMapper {
 
 	public List<Follow> selectByUserId(int id);
 	public void insert(Follow follow);
-	public void delete(int id);
+	public void delete(Follow follow);
 	
 }

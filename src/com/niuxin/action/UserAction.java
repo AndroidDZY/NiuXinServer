@@ -11,8 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 
+import com.niuxin.bean.Follow;
 import com.niuxin.bean.User;
 import com.niuxin.bean.UserFriend;
+import com.niuxin.service.IFollowService;
 import com.niuxin.service.IUserFriendService;
 import com.niuxin.service.IUserService;
 import com.niuxin.util.GetJsonString;
@@ -32,7 +34,61 @@ public class UserAction extends ActionSupport {
 	private IUserService userService;
 	@Resource
 	private IUserFriendService userFriendService;
+	@Resource
+	private IFollowService followService;
 
+	
+	// 查找用户的好友
+			public void followUser() {
+				response.setContentType("text/plain");
+				response.setCharacterEncoding("utf-8");
+
+				String str = new GetJsonString().getJsonString(request);
+				// 用json进行解析
+				JSONArray jsar = JSONArray.fromObject(str);
+				JSONObject json_data = jsar.getJSONObject(0);
+				int senduserid = json_data.getInt("senduserid");
+				int userid = json_data.getInt("userid");
+				Follow follow = new Follow();
+				follow.setUserId(userid);
+				follow.setFollowUserid(senduserid);				
+				followService.insert(follow);
+				
+				String json = "";				
+				try {
+					response.getWriter().write(json);
+					response.getWriter().flush();
+					response.getWriter().close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			public void unfollowUser() {
+				response.setContentType("text/plain");
+				response.setCharacterEncoding("utf-8");
+
+				String str = new GetJsonString().getJsonString(request);
+				// 用json进行解析
+				JSONArray jsar = JSONArray.fromObject(str);
+				JSONObject json_data = jsar.getJSONObject(0);
+				int senduserid = json_data.getInt("senduserid");
+				int userid = json_data.getInt("userid");
+				Follow follow = new Follow();
+				follow.setUserId(userid);
+				follow.setFollowUserid(senduserid);				
+				followService.delete(follow);
+				
+				String json = "";				
+				try {
+					response.getWriter().write(json);
+					response.getWriter().flush();
+					response.getWriter().close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+	
 	
 	// 查找用户的好友
 		public void selectByUserid() {

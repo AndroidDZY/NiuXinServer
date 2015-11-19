@@ -20,8 +20,8 @@
     </insert>
      
     
-     <delete id="delete" parameterType="int">
-		delete from follow where id=#{id}
+     <delete id="delete" parameterMap="p">
+		delete from follow where user_id=#{userId} and follow_userid =#{followUserid}
 	</delete>
   
 </mapper>
