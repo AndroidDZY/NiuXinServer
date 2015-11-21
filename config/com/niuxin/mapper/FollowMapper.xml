@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>  
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <mapper namespace="com.niuxin.mapper.FollowMapper">
-     <resultMap type="com.niuxin.bean.Form"  id="r">
+     <resultMap type="com.niuxin.bean.Follow"  id="r">
 
          <result property="userId" column="user_id"/>
               <result property="followUserid" column="follow_userid"/>
@@ -11,7 +11,7 @@
     
 
      <select id="selectByUserId" resultMap="r">    
-        select * from form order by follow_userid=#{id} asc
+        select * from follow order by follow_userid=#{id} asc
     </select>
     
      <insert id="insert" parameterMap="p" useGeneratedKeys="true" keyProperty="id">    
