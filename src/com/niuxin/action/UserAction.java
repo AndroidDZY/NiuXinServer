@@ -12,9 +12,11 @@ import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 
 import com.niuxin.bean.Follow;
+import com.niuxin.bean.Shield;
 import com.niuxin.bean.User;
 import com.niuxin.bean.UserFriend;
 import com.niuxin.service.IFollowService;
+import com.niuxin.service.IShieldService;
 import com.niuxin.service.IUserFriendService;
 import com.niuxin.service.IUserService;
 import com.niuxin.util.GetJsonString;
@@ -36,93 +38,146 @@ public class UserAction extends ActionSupport {
 	private IUserFriendService userFriendService;
 	@Resource
 	private IFollowService followService;
+	@Resource
+	private IShieldService shieldService;
 
-	
 	// 查找用户的好友
-			public void followUser() {
-				response.setContentType("text/plain");
-				response.setCharacterEncoding("utf-8");
+	public void followUser() {
+		response.setContentType("text/plain");
+		response.setCharacterEncoding("utf-8");
 
-				String str = new GetJsonString().getJsonString(request);
-				// 用json进行解析
-				JSONArray jsar = JSONArray.fromObject(str);
-				JSONObject json_data = jsar.getJSONObject(0);
-				int senduserid = json_data.getInt("senduserid");
-				int userid = json_data.getInt("userid");
-				Follow follow = new Follow();
-				follow.setUserId(userid);
-				follow.setFollowUserid(senduserid);				
-				followService.insert(follow);
-				
-				String json = "";				
-				try {
-					response.getWriter().write(json);
-					response.getWriter().flush();
-					response.getWriter().close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-			
-			public void unfollowUser() {
-				response.setContentType("text/plain");
-				response.setCharacterEncoding("utf-8");
+		String str = new GetJsonString().getJsonString(request);
+		// 用json进行解析
+		JSONArray jsar = JSONArray.fromObject(str);
+		JSONObject json_data = jsar.getJSONObject(0);
+		int senduserid = json_data.getInt("senduserid");
+		int userid = json_data.getInt("userid");
+		Follow follow = new Follow();
+		follow.setUserId(userid);
+		follow.setFollowUserid(senduserid);
+		if (senduserid != userid)// 自己不能收藏自己
+			followService.insert(follow);
 
-				String str = new GetJsonString().getJsonString(request);
-				// 用json进行解析
-				JSONArray jsar = JSONArray.fromObject(str);
-				JSONObject json_data = jsar.getJSONObject(0);
-				int senduserid = json_data.getInt("senduserid");
-				int userid = json_data.getInt("userid");
-				Follow follow = new Follow();
-				follow.setUserId(userid);
-				follow.setFollowUserid(senduserid);				
-				followService.delete(follow);
-				
-				String json = "";				
-				try {
-					response.getWriter().write(json);
-					response.getWriter().flush();
-					response.getWriter().close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-	
-	
-	// 查找用户的好友
-		public void selectByUserid() {
-			response.setContentType("text/plain");
-			response.setCharacterEncoding("utf-8");
-
-			String str = new GetJsonString().getJsonString(request);
-			// 用json进行解析
-			JSONArray jsar = JSONArray.fromObject(str);
-			JSONObject json_data = jsar.getJSONObject(0);
-			Integer id = json_data.getInt("id");// 获取用户的id
-			
-			List<UserFriend> userList = userFriendService.selectByUserid(id);
-			JSONArray jsonarray = new JSONArray();
-			for (int i = 0; i < userList.size(); i++) {// 获取除自己之外的所有用户信息
-				User user = userService.findByUserId(userList.get(i).getUserFriendId());
-				JSONObject jsonobject = new JSONObject();
-				jsonobject.put("id", user.getId());
-				jsonobject.put("name", user.getUserName());
-				jsonobject.put("img", user.getImg());
-				jsonarray.add(jsonobject);
-			}
-			String json = "";
-			if (jsonarray.size() != 0)
-				json = jsonarray.toString();
-			try {
-				response.getWriter().write(json);
-				response.getWriter().flush();
-				response.getWriter().close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		String json = "";
+		try {
+			response.getWriter().write(json);
+			response.getWriter().flush();
+			response.getWriter().close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+	}
+
+	// 屏蔽好友
+	public void shieldUser() {
+		response.setContentType("text/plain");
+		response.setCharacterEncoding("utf-8");
+		String str = new GetJsonString().getJsonString(request);
+		// 用json进行解析
+		JSONArray jsar = JSONArray.fromObject(str);
+		JSONObject json_data = jsar.getJSONObject(0);
+		int senduserid = json_data.getInt("senduserid");
+		int userid = json_data.getInt("userid");
+		Shield follow = new Shield();
+		follow.setUserId(userid);
+		follow.setShieldUserid(senduserid);
+		if (senduserid != userid)// 自己不能收藏自己
+			shieldService.insert(follow);
+
+		String json = "";
+		try {
+			response.getWriter().write(json);
+			response.getWriter().flush();
+			response.getWriter().close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
+	public void unfollowUser() {
+		response.setContentType("text/plain");
+		response.setCharacterEncoding("utf-8");
+
+		String str = new GetJsonString().getJsonString(request);
+		// 用json进行解析
+		JSONArray jsar = JSONArray.fromObject(str);
+		JSONObject json_data = jsar.getJSONObject(0);
+		int senduserid = json_data.getInt("senduserid");
+		int userid = json_data.getInt("userid");
+		Follow follow = new Follow();
+		follow.setUserId(userid);
+		follow.setFollowUserid(senduserid);
+		followService.delete(follow);
+
+		String json = "";
+		try {
+			response.getWriter().write(json);
+			response.getWriter().flush();
+			response.getWriter().close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	//解除屏蔽好友
+	public void unshieldUser() {
+		response.setContentType("text/plain");
+		response.setCharacterEncoding("utf-8");
+
+		String str = new GetJsonString().getJsonString(request);
+		// 用json进行解析
+		JSONArray jsar = JSONArray.fromObject(str);
+		JSONObject json_data = jsar.getJSONObject(0);
+		int senduserid = json_data.getInt("senduserid");
+		int userid = json_data.getInt("userid");
+		Shield follow = new Shield();
+		follow.setUserId(userid);
+		follow.setShieldUserid(senduserid);
+		shieldService.delete(follow);
+
+		String json = "";
+		try {
+			response.getWriter().write(json);
+			response.getWriter().flush();
+			response.getWriter().close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	// 查找用户的好友
+	public void selectByUserid() {
+		response.setContentType("text/plain");
+		response.setCharacterEncoding("utf-8");
+
+		String str = new GetJsonString().getJsonString(request);
+		// 用json进行解析
+		JSONArray jsar = JSONArray.fromObject(str);
+		JSONObject json_data = jsar.getJSONObject(0);
+		Integer id = json_data.getInt("id");// 获取用户的id
+
+		List<UserFriend> userList = userFriendService.selectByUserid(id);
+		JSONArray jsonarray = new JSONArray();
+		for (int i = 0; i < userList.size(); i++) {// 获取除自己之外的所有用户信息
+			User user = userService.findByUserId(userList.get(i).getUserFriendId());
+			JSONObject jsonobject = new JSONObject();
+			jsonobject.put("id", user.getId());
+			jsonobject.put("name", user.getUserName());
+			jsonobject.put("img", user.getImg());
+			jsonarray.add(jsonobject);
+		}
+		String json = "";
+		if (jsonarray.size() != 0)
+			json = jsonarray.toString();
+		try {
+			response.getWriter().write(json);
+			response.getWriter().flush();
+			response.getWriter().close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	// 查找除本人之外的所有用户
 	public void serachAllUserExceptSelf() {
 		response.setContentType("text/plain");
@@ -133,11 +188,11 @@ public class UserAction extends ActionSupport {
 		JSONArray jsar = JSONArray.fromObject(str);
 		JSONObject json_data = jsar.getJSONObject(0);
 		Integer id = json_data.getInt("id");// 获取用户的id
-		
+
 		List<User> userList = userService.selectAll();
 		JSONArray jsonarray = new JSONArray();
 		for (int i = 0; i < userList.size(); i++) {// 获取除自己之外的所有用户信息
-			if(id==userList.get(i).getId())
+			if (id == userList.get(i).getId())
 				continue;
 			JSONObject jsonobject = new JSONObject();
 			jsonobject.put("id", userList.get(i).getId());
