@@ -125,9 +125,9 @@ public class FormAction extends ActionSupport {
 		form.setCreatetime(new Date());
 		form.setUpdatetime(new Date());
 		form.setAudioread(0);
-		Integer userid = json_data.getInt("userid");
-		if (userid != null)
-			form.setSendfrom(userid);
+		Integer sendfrom = json_data.getInt("sendfrom");
+		if (sendfrom != null)
+			form.setSendfrom(sendfrom);
 		form.setOccupy(0);
 
 		JSONObject jsonObject = new JSONObject();
