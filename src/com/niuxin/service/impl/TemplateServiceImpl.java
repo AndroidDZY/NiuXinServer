@@ -25,9 +25,9 @@ public class TemplateServiceImpl implements ITemplateService{
 	}
 
 	@Override
-	public List<Template> selectAll() {
+	public List<Template> selectAllBySendId(int id){
 		
-		return templateMapper.selectAll();
+		return templateMapper.selectAllBySendId(id);
 	}
 
 	@Override

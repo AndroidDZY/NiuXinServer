@@ -9,7 +9,7 @@ public interface ITemplateService {
 
 	public Integer insert(Template form);
 
-	public List<Template> selectAll();
+	public List<Template> selectAllBySendId(int id);
 	
 	public Template selectById(Integer id);
 

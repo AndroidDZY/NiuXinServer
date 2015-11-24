@@ -22,4 +22,9 @@ public class MyDate {
 		String date1 = format1.format(new Date(System.currentTimeMillis()));
 		return date1;// 2012-10-03 23:41:31
 	}
+	public static String getDateToString() {
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyyMMddHHmmss");
+		String date1 = format1.format(new Date(System.currentTimeMillis()));
+		return date1;// 20121003234131
+	}
 }

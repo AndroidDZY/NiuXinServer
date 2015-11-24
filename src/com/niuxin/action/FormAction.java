@@ -29,6 +29,7 @@ import com.niuxin.service.ITemplateService;
 import com.niuxin.service.IUserGroupService;
 import com.niuxin.service.IUserService;
 import com.niuxin.util.GetJsonString;
+import com.niuxin.util.MyDate;
 import com.opensymphony.xwork2.ActionSupport;
 
 import net.sf.json.JSONArray;
@@ -65,22 +66,26 @@ public class FormAction extends ActionSupport {
 		} catch (UnsupportedEncodingException e2) {
 			e2.printStackTrace();
 		}
-		SuperForm form = new SuperForm();
-
+		SuperForm form = null;
 		String str = new GetJsonString().getJsonString(request);
-
 		// 用json进行解析
 		JSONArray jsar = JSONArray.fromObject(str);
-
 		// 用json进行解析
 		JSONObject json_data = jsar.getJSONObject(0);
-
 		Integer type = json_data.getInt("type");// 1代表Form 2代表Template
 												// 3代表CollectionForm
-
+		if(type==1){
+			form = new Form();
+		}else if(type==2){
+			form = new Template();
+		}
 		Integer contract = json_data.getInt("contract");
 		if (contract != null)
 			form.setContract(contract);
+		String operation = json_data.getString("operation");
+		if (operation != null) {
+			form.setOperation(operation);
+		}
 		String price = json_data.getString("price");
 		if (price != null) {
 			BigDecimal bd = new BigDecimal(price);
@@ -115,6 +120,7 @@ public class FormAction extends ActionSupport {
 		if (audiourl != null)
 			form.setAudiourl(audiourl);
 
+		form.setCollection(0);
 		// 发送的用户分为个人用户和群组 这里用了两个字段 前台要传两个字段
 		String sendtouser = json_data.getString("sendtouser");
 		if (sendtouser != null && sendtouser != "")
@@ -129,12 +135,16 @@ public class FormAction extends ActionSupport {
 		if (sendfrom != null)
 			form.setSendfrom(sendfrom);
 		form.setOccupy(0);
-
+		String name = json_data.getString("name");	
+		form.setName("报单"+sendfrom+(MyDate.getDateToString()));
+		
+		
 		JSONObject jsonObject = new JSONObject();
 		try {
 			switch (type) {
 			case 1: {
-				formService.insert((Form) form);
+				Form f = (Form) form;
+				formService.insert(f);
 				break;
 			}
 			case 2: {
@@ -303,6 +313,36 @@ public class FormAction extends ActionSupport {
 		// 根据发送用户的ID按时间查询。
 		List<Form> list= formService.selectFormBycontract(id);
 		JSONArray jsonarray =JSONArray.fromObject(list);	
+		// 5 将删选后的json数组转为字符串
+				String json = "";
+				if (jsonarray != null)
+					json = jsonarray.toString();// 返回该用户的所有表单
+
+				try {
+					response.getWriter().write(json);
+					response.getWriter().flush();
+					response.getWriter().close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+	}
+	
+	public void selectAllBySendId() {// 根据用户的id，找到他的模版
+		response.setContentType("text/plain");
+		response.setCharacterEncoding("utf-8");
+		String str = new GetJsonString().getJsonString(request);
+		JSONArray jsar = JSONArray.fromObject(str);
+		JSONObject json_data = jsar.getJSONObject(0);
+		Integer id = json_data.getInt("id");// 用户自己的id
+	
+		List<Template> list= templateService.selectAllBySendId(id);
+		List<Integer> idlist = new LinkedList<Integer>();
+		if(null!=list){
+			for(int i=0;i<list.size();i++){
+				idlist.add(list.get(i).getId());
+			}	
+		}
+		JSONArray jsonarray = getResultJson(idlist);
 		// 5 将删选后的json数组转为字符串
 				String json = "";
 				if (jsonarray != null)
@@ -497,7 +537,7 @@ public class FormAction extends ActionSupport {
 	private JSONArray getResultJson(List<Integer> idlist) {  //根据用报单的id，查询报单结果，并添加必要数据供前台显示
 		JSONArray jsonarray = new JSONArray();		
 		for (Integer formid : idlist) {
-			Form form = formService.selectById(formid);
+			SuperForm form = formService.selectById(formid);
 			JSONObject jsonobj = JSONObject.fromObject(form);
 			User user = userService.findByUserId(form.getSendfrom());
 			Contract contract = contractService.SelectById(Integer.valueOf(form.getContract()));
