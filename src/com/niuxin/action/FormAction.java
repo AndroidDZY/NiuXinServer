@@ -260,7 +260,7 @@ public class FormAction extends ActionSupport {
 		List<Integer> idlist = new LinkedList<Integer>();
 		idlist.add(id);		
 		// 3 idlist，组装所有接收的的报单数据。
-		JSONArray jsonarray = getResultJson(idlist);		
+		JSONArray jsonarray = getResultJson(idlist,1);		
 		// 5 将删选后的json数组转为字符串
 				String json = "";
 				if (jsonarray != null)
@@ -342,7 +342,7 @@ public class FormAction extends ActionSupport {
 				idlist.add(list.get(i).getId());
 			}	
 		}
-		JSONArray jsonarray = getResultJson(idlist);
+		JSONArray jsonarray = getResultJson(idlist,2);
 		// 5 将删选后的json数组转为字符串
 				String json = "";
 				if (jsonarray != null)
@@ -395,7 +395,7 @@ public class FormAction extends ActionSupport {
 		List<Integer> idlist = new LinkedList<Integer>();
 		idlist = formService.selectAllSend(id);//查找用户自己发送的所有报单id
 		// 3 idlist，组装所有接收的的报单数据。
-		JSONArray jsonarray = getResultJson(idlist);
+		JSONArray jsonarray = getResultJson(idlist,1);
 		
 		// 5 将删选后的json数组转为字符串
 		String json = "";
@@ -434,7 +434,7 @@ public class FormAction extends ActionSupport {
 		
 
 		// 3 idlist，组装所有接收的的报单数据。
-		JSONArray jsonarray = getResultJson(idlist);
+		JSONArray jsonarray = getResultJson(idlist,1);
 
 		// 4 根据输入的参数进行删选
 		String[] sendtouserids = sendtouserid.split(",");// 获取到所有的发送用户的id
@@ -534,10 +534,15 @@ public class FormAction extends ActionSupport {
 		return strlist;
 	}
 
-	private JSONArray getResultJson(List<Integer> idlist) {  //根据用报单的id，查询报单结果，并添加必要数据供前台显示
+	private JSONArray getResultJson(List<Integer> idlist,int type ) {  //根据用报单的id，查询报单结果，并添加必要数据供前台显示
 		JSONArray jsonarray = new JSONArray();		
 		for (Integer formid : idlist) {
-			SuperForm form = formService.selectById(formid);
+			SuperForm form = null;
+			if(type==1){
+				 form = formService.selectById(formid);
+			}else
+				form = templateService.selectById(formid);
+			
 			JSONObject jsonobj = JSONObject.fromObject(form);
 			User user = userService.findByUserId(form.getSendfrom());
 			Contract contract = contractService.SelectById(Integer.valueOf(form.getContract()));
