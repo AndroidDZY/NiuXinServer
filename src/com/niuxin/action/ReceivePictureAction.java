@@ -11,7 +11,8 @@ import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-import sun.misc.BASE64Decoder;
+import Decoder.BASE64Decoder;
+
 
 public class ReceivePictureAction extends ActionSupport {
 	private static final long serialVersionUID = 209976163083755776L;
