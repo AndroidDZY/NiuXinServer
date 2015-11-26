@@ -181,11 +181,18 @@ public class FormAction extends ActionSupport {
 		JSONArray jsar = JSONArray.fromObject(str);
 		if (jsar != null) {
 			for (int i = 0; i < jsar.size(); i++) {
-				SuperForm form = new SuperForm();
+				
 				JSONObject json_data = jsar.getJSONObject(i);
 				Integer id = json_data.getInt("id");// 获取标签的ID
 				Integer type = json_data.getInt("type");// 获取标签的ID
 				String name = json_data.getString("name");
+				SuperForm form =null ;
+				if(type==1){
+					form = new Form();
+				}
+				if(type==2){
+					form = new Template();
+				}
 				form.setUpdatetime(new Date());
 				form.setName(name);
 				form.setId(id);
@@ -236,7 +243,6 @@ public class FormAction extends ActionSupport {
 					break;
 				}
 				}
-
 			}
 		}
 

@@ -34,7 +34,7 @@
 
 
 	<update id="update" parameterMap="p">
-		update form set name=#{name},updatetime=#{updateTime} where id=#{id}
+		update form set name=#{name},updatetime=#{updatetime} where id=#{id}
 	</update>
 
 

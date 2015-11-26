@@ -9,8 +9,6 @@
     <parameterMap type="com.niuxin.bean.Template"  id="p"></parameterMap>
     
 
-    
-    
     <insert id="insert" parameterMap="p" useGeneratedKeys="true" keyProperty="id">    
         insert into
 		template(contract,operation,price,handnum,position,minnum,maxnum,remark,pictureurl,audiourl,collection,createtime,updatetime,audioread,sendfrom,occupy,name,sendto_user,sendto_group)
@@ -27,7 +25,7 @@
     
     
      <update id="update" parameterMap="p">  
-        update template set name=#{name},updatetime=#{updateTime} where id=#{id}
+        update template set name=#{name},updatetime=#{updatetime} where id=#{id}
     </update>
     
     
