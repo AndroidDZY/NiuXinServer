@@ -41,7 +41,7 @@ public class UserAction extends ActionSupport {
 	@Resource
 	private IShieldService shieldService;
 
-	// 查找用户的好友
+	// 收藏好友
 	public void followUser() {
 		response.setContentType("text/plain");
 		response.setCharacterEncoding("utf-8");
