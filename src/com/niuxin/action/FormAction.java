@@ -292,7 +292,13 @@ public class FormAction extends ActionSupport {
 		Integer id = json_data.getInt("id");// 用户自己的id
 		// 根据发送用户的ID按时间查询。
 		List<Form> list= formService.selectFormBytime(id);
-		JSONArray jsonarray =JSONArray.fromObject(list);	
+		List<Integer> idlist = new LinkedList<Integer>();
+		if(null!=list){
+			for(int i=0;i<list.size();i++){
+				idlist.add(list.get(i).getId());
+			}	
+		}
+		JSONArray jsonarray = getResultJson(idlist,1);	
 		// 5 将删选后的json数组转为字符串
 				String json = "";
 				if (jsonarray != null)
@@ -318,7 +324,13 @@ public class FormAction extends ActionSupport {
 		Integer id = json_data.getInt("id");// 用户自己的id
 		// 根据发送用户的ID按时间查询。
 		List<Form> list= formService.selectFormBycontract(id);
-		JSONArray jsonarray =JSONArray.fromObject(list);	
+		List<Integer> idlist = new LinkedList<Integer>();
+		if(null!=list){
+			for(int i=0;i<list.size();i++){
+				idlist.add(list.get(i).getId());
+			}	
+		}
+		JSONArray jsonarray = getResultJson(idlist,1);	
 		// 5 将删选后的json数组转为字符串
 				String json = "";
 				if (jsonarray != null)
@@ -373,8 +385,14 @@ public class FormAction extends ActionSupport {
 		JSONObject json_data = jsar.getJSONObject(0);
 		Integer id = json_data.getInt("id");// 用户自己的id
 		// 根据发送用户的ID按时间查询。
-		List<Form> list= formService.selectFormBysend(id);
-		JSONArray jsonarray =JSONArray.fromObject(list);	
+		List<Form> list = formService.selectFormBysend(id);
+		List<Integer> idlist = new LinkedList<Integer>();
+		if(null!=list){
+			for(int i=0;i<list.size();i++){
+				idlist.add(list.get(i).getId());
+			}	
+		}
+		JSONArray jsonarray = getResultJson(idlist,1);	
 		// 5 将删选后的json数组转为字符串
 				String json = "";
 				if (jsonarray != null)
