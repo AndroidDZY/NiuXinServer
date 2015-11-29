@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.niuxin.mapper.ShieldMapper">
+     <resultMap type="com.niuxin.bean.Shield"  id="r">
+
+         <result property="userId" column="user_id"/>
+          <result property="shieldUserid" column="shield_userid"/>
+        										  
+             
+    </resultMap>
+    <parameterMap type="com.niuxin.bean.Shield"  id="p"></parameterMap>
+    
+
+     <select id="selectByUserId" resultMap="r">    
+        select * from shield order by shield_userid=#{id} asc
+    </select>
+    
+     <insert id="insert" parameterMap="p" useGeneratedKeys="true" keyProperty="id">    
+         INSERT INTO shield(user_id,shield_userid) SELECT #{userId}, #{shieldUserid} FROM DUAL WHERE NOT EXISTS
+         (SELECT user_id,shield_userid FROM shield WHERE user_id = #{userId} and shield_userid=#{shieldUserid})
+    </insert>
+     
+    
+     <delete id="delete" parameterMap="p">
+		delete from shield where user_id=#{userId} and shield_userid =#{shieldUserid}
+	</delete>
+  
+</mapper>
