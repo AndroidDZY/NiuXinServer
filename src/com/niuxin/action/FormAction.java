@@ -280,6 +280,31 @@ public class FormAction extends ActionSupport {
 					e.printStackTrace();
 				}
 	}
+	
+	public void selectTemplateById() {// 根据表单的id，找出表单信息
+		response.setContentType("text/plain");
+		response.setCharacterEncoding("utf-8");
+		String str = new GetJsonString().getJsonString(request);
+		JSONArray jsar = JSONArray.fromObject(str);
+		JSONObject json_data = jsar.getJSONObject(0);
+		Integer id = json_data.getInt("templateid");// 用户自己的id
+		List<Integer> idlist = new LinkedList<Integer>();
+			idlist.add(id);		
+		// 3 idlist，组装所有接收的的报单数据。
+		JSONArray jsonarray = getResultJson(idlist,2);		
+		// 5 将删选后的json数组转为字符串
+				String json = "";
+				if (jsonarray != null)
+					json = jsonarray.toString();// 返回该用户的所有表单
+
+				try {
+					response.getWriter().write(json);
+					response.getWriter().flush();
+					response.getWriter().close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+	}
 	/*
 	 *  按时间顺序查询
 	 */
