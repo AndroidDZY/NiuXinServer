@@ -76,7 +76,7 @@
 	</package>
 	
 		<package name="upload" extends="struts-default">
-		<action name="upload_*" class="com.niuxin.action.UploadAction"
+		<action name="upload_*" class="com.niuxin.action.ReceivePictureAction"
 			method="{1}">
 		</action>
 	</package>
