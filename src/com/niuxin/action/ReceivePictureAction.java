@@ -15,7 +15,9 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.tomcat.util.bcel.classfile.Constant;
 
 import com.niuxin.bean.Form;
+import com.niuxin.bean.Template;
 import com.niuxin.service.IFormService;
+import com.niuxin.service.ITemplateService;
 import com.niuxin.util.Constants;
 import com.niuxin.util.GetJsonString;
 import com.opensymphony.xwork2.ActionSupport;
@@ -30,6 +32,8 @@ public class ReceivePictureAction extends ActionSupport {
 	HttpServletRequest request = ServletActionContext.getRequest();
 	@Resource
 	private IFormService formService;
+	@Resource
+	private ITemplateService templateService;
 
 	public void upload() {
 		try {
@@ -95,8 +99,17 @@ public class ReceivePictureAction extends ActionSupport {
 			Integer id = json_data.getInt("formid");			
 			response.setContentType("text/plain");
 			response.setHeader("Content-Disposition", "attachment; filename=" + id);
-			Form form = formService.selectById(id);
-			String path = form.getPictureurl();
+			
+			Integer type = json_data.getInt("type");	
+			String path ="";
+			if(type==1){
+				Form form = formService.selectById(id);
+				 path = form.getPictureurl();
+			}else{
+				Template form = templateService.selectById(id);
+				 path = form.getPictureurl();
+			}
+			
 			String os = System.getProperty ("os.name");
 				if(os.contains("Windows")){
 					path = Constants.WINDOWS_UPLOAD_PICTUREDIR +path; 
