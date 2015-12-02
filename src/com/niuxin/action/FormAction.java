@@ -611,7 +611,9 @@ public class FormAction extends ActionSupport {
 			jsonobj.put("date", dates[0]);
 			jsonobj.put("time", dates[1]);
 			jsonobj.put("week", dates[2]);
-			jsonobj.put("profit", (3 - 1) * form.getHandnum() - 10 * form.getHandnum());
+			
+			//合约现价 报价买入价 一个2000 一个1000@master＆无为 
+			jsonobj.put("profit", (2000 - 1000) * form.getHandnum() - 10 * form.getHandnum());
 			jsonarray.add(jsonobj);
 		}
 
