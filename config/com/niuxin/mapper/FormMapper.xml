@@ -60,7 +60,7 @@
 		select * from form where sendfrom=#{id} GROUP BY contract
 	</select>
 	<select id="selectFormBysend" resultMap="r" parameterType="list">
-		select * from form where sendfrom=#{id} sendto_user AND sendto_group
+		select * from form where sendfrom=#{id} Order By  sendto_user
 	</select>
 
 
