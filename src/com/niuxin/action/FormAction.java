@@ -21,6 +21,7 @@ import org.apache.struts2.ServletActionContext;
 import com.niuxin.bean.Contract;
 import com.niuxin.bean.Follow;
 import com.niuxin.bean.Form;
+import com.niuxin.bean.Shield;
 import com.niuxin.bean.SuperForm;
 import com.niuxin.bean.Template;
 import com.niuxin.bean.User;
@@ -28,6 +29,7 @@ import com.niuxin.bean.UserGroup;
 import com.niuxin.service.IContractService;
 import com.niuxin.service.IFollowService;
 import com.niuxin.service.IFormService;
+import com.niuxin.service.IShieldService;
 import com.niuxin.service.ITemplateService;
 import com.niuxin.service.IUserGroupService;
 import com.niuxin.service.IUserService;
@@ -60,6 +62,9 @@ public class FormAction extends ActionSupport {
 
 	@Resource
 	private IFollowService followService;
+	
+	@Resource
+	private IShieldService shieldService;
 
 	public void insert() {
 		response.setContentType("text/plain");
@@ -597,6 +602,16 @@ public class FormAction extends ActionSupport {
 			} else
 				form = templateService.selectById(formid);
 
+			/////////////////////////////////////////先剔除屏蔽的人
+//			List<Shield> shields = shieldService.selectByUserId(用户自己的id);
+//			int mark=0;
+//			for(Shield shieldid:shields){
+//				if(shieldid.getShieldUserid()==form.getSendfrom())
+//					mark=1;
+//			}
+//			if(mark==1)
+//				continue;
+			
 			JSONObject jsonobj = JSONObject.fromObject(form);
 			User user = userService.findByUserId(form.getSendfrom());
 			Contract contract = contractService.SelectById(Integer.valueOf(form.getContract()));

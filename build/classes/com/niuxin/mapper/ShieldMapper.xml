@@ -12,7 +12,7 @@
     
 
      <select id="selectByUserId" resultMap="r">    
-        select * from shield order by shield_userid=#{id} asc
+        select * from shield order by user_id=#{id} asc
     </select>
     
      <insert id="insert" parameterMap="p" useGeneratedKeys="true" keyProperty="id">    
