@@ -609,8 +609,8 @@ public class FormAction extends ActionSupport {
 				form = templateService.selectById(formid);
 
 			/////////////////////////////////////////先剔除屏蔽的人
-		//	int isshield = isShield(userid,form.getSendfrom());
-		//	if(isshield==1)
+			int isshield = isShield(userid,form.getSendfrom());
+		//	if(isshield==1)  //先不屏蔽
 		//		continue;
 			/////////////////////////////////////////先剔除屏蔽的人
 			
