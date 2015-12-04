@@ -83,4 +83,10 @@ public class FormServiceImpl implements IFormService{
 		return formMapper.selectFormBysend(id);
 	}
 
+	@Override
+	public void collectionForm(Form form) {
+		// TODO Auto-generated method stub
+		formMapper.collectionForm(form);
+	}
+
 }

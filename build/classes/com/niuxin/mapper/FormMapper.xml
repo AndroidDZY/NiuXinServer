@@ -36,6 +36,11 @@
 	<update id="update" parameterMap="p">
 		update form set name=#{name},updatetime=#{updatetime} where id=#{id}
 	</update>
+	
+	
+	<update id="collectionForm" parameterMap="p">
+		update form set collection=#{collection},updatetime=#{updatetime} where id=#{id}
+	</update>
 
 
 	<delete id="delete" parameterType="int">

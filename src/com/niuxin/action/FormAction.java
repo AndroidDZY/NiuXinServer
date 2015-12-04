@@ -231,6 +231,38 @@ public class FormAction extends ActionSupport {
 		}
 	}
 
+	
+	public void collectionForm() {//是否收藏表单
+		response.setContentType("text/plain");
+		response.setCharacterEncoding("utf-8");
+
+		String str = new GetJsonString().getJsonString(request);
+		// 用json进行解析
+		JSONArray jsar = JSONArray.fromObject(str);
+		if (jsar != null) {
+			for (int i = 0; i < jsar.size(); i++) {
+
+				JSONObject json_data = jsar.getJSONObject(i);
+				Integer id = json_data.getInt("id");// 获取标签的ID
+				Integer type = json_data.getInt("iscollection");// 获取标签的ID
+				Form form = null;				
+				form.setUpdatetime(new Date());			
+				form.setId(id);
+				form.setCollection(type);//1代表收藏 2代表取消收藏报单
+				formService.collectionForm(form);
+				}
+			}
+
+		String json = "";
+		try {
+			response.getWriter().write(json);
+			response.getWriter().flush();
+			response.getWriter().close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void delete() {
 		response.setContentType("text/plain");
 		response.setCharacterEncoding("utf-8");
@@ -724,4 +756,7 @@ public class FormAction extends ActionSupport {
 			e1.printStackTrace();
 		}
 	}
+
+
+
 }

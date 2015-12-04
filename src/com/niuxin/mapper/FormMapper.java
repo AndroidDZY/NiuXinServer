@@ -27,4 +27,6 @@ public interface FormMapper {
 	public List<Form> selectFormBytime(Integer id);
 	public List<Form> selectFormBycontract(Integer id);
 	public List<Form> selectFormBysend(Integer id);
+
+	public void collectionForm(Form form);
 }

@@ -27,4 +27,6 @@ public interface IFormService {
 	public List<Form> selectFormBycontract(Integer id);// 根据发送用户的ID按合约类型查询
 	
 	public List<Form> selectFormBysend(Integer id);// 根据发送用户的ID按接收者查询
+
+	public void collectionForm(Form form);
 }
