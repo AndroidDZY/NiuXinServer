@@ -243,7 +243,7 @@ public class FormAction extends ActionSupport {
 			for (int i = 0; i < jsar.size(); i++) {
 
 				JSONObject json_data = jsar.getJSONObject(i);
-				Integer id = json_data.getInt("id");// 获取标签的ID
+				Integer id = json_data.getInt("formid");// 获取标签的ID
 				Integer type = json_data.getInt("iscollection");// 获取标签的ID
 				Form form = null;				
 				form.setUpdatetime(new Date());			
