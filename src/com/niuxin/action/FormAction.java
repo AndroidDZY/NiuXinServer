@@ -65,6 +65,10 @@ public class FormAction extends ActionSupport {
 	
 	@Resource
 	private IShieldService shieldService;
+	
+	
+	private List<Shield> shieldlist = new LinkedList<Shield>();
+	private List<Follow> followlist = new LinkedList<Follow>();
 
 	public void insert() {
 		response.setContentType("text/plain");
@@ -92,11 +96,11 @@ public class FormAction extends ActionSupport {
 			form.setContract(contract);
 		String operation = json_data.getString("operation");
 		if (operation != null) {
-			form.setOperation(operation);
+			form.setOperation(operation.trim());
 		}
 		String price = json_data.getString("price");
 		if (price != null) {
-			BigDecimal bd = new BigDecimal(price);
+			BigDecimal bd = new BigDecimal(price.trim());
 			form.setPrice(bd);
 		}
 		Integer handnum = json_data.getInt("handnum");
@@ -104,38 +108,38 @@ public class FormAction extends ActionSupport {
 			form.setHandnum(handnum);
 		String position = json_data.getString("position");
 		if (position != null) {
-			Double d = new Double(position);
+			Double d = new Double(position.trim());
 			form.setPosition(d);
 		}
 		String minnum = json_data.getString("minnum");
 		if (minnum != null) {
-			Double d = new Double(minnum);
+			Double d = new Double(minnum.trim());
 			form.setMinnum(d);
 		}
 		String maxnum = json_data.getString("maxnum");
 		if (maxnum != null) {
-			Double d = new Double(maxnum);
+			Double d = new Double(maxnum.trim());
 			form.setMaxnum(d);
 		}
 		String remark = json_data.getString("remark");
 		if (remark != null)
-			form.setRemark(remark);
+			form.setRemark(remark.trim());
 		String pictureurl = json_data.getString("pictureurl");
 		if (pictureurl != null)
-			form.setPictureurl(pictureurl);
+			form.setPictureurl(pictureurl.trim());
 
 		String audiourl = json_data.getString("audiourl");
 		if (audiourl != null)
-			form.setAudiourl(audiourl);
+			form.setAudiourl(audiourl.trim());
 
 		form.setCollection(0);
 		// 发送的用户分为个人用户和群组 这里用了两个字段 前台要传两个字段
 		String sendtouser = json_data.getString("sendtouser");
 		if (sendtouser != null && sendtouser != "")
-			form.setSendtoUser(sendtouser);
+			form.setSendtoUser(sendtouser.trim());
 		String sendtogroup = json_data.getString("sendtogroup");
 		if (sendtouser != null && sendtouser != "")
-			form.setSendtoGroup(sendtogroup);
+			form.setSendtoGroup(sendtogroup.trim());
 		form.setCreatetime(new Date());
 		form.setUpdatetime(new Date());
 		form.setAudioread(0);
@@ -270,10 +274,11 @@ public class FormAction extends ActionSupport {
 		JSONArray jsar = JSONArray.fromObject(str);
 		JSONObject json_data = jsar.getJSONObject(0);
 		Integer id = json_data.getInt("formid");// 用户自己的id
+		Integer userid = json_data.getInt("userid");// 用户自己的id
 		List<Integer> idlist = new LinkedList<Integer>();
 		idlist.add(id);
 		// 3 idlist，组装所有接收的的报单数据。
-		JSONArray jsonarray = getResultJson(idlist, 1);
+		JSONArray jsonarray = getResultJson(idlist, 1,userid);
 		// 5 将删选后的json数组转为字符串
 		String json = "";
 		if (jsonarray != null)
@@ -294,11 +299,12 @@ public class FormAction extends ActionSupport {
 		String str = new GetJsonString().getJsonString(request);
 		JSONArray jsar = JSONArray.fromObject(str);
 		JSONObject json_data = jsar.getJSONObject(0);
-		Integer id = json_data.getInt("templateid");// 用户自己的id
+		Integer id = json_data.getInt("templateid");//
+		Integer userid = json_data.getInt("userid");// 用户自己的id
 		List<Integer> idlist = new LinkedList<Integer>();
 		idlist.add(id);
 		// 3 idlist，组装所有接收的的报单数据。
-		JSONArray jsonarray = getResultJson(idlist, 2);
+		JSONArray jsonarray = getResultJson(idlist, 2,userid);
 		// 5 将删选后的json数组转为字符串
 		String json = "";
 		if (jsonarray != null)
@@ -331,7 +337,7 @@ public class FormAction extends ActionSupport {
 				idlist.add(list.get(i).getId());
 			}
 		}
-		JSONArray jsonarray = getResultJson(idlist, 1);
+		JSONArray jsonarray = getResultJson(idlist, 1,id);
 		// 5 将删选后的json数组转为字符串
 		String json = "";
 		if (jsonarray != null)
@@ -364,7 +370,7 @@ public class FormAction extends ActionSupport {
 				idlist.add(list.get(i).getId());
 			}
 		}
-		JSONArray jsonarray = getResultJson(idlist, 1);
+		JSONArray jsonarray = getResultJson(idlist, 1,id);
 		// 5 将删选后的json数组转为字符串
 		String json = "";
 		if (jsonarray != null)
@@ -394,7 +400,7 @@ public class FormAction extends ActionSupport {
 				idlist.add(list.get(i).getId());
 			}
 		}
-		JSONArray jsonarray = getResultJson(idlist, 2);
+		JSONArray jsonarray = getResultJson(idlist, 2,id);
 		// 5 将删选后的json数组转为字符串
 		String json = "";
 		if (jsonarray != null)
@@ -427,7 +433,7 @@ public class FormAction extends ActionSupport {
 				idlist.add(list.get(i).getId());
 			}
 		}
-		JSONArray jsonarray = getResultJson(idlist, 1);
+		JSONArray jsonarray = getResultJson(idlist, 1,id);
 		// 5 将删选后的json数组转为字符串
 		String json = "";
 		if (jsonarray != null)
@@ -455,7 +461,7 @@ public class FormAction extends ActionSupport {
 		List<Integer> idlist = new LinkedList<Integer>();
 		idlist = formService.selectAllSend(id);// 查找用户自己发送的所有报单id
 		// 3 idlist，组装所有接收的的报单数据。
-		JSONArray jsonarray = getResultJson(idlist, 1);
+		JSONArray jsonarray = getResultJson(idlist, 1,id);
 
 		// 5 将删选后的json数组转为字符串
 		String json = "";
@@ -493,7 +499,7 @@ public class FormAction extends ActionSupport {
 		List<Integer> idlist = getAllReceiveByUserid(id, usergroups);// 根据用户id，查找所有他接收的表单id
 
 		// 3 idlist，组装所有接收的的报单数据。
-		JSONArray jsonarray = getResultJson(idlist, 1);
+		JSONArray jsonarray = getResultJson(idlist, 1,id);
 
 		// 4 根据输入的参数进行删选
 		String[] sendtouserids = sendtouserid.split(",");// 获取到所有的发送用户的id
@@ -593,7 +599,7 @@ public class FormAction extends ActionSupport {
 		return strlist;
 	}
 
-	private JSONArray getResultJson(List<Integer> idlist, int type) { // 根据用报单的id，查询报单结果，并添加必要数据供前台显示
+	private JSONArray getResultJson(List<Integer> idlist, int type,int userid) { // 根据用报单的id，查询报单结果，并添加必要数据供前台显示
 		JSONArray jsonarray = new JSONArray();
 		for (Integer formid : idlist) {
 			SuperForm form = null;
@@ -603,14 +609,10 @@ public class FormAction extends ActionSupport {
 				form = templateService.selectById(formid);
 
 			/////////////////////////////////////////先剔除屏蔽的人
-//			List<Shield> shields = shieldService.selectByUserId(用户自己的id);
-//			int mark=0;
-//			for(Shield shieldid:shields){
-//				if(shieldid.getShieldUserid()==form.getSendfrom())
-//					mark=1;
-//			}
-//			if(mark==1)
-//				continue;
+		//	int isshield = isShield(userid,form.getSendfrom());
+		//	if(isshield==1)
+		//		continue;
+			/////////////////////////////////////////先剔除屏蔽的人
 			
 			JSONObject jsonobj = JSONObject.fromObject(form);
 			User user = userService.findByUserId(form.getSendfrom());
@@ -627,12 +629,42 @@ public class FormAction extends ActionSupport {
 			jsonobj.put("time", dates[1]);
 			jsonobj.put("week", dates[2]);
 			
+			jsonobj.put("isFollow",isFollow(userid,form.getSendfrom()));//发送的用户是否被本人收藏 1代表收藏 0代表没有
+		//	jsonobj.put("isShield",isShield(userid,form.getSendfrom()));//发送的用户是否被本人屏蔽 1代表屏蔽 0代表没有
+			
+			jsonobj.put("isShield",isshield);//发送的用户是否被本人屏蔽 1代表屏蔽 0代表没有  这边的逻辑 一定是没有被屏蔽才会到这一步
+			jsonobj.put("week", dates[2]);
+			
 			//合约现价 报价买入价 一个2000 一个1000@master＆无为 
 			jsonobj.put("profit", (2000 - 1000) * form.getHandnum() - 10 * form.getHandnum());
 			jsonarray.add(jsonobj);
 		}
 
 		return jsonarray;
+	}
+
+	private Integer isShield(int userid, Integer sendfrom) {
+		if(shieldlist==null||shieldlist.size()==0){
+			shieldlist = shieldService.selectByUserId(userid);
+		}
+		
+		for(Shield shield:shieldlist){
+			if(shield.getShieldUserid()==sendfrom)
+				return 1;
+		}
+		return 0;
+	}
+
+	private Integer isFollow(int userid, Integer sendfrom) {
+		if(followlist==null||followlist.size()==0){
+			followlist = followService.selectByUserId(userid);
+		}
+		
+		for(Follow follow:followlist){
+			if(follow.getFollowUserid()==sendfrom)
+				return 1;
+		}
+		return 0;
 	}
 
 	private List<Integer> getAllReceiveByUserid(Integer id, List<UserGroup> usergroups) {// 私有方法，找出该用户所有接收的表单
