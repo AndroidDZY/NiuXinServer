@@ -147,8 +147,13 @@ public class FormAction extends ActionSupport {
 		if (sendfrom != null)
 			form.setSendfrom(sendfrom);
 		form.setOccupy(0);
-	//	String name = json_data.getString("name");
-		form.setName("报单" + sendfrom + (MyDate.getDateToString()));
+		String name = json_data.getString("name");
+		if(null!=name)
+			form.setName(name);
+		else{
+			form.setName("报单" + sendfrom + (MyDate.getDateToString()));
+		}
+			
 
 		JSONObject jsonObject = new JSONObject();
 		try {
