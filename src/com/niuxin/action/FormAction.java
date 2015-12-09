@@ -563,7 +563,7 @@ public class FormAction extends ActionSupport {
 						for (UserGroup group : usergroups) {//// 后台查询出来的群数组
 							if (jsonarray.get(i) == null)
 								continue;
-							if (Integer.valueOf(groupid) == group.getId()) {// 如果当前用的群组和接收用户的群组一直，则保存
+							if (null!=groupid&&(!groupid.trim().equals(""))&&Integer.valueOf(groupid) == group.getId()) {// 如果当前用的群组和接收用户的群组一直，则保存
 								jsonarray.remove(i);
 								mark = 1;
 								break;
@@ -706,9 +706,9 @@ public class FormAction extends ActionSupport {
 		for (Form forms : formlist) {
 			int mark = 0;// 标记位，如果接受人的字符串已经匹配，就不需要在群组里面再找了
 			if (forms.getSendtoUser() != null) {// 如果发送的个人不等于空，查看该字符串是否包含本人，字符串以逗号分隔
-				String[] sendtousers = forms.getSendtoUser().split(",");
+				String[] sendtousers = forms.getSendtoUser().trim().split(",");
 				for (String user : sendtousers) {
-					if (id == Integer.valueOf(user)) {
+					if (null!=user&&(!user.trim().equals(""))&&id == Integer.valueOf(user)) {
 						idlist.add(forms.getId());// 如果接受的个人字符串里面有本人，那就直接记住这个表单的id
 						mark = 1;
 						break;
@@ -716,14 +716,17 @@ public class FormAction extends ActionSupport {
 				}
 			}
 			if (forms.getSendtoGroup() != null && mark != 1) {
-				String[] groups = forms.getSendtoGroup().split(",");
+				String[] groups = forms.getSendtoGroup().trim().split(",");
 				for (String group : groups) {
-					for (UserGroup usergroup : usergroups) {
-						if (Integer.valueOf(group) == usergroup.getId()) {// 如果当前用的群组和接收用户的群组一直，则保存
-							idlist.add(forms.getId());// 如果接受的个人字符串里面有本人，那就直接记住这个表单的id
-							break;
+					if(null!=group&&!(group.trim().equals(""))){
+						for (UserGroup usergroup : usergroups) {
+							if (Integer.valueOf(group) == usergroup.getId()) {// 如果当前用的群组和接收用户的群组一直，则保存
+								idlist.add(forms.getId());// 如果接受的个人字符串里面有本人，那就直接记住这个表单的id
+								break;
+							}
 						}
 					}
+					
 				}
 			}
 		}
