@@ -78,6 +78,7 @@ public class FormAction extends ActionSupport {
 		} catch (UnsupportedEncodingException e2) {
 			e2.printStackTrace();
 		}
+
 		SuperForm form = null;
 		String str = new GetJsonString().getJsonString(request);
 		// 用json进行解析
@@ -148,7 +149,7 @@ public class FormAction extends ActionSupport {
 			form.setSendfrom(sendfrom);
 		form.setOccupy(0);
 		String name = json_data.getString("name");
-		if(null!=name)
+		if(null!=name&&!name.equals(""))
 			form.setName(name);
 		else{
 			form.setName("报单" + sendfrom + (MyDate.getDateToString()));
@@ -161,6 +162,7 @@ public class FormAction extends ActionSupport {
 			case 1: {
 				Form f = (Form) form;
 				formService.insert(f);
+				
 				break;
 			}
 			case 2: {
