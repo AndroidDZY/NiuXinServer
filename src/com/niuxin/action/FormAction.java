@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedList;
@@ -252,11 +253,11 @@ public class FormAction extends ActionSupport {
 				JSONObject json_data = jsar.getJSONObject(i);
 				Integer id = json_data.getInt("formid");// 获取标签的ID
 				Integer type = json_data.getInt("iscollection");// 获取标签的ID
-				Form form = null;				
+				SuperForm form = new Form();				
 				form.setUpdatetime(new Date());			
 				form.setId(id);
 				form.setCollection(type);//1代表收藏 2代表取消收藏报单
-				formService.collectionForm(form);
+				formService.collectionForm((Form)form);
 				}
 			}
 
@@ -545,6 +546,7 @@ public class FormAction extends ActionSupport {
 															// 这边可能还有关注者
 															// 所以还得继续处理下
 															// 但总之这边得到所有的发送用户id
+		List<String> sendtouseridlist = handleUsers(sendtouserids, id);
 		String[] sendtogroupids = sendtogroupid.split(",");// 获取到所有的发送群组的id
 		if (jsonarray != null) {
 			for (int i = jsonarray.size() - 1; i >= 0; i--) {// 倒序，这样删除就没有问题了
@@ -552,9 +554,9 @@ public class FormAction extends ActionSupport {
 				// 1 根据发送人
 				if (!sendtouserid.equals("-1")) {
 					int mark = 0;
-					List<String> sendtouseridlist = handleUsers(sendtouserids, id);
 					for (String userid : sendtouseridlist) {
-						if (!userid.equals(jo.get("sendfrom"))) {
+						String sendfrom = jo.get("sendfrom").toString().trim();
+						if (!userid.trim().equals(sendfrom)) {
 							jsonarray.remove(i);
 							mark = 1;
 							break;
@@ -620,10 +622,11 @@ public class FormAction extends ActionSupport {
 	}
 
 	private List<String> handleUsers(String[] sendtouserids, int userid) {
-		List<String> strlist = Arrays.asList(sendtouserids);
+		List<String> strlist =  new ArrayList<String>();  
+		strlist.addAll(Arrays.asList(sendtouserids));
 		List<Follow> followlist = new LinkedList<Follow>();
 		for (int i = 0; i < strlist.size(); i++) {
-			if (strlist.get(i).equals("-2")) {
+			if (strlist.get(i).trim().equals("-2")) {
 				followlist = followService.selectByUserId(userid);
 				strlist.remove(i);
 				break;
