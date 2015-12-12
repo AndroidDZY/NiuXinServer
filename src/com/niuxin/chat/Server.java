@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.niuxin.service.IChatRecordService;
 import com.niuxin.service.IShareGroupService;
+import com.niuxin.service.IUserFriendService;
 import com.niuxin.service.IUserGroupService;
 import com.niuxin.service.IUserService;
 import com.niuxin.util.Constants;
@@ -41,6 +42,8 @@ public class Server implements Runnable{
 	private IChatRecordService chatRecordService;
 	@Resource
 	private IShareGroupService shareGroupService;
+	@Resource
+	private IUserFriendService userFriendService;
 
 	public Server() {		
 		try {
@@ -106,7 +109,7 @@ public class Server implements Runnable{
 			out = new OutputThread(socket, map);//
 			// 先实例化写消息线程,（把对应用户的写线程存入map缓存器中）
 			in = new InputThread(socket, out, map);// 再实例化读消息线程	
-			in.init2(userService,userGroupService,chatRecordService,shareGroupService);
+			in.init2(userService,userGroupService,chatRecordService,shareGroupService,userFriendService);
 		}
 
 		@Override

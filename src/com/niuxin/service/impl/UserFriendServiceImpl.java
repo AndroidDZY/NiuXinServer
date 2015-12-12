@@ -35,4 +35,17 @@ public class UserFriendServiceImpl implements IUserFriendService{
 		return userFriendMapper.selectByUseridOrReceiveID(id);
 	}
 
+	@Override
+	public Boolean isEachFriend(UserFriend uf) {
+		// TODO Auto-generated method stub
+		List<UserFriend> u = userFriendMapper.isEachFriend(uf);
+		if(u!=null){
+			if(u.size()==2){
+				return true;
+			}
+			
+		}
+		return false;
+	}
+
 }

@@ -12,4 +12,6 @@ public interface UserFriendMapper {
 
 	public List<UserFriend> selectByUseridOrReceiveID(Integer id);
 
+	public List<UserFriend> isEachFriend(UserFriend uf);
+
 }

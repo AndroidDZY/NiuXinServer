@@ -71,6 +71,11 @@ public class FormAction extends ActionSupport {
 	private List<Shield> shieldlist = new LinkedList<Shield>();
 	private List<Follow> followlist = new LinkedList<Follow>();
 
+	/*
+	 * 插入和查询的时候，是否需要判断是好友关系
+	 * 
+	 * 
+	 * */
 	public void insert() {
 		response.setContentType("text/plain");
 		response.setCharacterEncoding("utf-8");
@@ -137,8 +142,10 @@ public class FormAction extends ActionSupport {
 		form.setCollection(0);
 		// 发送的用户分为个人用户和群组 这里用了两个字段 前台要传两个字段
 		String sendtouser = json_data.getString("sendtouser");
-		if (sendtouser != null && sendtouser != "")
+		if (sendtouser != null && sendtouser != ""){
 			form.setSendtoUser(sendtouser.trim());
+		}
+			
 		String sendtogroup = json_data.getString("sendtogroup");
 		if (sendtouser != null && sendtouser != "")
 			form.setSendtoGroup(sendtogroup.trim());

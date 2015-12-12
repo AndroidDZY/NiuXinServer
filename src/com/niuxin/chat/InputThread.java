@@ -13,9 +13,11 @@ import org.springframework.stereotype.Service;
 import com.niuxin.bean.ChatRecord;
 import com.niuxin.bean.ShareGroup;
 import com.niuxin.bean.User;
+import com.niuxin.bean.UserFriend;
 import com.niuxin.bean.UserGroup;
 import com.niuxin.service.IChatRecordService;
 import com.niuxin.service.IShareGroupService;
+import com.niuxin.service.IUserFriendService;
 import com.niuxin.service.IUserGroupService;
 import com.niuxin.service.IUserService;
 import com.niuxin.util.MyDate;
@@ -43,6 +45,7 @@ public class InputThread implements Runnable {
 	private IUserGroupService userGroupService = null;
 	private IChatRecordService chatRecordService = null;
 	private IShareGroupService shareGroupService = null;
+	private IUserFriendService userFriendService= null;
 	public InputThread(){//这边需要添加默认构造函数，具体哪边调用还不清楚
 
 	}
@@ -62,11 +65,12 @@ public class InputThread implements Runnable {
 		
 	}
 
-	public void init2(IUserService userService,IUserGroupService userGroupService,IChatRecordService chatRecordService,IShareGroupService shareGroupService){
+	public void init2(IUserService userService,IUserGroupService userGroupService,IChatRecordService chatRecordService,IShareGroupService shareGroupService,IUserFriendService userFriendService){
 		this.userService = userService;
 		this.userGroupService = userGroupService;
 		this.chatRecordService = chatRecordService;
 		this.shareGroupService = shareGroupService;
+		this.userFriendService =  userFriendService;
 	}
 
 	public void setStart(boolean isStart) {// 提供接口给外部关闭读消息线程
@@ -191,21 +195,40 @@ public class InputThread implements Runnable {
 				ChatRecord chat = new ChatRecord();
 				//保存消息
 				chat.setSendUserId(read_tranObject.getFromUser());
+				Boolean isfriend = true;
 				if(istogroup==2){//两人之间聊天的情况
 					chat.setReceiveUserId(read_tranObject.getToUser());
 					chat.setReceiveGroupId(-1);
-				}else{
+					UserFriend uf = new UserFriend();
+					uf.setUserSelfId(read_tranObject.getFromUser());//如果是两个人之间聊天的情况先判断是不是互相好友
+					uf.setUserFriendId(read_tranObject.getToUser());
+					 isfriend = userFriendService.isEachFriend(uf);
+				}else{//群聊的情况
 					chat.setReceiveGroupId(read_tranObject.getToUser());
 					chat.setReceiveUserId(-1);
 				}
 					chat.setCreateTime(new Date());
 					chat.setMessage(((TextMessage)read_tranObject.getObject()).getMessage());
-					chatRecordService.insert(chat);//向数据库保存聊天记录
+					
+					if(isfriend)//如果两个人聊天的时候，发现不是相互的好友就不保存记录12.12
+						chatRecordService.insert(chat);//向数据库保存聊天记录
 				//消息转发
 				if(istogroup==2){//两人之间聊天的情况
 					Integer id2 = read_tranObject.getToUser();
 					User toUser = userService.findByUserId(id2);
 					OutputThread toOut = map.getById(id2);//根据要发送的用户id 找到该用户的线程，然后向该线程写消息
+					//////////////12.12//////////////////////////////////////
+					if(!isfriend){// 如果两个人不是好友的情况，就直接提示不是好友
+						TextMessage text = new TextMessage();
+						text.setMessage("亲！你们双方还不是好友，请确认成为好友后再发送信息！");
+						TranObject<TextMessage> offText = new TranObject<TextMessage>(
+								TranObjectType.MESSAGE);
+						offText.setObject(text);
+						offText.setFromUser(0);
+						out.setMessage(offText);
+					}
+					////////////////////////////////////////////////////
+	
 					if (toOut != null) {// 如果用户在线
 						TranObject<TextMessage> offText = new TranObject<TextMessage>(
 								TranObjectType.MESSAGE);

@@ -11,4 +11,7 @@ public interface IUserFriendService {
 	public List<UserFriend> selectByUserid(int userid);
 
 	public List<UserFriend> selectByUseridOrReceiveID(Integer id);
+	
+	public Boolean isEachFriend(UserFriend uf);//两者是否互为好友
+	
 }

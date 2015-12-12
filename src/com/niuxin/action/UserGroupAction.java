@@ -161,16 +161,28 @@ public class UserGroupAction extends ActionSupport {
 		JSONArray jsonarray = new JSONArray();
 
 		/////////////////// 以下是个人的聊天记录/////////////////
-		List<UserFriend> list1 = userFriendService.selectByUserid(id); // 根据用户id
+		List<UserFriend> list2 = userFriendService.selectByUserid(id); // 根据用户id
 																		// 找到所有的好朋友
-		for (int i = 0; i < list1.size(); i++) {		
-			JSONObject jsonobject = new JSONObject();
-			jsonobject.put("id", list1.get(i).getUserFriendId()); // 好友的id
-			jsonobject.put("name", userService.findByUserId(list1.get(i).getUserFriendId()).getUserName());// 获取好友的用户名			
-			jsonobject.put("img", userService.findByUserId(list1.get(i).getUserFriendId()).getImg());// 群图标
-			jsonobject.put("chattype", 2);// 2代表是个人聊天
-			jsonarray.add(jsonobject);
+		List<UserFriend> list1 = new LinkedList<UserFriend>();
+		if(null!=list2){
+			for (int i = 0; i < list2.size(); i++) {	//必须是相互都是好友12.12修改	
+				Boolean iseachFriend = userFriendService.isEachFriend(list2.get(i));
+				if(iseachFriend)
+					list1.add(list2.get(i));
+			}
 		}
+		
+		if(null!=list1){
+			for (int i = 0; i < list1.size(); i++) {		
+				JSONObject jsonobject = new JSONObject();
+				jsonobject.put("id", list1.get(i).getUserFriendId()); // 好友的id
+				jsonobject.put("name", userService.findByUserId(list1.get(i).getUserFriendId()).getUserName());// 获取好友的用户名			
+				jsonobject.put("img", userService.findByUserId(list1.get(i).getUserFriendId()).getImg());// 群图标
+				jsonobject.put("chattype", 2);// 2代表是个人聊天
+				jsonarray.add(jsonobject);
+			}
+		}
+		
 
 	
 		/////////////////// 以下是群的聊天记录/////////////////
