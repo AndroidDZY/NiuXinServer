@@ -23,9 +23,12 @@
     </select>
     
     
-     <select id="isEachFriend" resultType="r" parameterMap="p">    
-        select * from user_friend where (user_self_id = #{userSelfId} and user_friend_id = #{userFriendId})  or (user_self_id = #{userFriendId} and user_friend_id = #{userSelfId})
-       
-    </select>
+     <select id="isEachFriend" resultMap="r" >    
+    
+         select t.* from user_friend t where ((user_self_id = #{0} and user_friend_id = #{1})  or (user_self_id = #{1} and user_friend_id = #{0}))
+
+      
+      
+    </select> 
        
 </mapper>
