@@ -26,12 +26,14 @@ import com.niuxin.bean.Shield;
 import com.niuxin.bean.SuperForm;
 import com.niuxin.bean.Template;
 import com.niuxin.bean.User;
+import com.niuxin.bean.UserFriend;
 import com.niuxin.bean.UserGroup;
 import com.niuxin.service.IContractService;
 import com.niuxin.service.IFollowService;
 import com.niuxin.service.IFormService;
 import com.niuxin.service.IShieldService;
 import com.niuxin.service.ITemplateService;
+import com.niuxin.service.IUserFriendService;
 import com.niuxin.service.IUserGroupService;
 import com.niuxin.service.IUserService;
 import com.niuxin.util.GetJsonString;
@@ -66,6 +68,8 @@ public class FormAction extends ActionSupport {
 	
 	@Resource
 	private IShieldService shieldService;
+	@Resource
+	private IUserFriendService userFriendService;
 	
 	
 	private List<Shield> shieldlist = new LinkedList<Shield>();
@@ -547,6 +551,9 @@ public class FormAction extends ActionSupport {
 
 		// 3 idlist，组装所有接收的的报单数据。
 		JSONArray jsonarray = getResultJson(idlist, 1,id);
+		
+		
+		
 
 		// 4 根据输入的参数进行删选
 		String[] sendtouserids = sendtouserid.split(",");// 获取到所有的发送用户的id
@@ -558,6 +565,17 @@ public class FormAction extends ActionSupport {
 		if (jsonarray != null) {
 			for (int i = jsonarray.size() - 1; i >= 0; i--) {// 倒序，这样删除就没有问题了
 				JSONObject jo = (JSONObject) jsonarray.get(i);
+				/////////////////////////判断两人是否是好友，不是好友就删除////////////////////////////////////////////
+				int sendfromid = Integer.valueOf(jo.get("sendfrom").toString().trim());
+				UserFriend uf = new UserFriend();
+				uf.setUserFriendId(sendfromid);
+				uf.setUserSelfId(id);
+				if(!userFriendService.isEachFriend(uf)){
+					jsonarray.remove(i);
+					continue;
+				}
+				/////////////////////////////////////////////////////////////////////
+				
 				// 1 根据发送人
 				if (!sendtouserid.equals("-1")) {
 					int mark = 0;
