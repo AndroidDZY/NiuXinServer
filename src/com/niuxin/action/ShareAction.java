@@ -12,10 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 
-import com.niuxin.bean.Share;
+import com.niuxin.bean.Contract;
 import com.niuxin.bean.ShareSelect;
+import com.niuxin.service.IContractService;
 import com.niuxin.service.IShareSelectService;
-import com.niuxin.service.IShareService;
 import com.niuxin.util.GetJsonString;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -29,7 +29,7 @@ public class ShareAction extends ActionSupport {
 	HttpServletRequest request = ServletActionContext.getRequest();
 
 	@Resource
-	private IShareService shareService;
+	private IContractService shareService;
 	@Resource
 	private IShareSelectService shareSelectService;
 
@@ -39,7 +39,7 @@ public class ShareAction extends ActionSupport {
 		response.setContentType("text/plain");
 		response.setCharacterEncoding("utf-8");
 
-		List<Share> list = shareService.selectAll();
+		List<Contract> list = shareService.selectAll();
 		JSONArray result = JSONArray.fromObject(list);
 		String json = result.toString();
 	//	System.out.println("json" + json);
@@ -62,7 +62,7 @@ public class ShareAction extends ActionSupport {
 		JSONObject json_data = jsar.getJSONObject(0);
 		int userid = json_data.getInt("userid");
 		String sharename = json_data.getString("sharename");
-		List<Share> list = shareService.selectByShareName(sharename);
+		List<Contract> list = shareService.selectByShareName(sharename);
 		JSONArray result = JSONArray.fromObject(list);
 		String json = result.toString();
 		try {
@@ -84,9 +84,9 @@ public class ShareAction extends ActionSupport {
 		JSONObject json_data = jsar.getJSONObject(0);
 		int id = json_data.getInt("id");
 		List<ShareSelect> list = shareSelectService.selectByUserid(id);// 获取所有选择的share
-		List<Share> relist = new LinkedList<Share>();
+		List<Contract> relist = new LinkedList<Contract>();
 		for(int i = 0;i<list.size();i++){
-			Share share= shareService.selectById(list.get(i).getShareId());
+			Contract share= shareService.SelectById(list.get(i).getShareId());
 			relist.add(share);
 		}
 
@@ -170,29 +170,6 @@ public class ShareAction extends ActionSupport {
 	}
 	
 	
-	public void selectByShareName() {  
-		response.setContentType("text/plain");
-		response.setCharacterEncoding("utf-8");
-/*
-		String str = new GetJsonString().getJsonString(request);
-		// 用json进行解析
-		JSONArray jsar = JSONArray.fromObject(str);
-		JSONObject json_data = jsar.getJSONObject(0);
-		String number = json_data.getString("number");
-		*/
-		String number = "000825";
-		List<Share> relist = shareService.selectByShareName(number);// 获取所有选择的share
-		
-		
-		JSONArray result = JSONArray.fromObject(relist);
-		String json = result.toString();
-		try {
-			response.getWriter().write(json);
-			response.getWriter().flush();
-			response.getWriter().close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+	
 
 }

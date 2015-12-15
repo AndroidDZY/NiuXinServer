@@ -38,6 +38,13 @@ public class ContractServiceImpl implements IContractService{
 		return contractMapper.SelectById(id);
 	}
 
+
+	@Override
+	public List<Contract> selectByShareName(String sharename) {
+		// TODO Auto-generated method stub
+		return contractMapper.selectByShareName( sharename) ;
+	}
+
 	
 
 }

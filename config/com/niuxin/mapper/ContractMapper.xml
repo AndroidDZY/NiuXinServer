@@ -13,13 +13,15 @@
     </insert>
        
       <select id="selectAll" resultMap="r" >    
-        select * from contract 
+        select * from contract  ORDER BY id desc
     </select>
     
         <select id="SelectById" resultMap="r" >    
-        select * from contract where id = #{id}
+        select * from contract where id = #{id}  ORDER BY id desc
     </select>
  
-      
+        <select id="selectByShareName" resultMap="r" parameterType="String">  
+        select * from contract where type like "%"#{type}"%"  ORDER BY id desc
+    </select>
     
 </mapper>

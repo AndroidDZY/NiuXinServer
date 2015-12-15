@@ -12,4 +12,6 @@ public interface IContractService {
 
 	public Contract SelectById(Integer id);
 
+	public List<Contract> selectByShareName(String sharename);
+
 }

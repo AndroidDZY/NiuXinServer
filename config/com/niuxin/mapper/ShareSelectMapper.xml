@@ -8,15 +8,15 @@
 
 
 	<insert id="insert" parameterMap="p">
-		insert into share_select(userId,shareId) values(#{userId},#{shareId})
+		insert into share_select(userId,shareId) values(#{userId},#{shareId})  
 	</insert>
 
 	<select id="selectByUserid" resultMap="r" parameterType="int">
-		select * from share_select where userId= #{id}
+		select * from share_select where userId= #{id} ORDER BY id desc
 	</select>
 
 	  <delete id="delete" parameterMap="p">    
-        delete from share_select where userId=#{userId} and  shareId=#{shareId}
+        delete from share_select where userId=#{userId} and  shareId=#{shareId} 
     </delete>
 
 </mapper>
