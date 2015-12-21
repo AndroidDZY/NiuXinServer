@@ -250,6 +250,10 @@ public class UserAction extends ActionSupport {
 			for (int i = 0; i < jsar.size(); i++) {
 				UserFriend userSelect = new UserFriend();
 				JSONObject json_data = jsar.getJSONObject(i);
+				userSelect.setUserSelfId(json_data.getInt("selfid"));
+				userSelect.setUserFriendId(json_data.getInt("friendid"));
+				userFriendService.insert(userSelect);
+				/*
 				if (i == 0) {
 					userfriendlist = userFriendService.selectByUserid(json_data.getInt("selfid"));
 				}
@@ -266,8 +270,12 @@ public class UserAction extends ActionSupport {
 						userSelect.setUserFriendId(json_data.getInt("friendid"));
 						userFriendService.insert(userSelect);
 					}
+				}else{
+					userSelect.setUserSelfId(json_data.getInt("selfid"));
+					userSelect.setUserFriendId(json_data.getInt("friendid"));
+					userFriendService.insert(userSelect);
 				}
-
+*/
 			}
 		}
 
