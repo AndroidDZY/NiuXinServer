@@ -148,7 +148,7 @@ public class UserGroupAction extends ActionSupport {
 		}
 	}
 
-	public void listTongxunlu() {
+	public void listTongxunlu() {//只显示互为好友
 		response.setContentType("text/plain");
 		response.setCharacterEncoding("utf-8");
 
@@ -212,4 +212,61 @@ public class UserGroupAction extends ActionSupport {
 		}
 	}
 
+	
+	public void listTongxunlu2() {//显示好友，即使对方没加自己也显示
+		response.setContentType("text/plain");
+		response.setCharacterEncoding("utf-8");
+
+		String str = new GetJsonString().getJsonString(request);
+		// 用json进行解析
+		JSONArray jsar = JSONArray.fromObject(str);
+		JSONObject json_data = jsar.getJSONObject(0);
+		// JSONObject json_data = JSONObject.fromObject(str);
+		Integer id = json_data.getInt("id");// 获取用户的ID
+		JSONArray jsonarray = new JSONArray();
+
+		/////////////////// 以下是个人的聊天记录/////////////////
+		List<UserFriend> list1 = userFriendService.selectByUserid(id); // 根据用户id
+																		// 找到所有的好朋友
+		if(null!=list1){
+			for (int i = 0; i < list1.size(); i++) {		
+				JSONObject jsonobject = new JSONObject();
+				jsonobject.put("id", list1.get(i).getUserFriendId()); // 好友的id
+				jsonobject.put("name", userService.findByUserId(list1.get(i).getUserFriendId()).getUserName());// 获取好友的用户名			
+				jsonobject.put("img", userService.findByUserId(list1.get(i).getUserFriendId()).getImg());// 群图标
+				jsonobject.put("chattype", 2);// 2代表是个人聊天
+				jsonarray.add(jsonobject);
+			}
+		}
+		
+
+	
+		/////////////////// 以下是群的聊天记录/////////////////
+		List<UserGroup> list = userGroupService.selectByUserid(id);// 根据用户ID查到他所在的组
+		List<ShareGroup> groupList = new LinkedList<ShareGroup>(); //
+		for (int i = 0; i < list.size(); i++) {// 获取用户所在的群组信息
+			groupList.add(shareGroupService.selectById(list.get(i).getGroupId()));
+		}
+		// Collections.reverse(groupList);倒序
+		for (int i = 0; i < groupList.size(); i++) {
+
+			JSONObject jsonobject = new JSONObject();
+			jsonobject.put("id", groupList.get(i).getId());// 群id
+			jsonobject.put("name", groupList.get(i).getName());// 群名称
+			jsonobject.put("img", groupList.get(i).getImg());// 群图标
+			jsonobject.put("chattype", 1);// 2代表是个人聊天
+			jsonarray.add(jsonobject);
+		}
+
+		String json = jsonarray.toString();
+		try {
+			response.getWriter().write(json);
+			response.getWriter().flush();
+			response.getWriter().close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 }

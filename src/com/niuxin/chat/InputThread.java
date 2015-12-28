@@ -224,8 +224,9 @@ public class InputThread implements Runnable {
 						TranObject<TextMessage> offText = new TranObject<TextMessage>(
 								TranObjectType.MESSAGE);
 						offText.setObject(text);
-						offText.setFromUser(0);
+						offText.setFromUser(-1);
 						out.setMessage(offText);
+						break;
 					}
 					////////////////////////////////////////////////////
 	

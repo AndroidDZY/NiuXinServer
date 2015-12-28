@@ -565,15 +565,17 @@ public class FormAction extends ActionSupport {
 		if (jsonarray != null) {
 			for (int i = jsonarray.size() - 1; i >= 0; i--) {// 倒序，这样删除就没有问题了
 				JSONObject jo = (JSONObject) jsonarray.get(i);
+				
+				
 				/////////////////////////判断两人是否是好友，不是好友就删除////////////////////////////////////////////
-				int sendfromid = Integer.valueOf(jo.get("sendfrom").toString().trim());
+			/*	int sendfromid = Integer.valueOf(jo.get("sendfrom").toString().trim());
 				UserFriend uf = new UserFriend();
 				uf.setUserFriendId(sendfromid);
 				uf.setUserSelfId(id);
 				if(!userFriendService.isEachFriend(uf)){
 					jsonarray.remove(i);
 					continue;
-				}
+				}*/
 				/////////////////////////////////////////////////////////////////////
 				
 				// 1 根据发送人
