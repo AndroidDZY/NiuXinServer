@@ -110,7 +110,7 @@ public class FormAction extends ActionSupport {
 			form.setOperation(operation.trim());
 		}
 		String price = json_data.getString("price");
-		if (price != null) {
+		if (price != null&&!price.trim().equals("")) {
 			BigDecimal bd = new BigDecimal(price.trim());
 			form.setPrice(bd);
 		}
@@ -118,17 +118,17 @@ public class FormAction extends ActionSupport {
 		if (handnum != null)
 			form.setHandnum(handnum);
 		String position = json_data.getString("position");
-		if (position != null) {
+		if (position != null&&!position.trim().equals("")) {
 			Double d = new Double(position.trim());
 			form.setPosition(d);
 		}
 		String minnum = json_data.getString("minnum");
-		if (minnum != null) {
+		if (minnum != null&&!minnum.trim().equals("")) {
 			Double d = new Double(minnum.trim());
 			form.setMinnum(d);
 		}
 		String maxnum = json_data.getString("maxnum");
-		if (maxnum != null) {
+		if (maxnum != null&&!maxnum.trim().equals("")) {
 			Double d = new Double(maxnum.trim());
 			form.setMaxnum(d);
 		}
