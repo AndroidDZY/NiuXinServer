@@ -253,6 +253,11 @@ public class UserAction extends ActionSupport {
 				userSelect.setUserSelfId(json_data.getInt("selfid"));
 				userSelect.setUserFriendId(json_data.getInt("friendid"));
 				userFriendService.insert(userSelect);
+				////////////////////////自动互为好友////////////////////////////////////////
+				UserFriend userSelect2 = new UserFriend();
+				userSelect2.setUserSelfId(json_data.getInt("friendid")); 
+				userSelect2.setUserFriendId(json_data.getInt("selfid"));
+				userFriendService.insert(userSelect2);
 				/*
 				if (i == 0) {
 					userfriendlist = userFriendService.selectByUserid(json_data.getInt("selfid"));

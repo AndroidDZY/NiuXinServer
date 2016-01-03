@@ -110,7 +110,7 @@ public class FormAction extends ActionSupport {
 			form.setOperation(operation.trim());
 		}
 		String price = json_data.getString("price");
-		if (price != null) {
+		if (price != null&&!price.trim().equals("")) {
 			BigDecimal bd = new BigDecimal(price.trim());
 			form.setPrice(bd);
 		}
@@ -118,17 +118,17 @@ public class FormAction extends ActionSupport {
 		if (handnum != null)
 			form.setHandnum(handnum);
 		String position = json_data.getString("position");
-		if (position != null) {
+		if (position != null&&!position.trim().equals("")) {
 			Double d = new Double(position.trim());
 			form.setPosition(d);
 		}
 		String minnum = json_data.getString("minnum");
-		if (minnum != null) {
+		if (minnum != null&&!minnum.trim().equals("")) {
 			Double d = new Double(minnum.trim());
 			form.setMinnum(d);
 		}
 		String maxnum = json_data.getString("maxnum");
-		if (maxnum != null) {
+		if (maxnum != null&&!maxnum.trim().equals("")) {
 			Double d = new Double(maxnum.trim());
 			form.setMaxnum(d);
 		}
@@ -584,9 +584,14 @@ public class FormAction extends ActionSupport {
 					for (String userid : sendtouseridlist) {
 						String sendfrom = jo.get("sendfrom").toString().trim();
 						if (!userid.trim().equals(sendfrom)) {
-							jsonarray.remove(i);
-							mark = 1;
-							break;
+							//////////////如果用户属于发送的群组，则这边不能删除
+							///这里判断下该用户所属于的群组和该表单发送的群组是不是有一样的，有一样的就不能删除，否则删除
+							if(!isBelongSendGroup(usergroups,jo.getString("sendtoGroup"))){
+								jsonarray.remove(i);
+								mark = 1;
+								break;
+							}
+							
 						}
 					}
 					if (mark == 1)
@@ -646,6 +651,21 @@ public class FormAction extends ActionSupport {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private boolean isBelongSendGroup(List<UserGroup> usergroups, String group) {
+		
+		if(usergroups!=null&&group!=null){
+			String[] groups = group.split(","); 
+			for(int i=0;i<usergroups.size();i++){
+				for(int y=0;y<groups.length;y++){
+					if(usergroups.get(i).getGroupId()==Integer.valueOf(groups[y]))
+						return true;
+				}
+			}
+		}
+		
+		return false;
 	}
 
 	private List<String> handleUsers(String[] sendtouserids, int userid) {
@@ -752,6 +772,13 @@ public class FormAction extends ActionSupport {
 					}
 				}
 			}
+			
+			if(isBelongSendGroup(usergroups,forms.getSendtoGroup())&& mark != 1){//如果表单接收的群组里面包括用户所在的组，加上这条记录
+				idlist.add(forms.getId());
+				mark = 1;
+				continue;
+			}
+			
 			if (forms.getSendtoGroup() != null && mark != 1) {
 				String[] groups = forms.getSendtoGroup().trim().split(",");
 				for (String group : groups) {
