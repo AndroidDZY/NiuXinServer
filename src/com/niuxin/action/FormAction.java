@@ -655,7 +655,7 @@ public class FormAction extends ActionSupport {
 
 	private boolean isBelongSendGroup(List<UserGroup> usergroups, String group) {
 		
-		if(usergroups!=null&&group!=null){
+		if(usergroups!=null&&group!=null&&!group.trim().equals("")){
 			String[] groups = group.split(","); 
 			for(int i=0;i<usergroups.size();i++){
 				for(int y=0;y<groups.length;y++){
